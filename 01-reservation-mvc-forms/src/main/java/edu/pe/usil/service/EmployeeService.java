@@ -52,9 +52,9 @@ public class EmployeeService implements BaseService<Employee, Integer> {
     public void update(Employee employee) {
         try {
             PreparedStatement updateEmployee =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL updateUserAndPassEmployee(?,?)}"));
-            /*updateEmployee.setInt(1, employee.getEmployee_id());
-            updateEmployee.setString(2, employee.getName());
+                    Configuration.getConnectionDatabase().prepareStatement(("{CALL updateUserAndPassEmployee(?,?,?)}"));
+            updateEmployee.setInt(1, employee.getEmployee_id());
+           /*updateEmployee.setString(2, employee.getName());
             updateEmployee.setString(3, employee.getLastname());*/
             updateEmployee.setString(4, employee.getUsername());  // VERIFICAR SOLO ACTUALIZAR 2 CAMPOS
             updateEmployee.setString(5, employee.getPassword()); //VERIFICAR
@@ -74,5 +74,19 @@ public class EmployeeService implements BaseService<Employee, Integer> {
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Boolean verifyCredentials(String user , String password){
+        try{
+            PreparedStatement verifyCredentials =
+                    Configuration.getConnectionDatabase().prepareStatement(("{CALL verifyCredentials(?,?)}"));
+            verifyCredentials.setString(4,"username");
+            verifyCredentials.setString(5,"password");
+            verifyCredentials.executeQuery();
+            return true;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }

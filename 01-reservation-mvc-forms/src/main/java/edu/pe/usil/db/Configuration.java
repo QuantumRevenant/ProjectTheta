@@ -1,7 +1,4 @@
 package edu.pe.usil.db;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import javax.sql.DataSource;
 import java.sql.*;
 

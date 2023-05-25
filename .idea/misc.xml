@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/_01-reservation-mvc-forms/pom.xml" />
         <option value="$PROJECT_DIR$/01-reservation-mvc-forms/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
