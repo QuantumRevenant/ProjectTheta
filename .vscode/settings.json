@@ -1,0 +1,11 @@
+{
+    "conventionalCommits.scopes": [
+        "VIEW",
+        "MODEL",
+        "CONTROLLER",
+        "SERVICE",
+        "UTIL",
+        "OTHERS",
+        "GENERAL"
+    ]
+}
