@@ -1,8 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
+package com.mycompany;
 
-package com.mycompany.view;
+import com.mycompany.view.StartMenu;
 
 /**
  *
