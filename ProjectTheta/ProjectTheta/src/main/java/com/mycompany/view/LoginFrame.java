@@ -6,6 +6,7 @@ package com.mycompany.view;
 
 import static java.lang.Thread.sleep;
 import com.mycompany.model.General;
+import javax.swing.JFrame;
 
 /**
  *
@@ -13,8 +14,13 @@ import com.mycompany.model.General;
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    public boolean inicio;
-    public StartMenu startMenu;
+    private boolean inicio;
+    private JFrame previousFrame;
+    private NEXT_FRAME next_frame;
+
+    public static enum NEXT_FRAME {
+        MAIN_MENU, CONFIG_MENU
+    }
 
     /**
      * Creates new form LoginFrame
@@ -28,12 +34,20 @@ public class LoginFrame extends javax.swing.JFrame {
         this.inicio = inicio;
     }
 
-    public StartMenu getStartMenu() {
-        return startMenu;
+    public JFrame getPreviousFrame() {
+        return previousFrame;
     }
 
-    public void setStartMenu(StartMenu startMenu) {
-        this.startMenu = startMenu;
+    public void setPreviousFrame(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
+    }
+
+    public NEXT_FRAME getNext_frame() {
+        return next_frame;
+    }
+
+    public void setNext_frame(NEXT_FRAME next_frame) {
+        this.next_frame = next_frame;
     }
 
     public void clock() {
@@ -198,16 +212,16 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnMenuLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuLogInActionPerformed
-        startMenu.setVisible(false);
-        if (inicio) {
+
+        previousFrame.setVisible(false);
+        if (next_frame == NEXT_FRAME.CONFIG_MENU) {
+            ConfigFrame form = new ConfigFrame();
+            form.setVisible(true);
+            form.setPreviousFrame(previousFrame);
+        } else if (next_frame == NEXT_FRAME.MAIN_MENU) {
             MainMenu form = new MainMenu();
             form.setVisible(true);
-            form.setStartMenu(startMenu);
-        } else {
-            ConfigFrame form = new ConfigFrame();
-
-            form.setVisible(true);
-            form.setStartMenu(startMenu);
+            form.setPreviousFrame(previousFrame);
         }
 
         System.out.println("Sesión Iniciada - Falta implementar la validación");

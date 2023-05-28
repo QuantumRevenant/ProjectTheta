@@ -17,4 +17,35 @@ public class Mesa {
          LIBRE,OCUPADA
      }
      
+    public Mesa(int codigo) {
+        this.codigo = codigo;
+        mesa_status=MESA_STATUS.LIBRE;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public MESA_STATUS getMesa_status() {
+        return mesa_status;
+    }
+
+    public void setMesa_status(MESA_STATUS mesa_status) {
+        this.mesa_status = mesa_status;
+    }
+
+    public Long getCodigoPedido() {
+        return codigoPedido;
+    }
+
+    public void setCodigoPedido(Long codigoPedido) {
+        this.codigoPedido = codigoPedido;
+    }
+     
+     
+     
 }

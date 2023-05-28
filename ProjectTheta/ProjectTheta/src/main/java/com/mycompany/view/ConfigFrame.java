@@ -4,33 +4,35 @@
  */
 package com.mycompany.view;
 
+import com.mycompany.controller.MesaController;
+import com.mycompany.controller.ProgramController;
+import javax.swing.JFrame;
+
 /**
  *
  * @author sebap
  */
 public class ConfigFrame extends javax.swing.JFrame {
-    public StartMenu startMenu;
-    public MainMenu mainMenu;
+    private JFrame previousFrame;
     /**
      * Creates new form ConfigFrame
      */
     public ConfigFrame() {
         initComponents();
+        ProgramController pc=new ProgramController();
+        pc.cargar();
+        spnEstandarMesas.setValue(pc.getTiempoEstandarEnMesa());
+        spnReservaMesas.setValue(pc.getTiempoPrevioReserva());
+        spnEsperaMesas.setValue(pc.getTiempoPrevioReserva());
+        spnCantMesas.setValue(pc.getCantidadMesas());
     }
-     public StartMenu getStartMenu() {
-        return startMenu;
+    
+    public JFrame getPreviousFrame() {
+        return previousFrame;
     }
 
-    public void setStartMenu(StartMenu startMenu) {
-        this.startMenu = startMenu;
-    }
-
-    public MainMenu getMainMenu() {
-        return mainMenu;
-    }
-
-    public void setMainMenu(MainMenu mainMenu) {
-        this.mainMenu = mainMenu;
+    public void setPreviousFrame(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
     }
     
     /**
@@ -48,18 +50,18 @@ public class ConfigFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        spnEsperaMesas = new javax.swing.JSpinner();
+        spnEstandarMesas = new javax.swing.JSpinner();
         spnReservaMesas = new javax.swing.JSpinner();
         spnCantMesas = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSavePreferences = new javax.swing.JButton();
+        btnDeletePreferences = new javax.swing.JButton();
+        btnRestablecer = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jLabel7 = new javax.swing.JLabel();
-        spnReservaMesas1 = new javax.swing.JSpinner();
+        spnEsperaMesas = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
         jToggleButton2 = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
@@ -88,11 +90,26 @@ public class ConfigFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Cantidad de Mesas");
 
-        jButton1.setText("Salvar");
+        btnSavePreferences.setText("Salvar");
+        btnSavePreferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSavePreferencesActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Descartar");
+        btnDeletePreferences.setText("Descartar");
+        btnDeletePreferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletePreferencesActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Restablecer");
+        btnRestablecer.setText("Restablecer");
+        btnRestablecer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestablecerActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("min");
 
@@ -158,11 +175,11 @@ public class ConfigFrame extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(spnReservaMesas1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
+                                        .addComponent(spnEsperaMesas, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(spnEsperaMesas))
+                                        .addComponent(spnEstandarMesas))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -178,11 +195,11 @@ public class ConfigFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSavePreferences, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                .addComponent(btnDeletePreferences, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnRestablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -193,7 +210,7 @@ public class ConfigFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(spnEsperaMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnEstandarMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -203,7 +220,7 @@ public class ConfigFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(spnReservaMesas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnEsperaMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -212,9 +229,9 @@ public class ConfigFrame extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnSavePreferences)
+                    .addComponent(btnDeletePreferences)
+                    .addComponent(btnRestablecer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton1)
@@ -249,15 +266,8 @@ public class ConfigFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseProgramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseProgramActionPerformed
-        if(startMenu!=null)
-        {
-            startMenu.setVisible(true);
-            dispose();
-        }else
-        {
-            mainMenu.setVisible(true);
-            dispose();
-        }// TODO add your handling code here:
+        previousFrame.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnCloseProgramActionPerformed
 
     private void jToggleButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton6ActionPerformed
@@ -267,6 +277,33 @@ public class ConfigFrame extends javax.swing.JFrame {
     private void jToggleButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton7ActionPerformed
+
+    private void btnSavePreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSavePreferencesActionPerformed
+        ProgramController pc=new ProgramController((Integer)spnEstandarMesas.getValue(), (Integer)spnReservaMesas.getValue(), (Integer)spnEsperaMesas.getValue(), (Integer)spnCantMesas.getValue());
+        pc.grabar();
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnSavePreferencesActionPerformed
+
+    private void btnDeletePreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletePreferencesActionPerformed
+        ProgramController pc=new ProgramController();
+        pc.cargar();
+        spnEstandarMesas.setValue(pc.getTiempoEstandarEnMesa());
+        spnReservaMesas.setValue(pc.getTiempoPrevioReserva());
+        spnEsperaMesas.setValue(pc.getTiempoPrevioReserva());
+        spnCantMesas.setValue(pc.getCantidadMesas());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeletePreferencesActionPerformed
+
+    private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
+        ProgramController pc=new ProgramController();
+        pc.cargarEstandar();
+        spnEstandarMesas.setValue(pc.getTiempoEstandarEnMesa());
+        spnReservaMesas.setValue(pc.getTiempoPrevioReserva());
+        spnEsperaMesas.setValue(pc.getTiempoPrevioReserva());
+        spnCantMesas.setValue(pc.getCantidadMesas());
+        pc.grabar();
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnRestablecerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -305,9 +342,9 @@ public class ConfigFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCloseProgram;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnDeletePreferences;
+    private javax.swing.JButton btnRestablecer;
+    private javax.swing.JButton btnSavePreferences;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -327,7 +364,7 @@ public class ConfigFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblClock;
     private javax.swing.JSpinner spnCantMesas;
     private javax.swing.JSpinner spnEsperaMesas;
+    private javax.swing.JSpinner spnEstandarMesas;
     private javax.swing.JSpinner spnReservaMesas;
-    private javax.swing.JSpinner spnReservaMesas1;
     // End of variables declaration//GEN-END:variables
 }
