@@ -12,13 +12,20 @@ import model.General;
  * @author sebap
  */
 public class LoginFrame extends javax.swing.JFrame {
+
+    public boolean inicio;
     public StartMenu startMenu;
+
     /**
      * Creates new form LoginFrame
      */
     public LoginFrame() {
         initComponents();
         clock();
+    }
+
+    public void setInicio(boolean inicio) {
+        this.inicio = inicio;
     }
 
     public StartMenu getStartMenu() {
@@ -28,7 +35,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public void setStartMenu(StartMenu startMenu) {
         this.startMenu = startMenu;
     }
-    
+
     public void clock() {
         Thread clock = new Thread() {
             public void run() {
@@ -44,6 +51,7 @@ public class LoginFrame extends javax.swing.JFrame {
         };
         clock.start();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,7 +63,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnMenuLogIn = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         lblClock = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -76,10 +84,10 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -134,7 +142,7 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnMenuLogIn, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -163,7 +171,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnCancel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -183,17 +191,25 @@ public class LoginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
 //        startMenu.setVisible(true);
         dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnMenuLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuLogInActionPerformed
         startMenu.setVisible(false);
-        MainMenu form=new MainMenu();
-        form.setVisible(true);
-        form.setStartMenu(startMenu);
+        if (inicio) {
+            MainMenu form = new MainMenu();
+            form.setVisible(true);
+            form.setStartMenu(startMenu);
+        } else {
+            ConfigFrame form = new ConfigFrame();
+
+            form.setVisible(true);
+            form.setStartMenu(startMenu);
+        }
+
         System.out.println("Sesión Iniciada - Falta implementar la validación");
         dispose();
         // TODO add your handling code here:
@@ -243,8 +259,8 @@ public class LoginFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
     private javax.swing.JToggleButton btnMenuLogIn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
