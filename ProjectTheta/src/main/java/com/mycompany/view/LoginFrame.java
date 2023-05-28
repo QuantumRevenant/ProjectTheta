@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.projecttheta;
+package com.mycompany.view;
 
 import static java.lang.Thread.sleep;
-import model.General;
+import com.mycompany.model.General;
 
 /**
  *
