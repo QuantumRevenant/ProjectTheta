@@ -25,6 +25,10 @@ public class General {
 
         String output = ("Time: " + hour + ":" + minute + ":" + second + "    Date: " + day + "/" + month + "/" + year);
         return output;
-        
+
     }
+
+    
+    
+    
 }
