@@ -1,16 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.model;
+package com.mycompany.model.generics;
+import java.util.*;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-/**
- *
- * @author sebap
- */
 public class TimeAndDates {
 
     public static int convertFechaSTOI(String fecha) {
@@ -32,7 +22,6 @@ public class TimeAndDates {
         }
         return -1;
     }
-
     public static String convertFechaITOS(int fecha) {
         if (Math.floor(Math.log10(Math.abs(fecha)) + 1) != 8) {
             return null;
@@ -65,7 +54,6 @@ public class TimeAndDates {
         int year = cal.get(Calendar.YEAR);
         return year * 10000 + month * 100 + day;
     }
-
     public static int convertHoraSTOI(String tiempo) {
         if (tiempo.length() != 8) {
             return -1;
@@ -139,7 +127,6 @@ public class TimeAndDates {
 
         return (sHour + ":" + sMinute + ":" + sSecond);
     }
-
     public static int getHoraActual() {
         Calendar cal = new GregorianCalendar();
         int second = cal.get(Calendar.SECOND);

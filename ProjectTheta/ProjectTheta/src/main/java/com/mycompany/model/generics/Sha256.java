@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.model;
+package com.mycompany.model.generics;
 
 import java.security.MessageDigest;
 
-/**
- *
- * @author sebap
- */
 public class Sha256 {
     public static String sha256(final String base) {
     try{

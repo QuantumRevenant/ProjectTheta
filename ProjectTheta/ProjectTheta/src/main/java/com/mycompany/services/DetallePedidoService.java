@@ -1,0 +1,43 @@
+package com.mycompany.services;
+
+import com.mycompany.database.Configuration;
+import com.mycompany.model.entities.*;
+import lombok.RequiredArgsConstructor;
+
+import java.awt.*;
+import java.sql.*;
+import java.util.*;
+import java.util.List;
+
+
+public class DetallePedidoService {
+    public List<DetallePedido> findAll() {
+        try {
+            List<DetallePedido> orderDetails = new ArrayList<>();
+            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL orderDetailsList()}");
+            ResultSet listGet = caller.executeQuery();
+            while (listGet.next()) {
+                DetallePedido details = new DetallePedido();
+
+                int serviciosId = listGet.getInt("idServicio");
+                MenuService menuService = new MenuService();
+                Servicios servicios = menuService.findById(serviciosId);
+                int pedidoId = listGet.getInt("idPedido");
+                PedidoService pedidoService = new PedidoService();
+                Pedido pedido = pedidoService.findById(pedidoId);
+
+                details.setIdPedido(pedido);
+                details.setIdServicio(servicios);
+                details.setCantidadPlatos(listGet.getInt("cantidadPlatos"));
+                details.setSubTotal(listGet.getDouble("subtotal"));
+                orderDetails.add(details);
+            }
+            Configuration.getConnectionDatabase().close();
+            listGet.close();
+            return orderDetails;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+}
