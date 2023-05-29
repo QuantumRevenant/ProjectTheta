@@ -4,7 +4,7 @@
  */
 package com.mycompany.controller;
 
-import com.mycompany.model.Mesa;
+import com.mycompany.model.entities.Mesa;
 import java.util.ArrayList;
 import java.util.List;
 

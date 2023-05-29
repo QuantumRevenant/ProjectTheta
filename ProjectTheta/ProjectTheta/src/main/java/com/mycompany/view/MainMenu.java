@@ -8,7 +8,7 @@ import com.mycompany.controller.MesaController;
 import com.mycompany.controller.ProgramController;
 import static java.lang.Thread.sleep;
 import com.mycompany.model.General;
-import com.mycompany.model.Mesa;
+import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.TimeAndDates;
 import java.awt.Font;
 import java.util.ArrayList;
