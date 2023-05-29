@@ -136,8 +136,8 @@ public class StartMenu extends javax.swing.JFrame {
     private void btnMenuLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuLogInActionPerformed
 //        setVisible(false);
         LoginFrame form=new LoginFrame();
-        form.setInicio(true);
-        form.setStartMenu(this);
+        form.setNext_frame(LoginFrame.NEXT_FRAME.MAIN_MENU);
+        form.setPreviousFrame(this);
         form.setVisible(true);
         
     // TODO add your handling code here:
@@ -150,8 +150,8 @@ public class StartMenu extends javax.swing.JFrame {
 
     private void btnMenuConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuConfigActionPerformed
         LoginFrame form=new LoginFrame();
-        form.setInicio(false);
-        form.setStartMenu(this);
+        form.setNext_frame(LoginFrame.NEXT_FRAME.CONFIG_MENU);
+        form.setPreviousFrame(this);
         form.setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_btnMenuConfigActionPerformed

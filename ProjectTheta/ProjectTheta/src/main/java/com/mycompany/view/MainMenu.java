@@ -4,16 +4,22 @@
  */
 package com.mycompany.view;
 
+import com.mycompany.controller.MesaController;
 import static java.lang.Thread.sleep;
-import com.mycompany.model.generics.General;
+import com.mycompany.model.General;
+import com.mycompany.model.Mesa;
+import javax.swing.JFrame;
 
 /**
  *
  * @author sebap
  */
 public class MainMenu extends javax.swing.JFrame {
-    public StartMenu startMenu;
-    
+
+    private JFrame previousFrame;
+    private MesaController mc = new MesaController();
+    private Mesa mesaSeleccionada;
+
     /**
      * Creates new form MainMenu
      */
@@ -38,27 +44,26 @@ public class MainMenu extends javax.swing.JFrame {
         };
         clock.start();
     }
-    
-    public void updateLblInfo()
-    {
-        lblInfo.setText("<html>"+
-                "M. disponible: "+"<br>"+" xxx/xxx"+"<br>"+
-                "M. Libre en: "+"<br>"+"xx min"+"<br>"+
-                "Reservas hoy: "+"<br>"+"xx"+"<br><br>"+
-                "Pedidos Pend.: "+"<br>"+"xx"+"<br>"+
-                "Pedidos Envio: "+"<br>"+"xx"+
-                "</html>"
+
+    public void updateLblInfo() {
+        lblInfo.setText("<html>"
+                + "M. disponible: " + "<br>" + " xxx/xxx" + "<br>"
+                + "M. Libre en: " + "<br>" + "xx min" + "<br>"
+                + "Reservas hoy: " + "<br>" + "xx" + "<br><br>"
+                + "Pedidos Pend.: " + "<br>" + "xx" + "<br>"
+                + "Pedidos Envio: " + "<br>" + "xx"
+                + "</html>"
         );
     }
-    
-    public StartMenu getStartMenu() {
-        return startMenu;
+
+    public JFrame getPreviousFrame() {
+        return previousFrame;
     }
 
-    public void setStartMenu(StartMenu startMenu) {
-        this.startMenu = startMenu;
+    public void setPreviousFrame(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,13 +73,36 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        OptionsMainMenu = new javax.swing.JFrame();
+        jPanel2 = new javax.swing.JPanel();
+        btnConfiguraciones = new javax.swing.JButton();
+        btnPedidos = new javax.swing.JButton();
+        btnMesas = new javax.swing.JButton();
+        btnReservas = new javax.swing.JButton();
+        btnTurnos = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnCloseSesion = new javax.swing.JButton();
+        ShowMesaInfo = new javax.swing.JFrame();
+        jPanel3 = new javax.swing.JPanel();
+        lblMesaTitle = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+        lblReservaTiempo = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btnPedidoNuevo = new javax.swing.JButton();
+        btnReservaNueva = new javax.swing.JButton();
         lblClock = new javax.swing.JLabel();
         btnMenuOptions = new javax.swing.JButton();
         lblInfo = new javax.swing.JLabel();
-        cmBxGrupoMesas = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         prgBrAforo = new javax.swing.JProgressBar();
         btnMesa1 = new javax.swing.JButton();
@@ -97,20 +125,241 @@ public class MainMenu extends javax.swing.JFrame {
         btnMesa18 = new javax.swing.JButton();
         btnMesa19 = new javax.swing.JButton();
         btnMesa20 = new javax.swing.JButton();
+        spnGrupos = new javax.swing.JSpinner();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        OptionsMainMenu.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        OptionsMainMenu.setPreferredSize(new java.awt.Dimension(200, 300));
+        OptionsMainMenu.setResizable(false);
+        OptionsMainMenu.setSize(new java.awt.Dimension(200, 350));
 
-        jButton1.setText("<html>Registrar<br>Pedido</html>");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jPanel2.setPreferredSize(new java.awt.Dimension(200, 300));
+
+        btnConfiguraciones.setText("Configuraciones");
+        btnConfiguraciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnConfiguracionesActionPerformed(evt);
             }
         });
 
-        jButton2.setText("<html>Registrar<br>Reserva</html>");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnPedidos.setText("Consultar Pedidos");
+        btnPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnPedidosActionPerformed(evt);
+            }
+        });
+
+        btnMesas.setText("Consultar Mesas");
+        btnMesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMesasActionPerformed(evt);
+            }
+        });
+
+        btnReservas.setText("Consultar Reservas");
+        btnReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReservasActionPerformed(evt);
+            }
+        });
+
+        btnTurnos.setText("Consultar Turnos");
+        btnTurnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTurnosActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
+        btnCloseSesion.setText("Cerrar Sesión");
+        btnCloseSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseSesionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCloseSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnTurnos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnReservas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnMesas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPedidos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnConfiguraciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnConfiguraciones)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnPedidos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnMesas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnReservas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnTurnos)
+                .addGap(12, 12, 12)
+                .addComponent(btnCancel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCloseSesion)
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout OptionsMainMenuLayout = new javax.swing.GroupLayout(OptionsMainMenu.getContentPane());
+        OptionsMainMenu.getContentPane().setLayout(OptionsMainMenuLayout);
+        OptionsMainMenuLayout.setHorizontalGroup(
+            OptionsMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 218, Short.MAX_VALUE)
+            .addGroup(OptionsMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        OptionsMainMenuLayout.setVerticalGroup(
+            OptionsMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(OptionsMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(OptionsMainMenuLayout.createSequentialGroup()
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        ShowMesaInfo.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        ShowMesaInfo.setPreferredSize(new java.awt.Dimension(200, 300));
+        ShowMesaInfo.setResizable(false);
+        ShowMesaInfo.setSize(new java.awt.Dimension(215, 350));
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(200, 300));
+
+        lblMesaTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblMesaTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMesaTitle.setText("Mesa #xx");
+
+        jLabel3.setText("Estatus:");
+
+        jLabel4.setText("Reserva para:");
+
+        lblStatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblStatus.setText("Libre");
+
+        lblReservaTiempo.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lblReservaTiempo.setText("No hay Reserva");
+
+        jLabel5.setText("Pedido:");
+
+        jLabel6.setText("Sin Cliente");
+
+        jLabel7.setText("#xxxxx");
+
+        jLabel8.setText("Hora: XX:XX:XX");
+
+        jButton1.setText("Modificar Pedido");
+
+        jButton4.setText("Crear Pedido");
+
+        jButton2.setText("Completar Pedido");
+
+        jButton3.setText("Cancelar Pedido");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMesaTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblReservaTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblMesaTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblStatus))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblReservaTiempo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addGap(27, 27, 27))
+        );
+
+        javax.swing.GroupLayout ShowMesaInfoLayout = new javax.swing.GroupLayout(ShowMesaInfo.getContentPane());
+        ShowMesaInfo.getContentPane().setLayout(ShowMesaInfoLayout);
+        ShowMesaInfoLayout.setHorizontalGroup(
+            ShowMesaInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ShowMesaInfoLayout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        ShowMesaInfoLayout.setVerticalGroup(
+            ShowMesaInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ShowMesaInfoLayout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        btnPedidoNuevo.setText("<html>Registrar<br>Pedido</html>");
+        btnPedidoNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPedidoNuevoActionPerformed(evt);
+            }
+        });
+
+        btnReservaNueva.setText("<html>Registrar<br>Reserva</html>");
+        btnReservaNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReservaNuevaActionPerformed(evt);
             }
         });
 
@@ -129,16 +378,14 @@ public class MainMenu extends javax.swing.JFrame {
         lblInfo.setText("STATUS");
         lblInfo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        cmBxGrupoMesas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmBxGrupoMesas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmBxGrupoMesasActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Grupos");
 
-        btnMesa1.setText("#!");
+        btnMesa1.setText("#1");
+        btnMesa1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMesa1ActionPerformed(evt);
+            }
+        });
 
         btnMesa2.setText("#2");
 
@@ -178,6 +425,13 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnMesa20.setText("#20");
 
+        spnGrupos.setValue(1);
+        spnGrupos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                spnGruposMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -193,7 +447,7 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmBxGrupoMesas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(spnGrupos))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnMesa1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -239,11 +493,11 @@ public class MainMenu extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(6, 6, 6)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnPedidoNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnReservaNueva, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lblInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -260,9 +514,9 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReservaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnPedidoNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblClock)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -296,10 +550,10 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cmBxGrupoMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1))
+                                .addComponent(jLabel1)
+                                .addComponent(spnGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(prgBrAforo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -318,24 +572,74 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuOptionsActionPerformed
-        OptionsMainMenu form=new OptionsMainMenu();
-        form.setVisible(true);
-        form.setStartMenu(startMenu);
-        form.setMainMenu(this);
+        OptionsMainMenu.setVisible(true);
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMenuOptionsActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnPedidoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidoNuevoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnPedidoNuevoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnReservaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservaNuevaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnReservaNuevaActionPerformed
 
-    private void cmBxGrupoMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmBxGrupoMesasActionPerformed
+    private void btnCloseSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseSesionActionPerformed
+        previousFrame.setVisible(true);
+        OptionsMainMenu.dispose();
+        dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmBxGrupoMesasActionPerformed
+    }//GEN-LAST:event_btnCloseSesionActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        OptionsMainMenu.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnConfiguracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionesActionPerformed
+        LoginFrame form = new LoginFrame();
+        form.setNext_frame(LoginFrame.NEXT_FRAME.CONFIG_MENU);
+        form.setPreviousFrame(this);
+        OptionsMainMenu.dispose();
+        form.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnConfiguracionesActionPerformed
+
+    private void btnPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPedidosActionPerformed
+
+    private void btnMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMesasActionPerformed
+
+    private void btnReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReservasActionPerformed
+
+    private void btnTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTurnosActionPerformed
+    
+    private void ShowMesaInfo(int btnNumber){
+        ShowMesaInfo.setVisible(true);
+        int valueGrupos = (Integer) spnGrupos.getValue();
+        mesaSeleccionada = mc.get(btnNumber + (20 * (valueGrupos - 1)) - 1);
+        lblMesaTitle.setText("Mesa #" + mesaSeleccionada.getCodigo());
+    }
+    private void btnMesa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa1ActionPerformed
+        int numeroMesa = 1;
+        ShowMesaInfo(numeroMesa);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMesa1ActionPerformed
+
+    private void spnGruposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_spnGruposMouseClicked
+        if ((Integer) spnGrupos.getValue() <= 0) {
+            spnGrupos.setValue(1);
+        }
+// TODO add your handling code here:
+    }//GEN-LAST:event_spnGruposMouseClicked
 
     /**
      * @param args the command line arguments
@@ -373,6 +677,11 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame OptionsMainMenu;
+    private javax.swing.JFrame ShowMesaInfo;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCloseSesion;
+    private javax.swing.JButton btnConfiguraciones;
     private javax.swing.JButton btnMenuOptions;
     private javax.swing.JButton btnMesa1;
     private javax.swing.JButton btnMesa10;
@@ -394,13 +703,32 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnMesa7;
     private javax.swing.JButton btnMesa8;
     private javax.swing.JButton btnMesa9;
-    private javax.swing.JComboBox<String> cmBxGrupoMesas;
+    private javax.swing.JButton btnMesas;
+    private javax.swing.JButton btnPedidoNuevo;
+    private javax.swing.JButton btnPedidos;
+    private javax.swing.JButton btnReservaNueva;
+    private javax.swing.JButton btnReservas;
+    private javax.swing.JButton btnTurnos;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblClock;
     private javax.swing.JLabel lblInfo;
+    private javax.swing.JLabel lblMesaTitle;
+    private javax.swing.JLabel lblReservaTiempo;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JProgressBar prgBrAforo;
+    private javax.swing.JSpinner spnGrupos;
     // End of variables declaration//GEN-END:variables
 }
