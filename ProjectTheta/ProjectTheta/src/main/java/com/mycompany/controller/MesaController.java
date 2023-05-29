@@ -13,45 +13,49 @@ import java.util.List;
  * @author sebap
  */
 public class MesaController {
-        
-    private List<Mesa>lstMesa=new ArrayList<>();
-    private ProgramController pc=new ProgramController();
+
+    private List<Mesa> lstMesa = new ArrayList<>();
+    private ProgramController pc = new ProgramController();
+
     public MesaController() {
+        updateQuantity();
+    }
+
+    public void updateQuantity() {
         pc.cargar();
-        for(int i=0;i<pc.getCantidadMesas();i++)
-        {
-            lstMesa.add(new Mesa(i+1));
+        int cantidadDeMesas = pc.getCantidadMesas();
+        for (int i = size(); i > cantidadDeMesas; i--) {
+            lstMesa.remove(i - 1);
+        }
+        for (int i = size(); i < cantidadDeMesas; i++) {
+            lstMesa.add(new Mesa(i + 1));
         }
     }
-    
-    public Mesa get(int x)
-    {
+
+    public Mesa get(int x) {
         return lstMesa.get(x);
     }
-    
-    public void add(Mesa x)
-    {
+
+    public void add(Mesa x) {
         lstMesa.add(x);
     }
-    
-    public void set(int x, Mesa y)
-    {
+
+    public void set(int x, Mesa y) {
         lstMesa.set(x, y);
     }
-    
-    public void remove(int x)
-    {
+
+    public void remove(int x) {
         lstMesa.remove(x);
     }
 
-    public void remove(Mesa x)
-    {
+    public void remove(Mesa x) {
         lstMesa.remove(x);
     }
-    public int size()
-    {
+
+    public int size() {
         return lstMesa.size();
     }
+
     public List<Mesa> getLstMesa() {
         return lstMesa;
     }
@@ -67,5 +71,5 @@ public class MesaController {
     public void setPc(ProgramController pc) {
         this.pc = pc;
     }
-    
+
 }

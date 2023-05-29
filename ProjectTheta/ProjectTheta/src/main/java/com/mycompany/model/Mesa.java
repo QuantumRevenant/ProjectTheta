@@ -11,15 +11,29 @@ package com.mycompany.model;
 public class Mesa {
      private int codigo ;     
      private MESA_STATUS mesa_status;
-     private Long codigoPedido;
+     private long codigoPedido;
+     private int fechaDeReserva;
+     private int horaDeReserva; 
+     private String nombreCliente;
+     private int horaDeLiberacion;
      
-     private static enum MESA_STATUS{
+     public static enum MESA_STATUS{
          LIBRE,OCUPADA
      }
      
     public Mesa(int codigo) {
         this.codigo = codigo;
+        LiberarMesa();        
+    }
+    
+    public void LiberarMesa()
+    {
         mesa_status=MESA_STATUS.LIBRE;
+        codigoPedido=-1;
+        fechaDeReserva=-1;
+        horaDeReserva=-1;
+        nombreCliente=null; 
+        horaDeLiberacion=-1;
     }
 
     public int getCodigo() {
@@ -38,14 +52,44 @@ public class Mesa {
         this.mesa_status = mesa_status;
     }
 
-    public Long getCodigoPedido() {
+    public long getCodigoPedido() {
         return codigoPedido;
     }
 
-    public void setCodigoPedido(Long codigoPedido) {
+    public void setCodigoPedido(long codigoPedido) {
         this.codigoPedido = codigoPedido;
     }
-     
-     
-     
+
+    public int getFechaDeReserva() {
+        return fechaDeReserva;
+    }
+
+    public void setFechaDeReserva(int fechaDeReserva) {
+        this.fechaDeReserva = fechaDeReserva;
+    }
+
+    public int getHoraDeReserva() {
+        return horaDeReserva;
+    }
+
+    public void setHoraDeReserva(int horaDeReserva) {
+        this.horaDeReserva = horaDeReserva;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public int getHoraDeLiberacion() {
+        return horaDeLiberacion;
+    }
+
+    public void setHoraDeLiberacion(int horaDeLiberacion) {
+        this.horaDeLiberacion = horaDeLiberacion;
+    }
+      
 }
