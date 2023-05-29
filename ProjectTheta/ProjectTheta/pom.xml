@@ -11,4 +11,19 @@
         <maven.compiler.target>20</maven.compiler.target>
         <exec.mainClass>com.mycompany.ProjectTheta</exec.mainClass>
     </properties>
+
+        <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.23</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.20</version>
+                <scope>provided</scope>
+            </dependency>
+
+        </dependencies>
 </project>

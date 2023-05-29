@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.model;
+package com.mycompany.model.generics;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-/**
- *
- * @author sebap
- */
 public class General {
-
     public static String clock() {
         Calendar cal = new GregorianCalendar();
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -27,8 +18,4 @@ public class General {
         return output;
 
     }
-
-    
-    
-    
 }

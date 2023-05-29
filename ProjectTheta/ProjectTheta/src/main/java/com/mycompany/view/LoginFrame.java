@@ -5,12 +5,8 @@
 package com.mycompany.view;
 
 import static java.lang.Thread.sleep;
-import com.mycompany.model.General;
+import com.mycompany.model.generics.General;
 
-/**
- *
- * @author sebap
- */
 public class LoginFrame extends javax.swing.JFrame {
 
     public boolean inicio;
