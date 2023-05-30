@@ -9,7 +9,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class PedidoController {
-    PedidoService pedidoService;
+    private final PedidoService pedidoService;
 
 
     public List<Pedido> getOrders(){
