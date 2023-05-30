@@ -39,8 +39,8 @@ public class MenuService implements BaseService<Servicios> {
     @Override
     public void save(Servicios menu) {
         try{
-            PreparedStatement createMenu =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL createMenu(?,?,?,?)}"));
+            CallableStatement createMenu =
+                    Configuration.getConnectionDatabase().prepareCall("{CALL createMenu(?,?,?,?)}");
             createMenu.setInt(1, menu.getIdServicio());
             createMenu.setString(2, menu.getTipo());
             createMenu.setString(3, menu.getDescripcion());
@@ -54,8 +54,8 @@ public class MenuService implements BaseService<Servicios> {
     @Override
     public void update(Servicios menu) {
         try {
-            PreparedStatement upadateMenu =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL updateMenu(?,?,?,?)}"));
+            CallableStatement upadateMenu =
+                    Configuration.getConnectionDatabase().prepareCall("{CALL updateMenu(?,?,?,?)}");
             upadateMenu.setInt(1, menu.getIdServicio());
             upadateMenu.setString(2, menu.getTipo());
             upadateMenu.setString(3, menu.getDescripcion());
@@ -69,8 +69,8 @@ public class MenuService implements BaseService<Servicios> {
     @Override
     public void delete(Servicios menu) {
         try {
-            PreparedStatement deleteMenu =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL deleteMenu(?)}"));
+            CallableStatement deleteMenu =
+                    Configuration.getConnectionDatabase().prepareCall("{CALL deleteMenu(?)}");
             deleteMenu.setInt(1, menu.getIdServicio());
             deleteMenu.executeUpdate();
         } catch(Exception e) {

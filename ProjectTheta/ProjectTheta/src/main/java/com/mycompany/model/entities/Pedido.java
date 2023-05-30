@@ -12,9 +12,9 @@ public class Pedido {
     private String descripcion;
     private double total;
     private String fechaPedido;
+    private String Status;
     private Personal idPersonal;
     private TipoPedido idTipoPedido;
-    private String Status;
     private Cliente idCliente;
     private TipoPago idTipoPago;
     private double igv;

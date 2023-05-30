@@ -2,14 +2,8 @@ package com.mycompany.services;
 
 import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.Cliente;
-import com.mycompany.model.entities.Personal;
-import lombok.RequiredArgsConstructor;
-
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 
 public class ClienteService implements BaseService<Cliente>{
@@ -42,8 +36,8 @@ public class ClienteService implements BaseService<Cliente>{
     @Override
     public void save(Cliente cliente) {
         try{
-            PreparedStatement createCustomer =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL createCustomer(?,?,?,?,?,?)}"));
+            CallableStatement createCustomer =
+                    Configuration.getConnectionDatabase().prepareCall(("{CALL createCustomer(?,?,?,?,?,?)}"));
             createCustomer.setInt(1, cliente.getIdCliente());
             createCustomer.setString(2, cliente.getNombre());
             createCustomer.setString(3, cliente.getApellido());
@@ -59,8 +53,8 @@ public class ClienteService implements BaseService<Cliente>{
     @Override
     public void update(Cliente cliente) {
         try {
-            PreparedStatement updateCustomer =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL updateEmployee(?,?,?,?,?,?)}"));
+            CallableStatement updateCustomer =
+                    Configuration.getConnectionDatabase().prepareCall(("{CALL updateEmployee(?,?,?,?,?,?)}"));
             updateCustomer.setInt(1, cliente.getIdCliente());
             updateCustomer.setString(2, cliente.getNombre());
             updateCustomer.setString(3, cliente.getApellido());
@@ -76,8 +70,8 @@ public class ClienteService implements BaseService<Cliente>{
     @Override
     public void delete(Cliente cliente) {
         try {
-            PreparedStatement deleteCustomer=
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL deleteCustomer(?)}"));
+            CallableStatement deleteCustomer=
+                    Configuration.getConnectionDatabase().prepareCall(("{CALL deleteCustomer(?)}"));
             deleteCustomer.setInt(1, cliente.getIdCliente());
             deleteCustomer.executeUpdate();
         } catch(Exception e) {

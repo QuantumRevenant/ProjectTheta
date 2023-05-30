@@ -34,14 +34,14 @@ public class PedidoService{
                 TipoPagoService tipoPagoService = new TipoPagoService();
                 TipoPago tPago = tipoPagoService.findById(tPagoId);
 
-
+                pedido.setStatus(listGet.getString("status"));
                 pedido.setIdPedido(listGet.getInt("idPedido"));
                 pedido.setDescripcion(listGet.getString("descripcion"));
                 pedido.setTotal(listGet.getDouble("total"));
                 pedido.setFechaPedido(listGet.getString("fechaPedido"));
                 pedido.setIdPersonal(personal);
                 pedido.setIdTipoPedido(tPedido);
-                pedido.setStatus(listGet.getString("Status"));
+
                 pedido.setIdCliente(cliente);
                 pedido.setIdTipoPago(tPago);
                 pedido.setIgv(listGet.getDouble("igv"));
@@ -59,17 +59,17 @@ public class PedidoService{
 
     public void save(Pedido pedido) {
         try {
-            PreparedStatement createOrder  = Configuration.getConnectionDatabase().prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement createOrder  = Configuration.getConnectionDatabase().prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             createOrder.setInt(1, pedido.getIdPedido());
             createOrder.setString(2, pedido.getDescripcion());
             createOrder.setDouble(3, pedido.getTotal());
             createOrder.setString(4, pedido.getFechaPedido());
-            createOrder.setInt(5, pedido.getIdPersonal().getIdPersonal());
-            createOrder.setInt(6, pedido.getIdTipoPedido().getIdTipoPedido());
-            createOrder.setInt(7, pedido.getIdCliente().getIdCliente());
-            createOrder.setInt(8, pedido.getIdTipoPago().getIdTipoPago());
-            createOrder.setDouble(9, pedido.getIgv());
-            createOrder.setString(10, pedido.getStatus());
+            createOrder.setString(5, pedido.getStatus());
+            createOrder.setInt(6, pedido.getIdPersonal().getIdPersonal());
+            createOrder.setInt(7, pedido.getIdTipoPedido().getIdTipoPedido());
+            createOrder.setInt(8, pedido.getIdCliente().getIdCliente());
+            createOrder.setInt(9, pedido.getIdTipoPago().getIdTipoPago());
+            createOrder.setDouble(10, pedido.getIgv());
             createOrder.executeUpdate();
             Configuration.getConnectionDatabase().close();
         } catch (Exception e) {
@@ -85,12 +85,13 @@ public class PedidoService{
                 caller.setString(2, pedido.getDescripcion());
                 caller.setDouble(3, pedido.getTotal());
                 caller.setString(4, pedido.getFechaPedido());
-                caller.setInt(5, pedido.getIdPersonal().getIdPersonal());
-                caller.setInt(6, pedido.getIdTipoPedido().getIdTipoPedido());
-                caller.setInt(7, pedido.getIdCliente().getIdCliente());
-                caller.setInt(8, pedido.getIdTipoPago().getIdTipoPago());
-                caller.setDouble(9, pedido.getIgv());
-                caller.setString(10, pedido.getStatus());
+                caller.setString(5, pedido.getStatus());
+                caller.setInt(6, pedido.getIdPersonal().getIdPersonal());
+                caller.setInt(7, pedido.getIdTipoPedido().getIdTipoPedido());
+                caller.setInt(8, pedido.getIdCliente().getIdCliente());
+                caller.setInt(9, pedido.getIdTipoPago().getIdTipoPago());
+                caller.setDouble(10, pedido.getIgv());
+
                 caller.executeUpdate();
                 caller.close();
                 Configuration.getConnectionDatabase().close();

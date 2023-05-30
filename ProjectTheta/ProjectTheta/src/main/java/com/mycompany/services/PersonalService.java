@@ -20,17 +20,14 @@ public class PersonalService implements BaseService<Personal> {
                 Personal p = new Personal();
                 p.setIdPersonal(listGet.getInt("idPersonal"));
                 p.setNombre(listGet.getString("nombre"));
-                p.setApellido(listGet.getString("apellidos"));
+                p.setApellidos(listGet.getString("apellidos"));
                 p.setTelefono(listGet.getString("telefono"));
                 p.setUsuario(listGet.getString("usuario"));
                 p.setPassword(listGet.getString("password"));
                 p.setHoraInicio(listGet.getString("horaInicio"));
                 p.setHoraFin(listGet.getString("horaFin"));
-                p.setHoraFin(listGet.getString("horaFin"));
                 p.setDiaDescanso(listGet.getString("diaDescanso"));
                 p.setNombreCargo(Personal.CARGOS.valueOf(listGet.getString("nombreCargo")));
-                String pass = listGet.getString("password");
-                p.setPassword(pass);
                 employees.add(p);
             }
             Configuration.getConnectionDatabase().close();
@@ -52,8 +49,8 @@ public class PersonalService implements BaseService<Personal> {
             PreparedStatement updateEmployee =
                     Configuration.getConnectionDatabase().prepareStatement(("{CALL updateEmployee(?,?,?)}"));
             updateEmployee.setInt(1, personal.getIdPersonal());
-            updateEmployee.setString(4, personal.getUsuario());  // VERIFICAR SOLO ACTUALIZAR 2 CAMPOS
-            updateEmployee.setString(5, personal.getPassword()); //VERIFICAR
+            updateEmployee.setString(2, personal.getUsuario());  // VERIFICAR SOLO ACTUALIZAR 2 CAMPOS
+            updateEmployee.setString(3, personal.getPassword()); //VERIFICAR
             updateEmployee.executeUpdate();
         } catch(Exception e) {
             System.out.println(e.getMessage());
@@ -81,7 +78,7 @@ public class PersonalService implements BaseService<Personal> {
                 Personal personal = new Personal();
                 personal.setIdPersonal(resultSet.getInt("idPersonal"));
                 personal.setNombre(resultSet.getString("nombre"));
-                personal.setApellido(resultSet.getString("apellidos"));
+                personal.setApellidos(resultSet.getString("apellidos"));
                 personal.setTelefono(resultSet.getString("telefono"));
                 personal.setUsuario(resultSet.getString("usuario"));
                 personal.setPassword(resultSet.getString("password"));
@@ -112,7 +109,7 @@ public class PersonalService implements BaseService<Personal> {
                 Personal personal = new Personal();
                 personal.setIdPersonal(resultSet.getInt("idPersonal"));
                 personal.setNombre(resultSet.getString("nombre"));
-                personal.setApellido(resultSet.getString("apellidos"));
+                personal.setApellidos(resultSet.getString("apellidos"));
                 return personal;
             }
             resultSet.close();
@@ -134,7 +131,7 @@ public class PersonalService implements BaseService<Personal> {
                 Personal personal = new Personal();
                 personal.setIdPersonal(resultSet.getInt("idPersonal"));
                 personal.setNombre(resultSet.getString("nombre"));
-                personal.setApellido(resultSet.getString("apellidos"));
+                personal.setApellidos(resultSet.getString("apellidos"));
                 return personal;
             }
             resultSet.close();

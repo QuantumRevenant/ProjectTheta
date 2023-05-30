@@ -40,4 +40,19 @@ public class DetallePedidoService {
         }
         return null;
     }
+
+    public void save(DetallePedido detallePedido) {
+        try {
+            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL createOrderDetails(?,?,?,?)}");
+            caller.setInt(1, detallePedido.getIdPedido().getIdPedido());
+            caller.setInt(2, detallePedido.getIdServicio().getIdServicio());
+            caller.setInt(3, detallePedido.getCantidadPlatos());
+            caller.setDouble(4, detallePedido.getSubTotal());
+            caller.executeUpdate();
+            caller.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
