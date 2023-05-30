@@ -7,15 +7,14 @@ package com.mycompany.view;
 import com.mycompany.controller.MesaController;
 import com.mycompany.controller.ProgramController;
 import static java.lang.Thread.sleep;
-import com.mycompany.model.General;
+import com.mycompany.model.generics.General;
 import com.mycompany.model.entities.Mesa;
-import com.mycompany.model.TimeAndDates;
+import com.mycompany.model.generics.TimeAndDates;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 /**
