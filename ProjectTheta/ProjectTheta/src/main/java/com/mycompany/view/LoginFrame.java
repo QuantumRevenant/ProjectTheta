@@ -5,7 +5,7 @@
 package com.mycompany.view;
 
 import static java.lang.Thread.sleep;
-import com.mycompany.model.General;
+import com.mycompany.model.generics.General;
 import javax.swing.JFrame;
 
 /**
