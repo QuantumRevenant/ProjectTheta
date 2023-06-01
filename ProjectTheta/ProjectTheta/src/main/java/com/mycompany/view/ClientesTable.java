@@ -8,6 +8,7 @@ import com.mycompany.controller.ClienteController;
 import com.mycompany.model.entities.Cliente;
 import com.mycompany.services.ClienteService;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,8 +16,12 @@ import javax.swing.table.DefaultTableModel;
  * @author bravo
  */
 public class ClientesTable extends javax.swing.JFrame {
+
     ClienteController cController = new ClienteController(new ClienteService());
     DefaultTableModel dtmClientes = new DefaultTableModel();
+
+    private JFrame previousFrame;
+
     /**
      * Creates new form ClientesTable
      */
@@ -25,7 +30,7 @@ public class ClientesTable extends javax.swing.JFrame {
         loadColumns();
     }
 
-    public void loadColumns(){
+    public void loadColumns() {
         dtmClientes.addColumn("Nombre");
         dtmClientes.addColumn("Apellido");
         dtmClientes.addColumn("Dni");
@@ -33,10 +38,11 @@ public class ClientesTable extends javax.swing.JFrame {
         dtmClientes.addColumn("Dirección");
         tbClientes.setModel(dtmClientes);
     }
-    public void loadRows(){
+
+    public void loadRows() {
         List<Cliente> lst = cController.getEmployees();
         dtmClientes.setRowCount(0);
-        for(Cliente c:lst){
+        for (Cliente c : lst) {
             Object[] vec = new Object[5];
             vec[0] = c.getNombre();
             vec[1] = c.getApellido();
@@ -47,6 +53,15 @@ public class ClientesTable extends javax.swing.JFrame {
         }
         tbClientes.setModel(dtmClientes);
     }
+
+    public JFrame getPreviousFrame() {
+        return previousFrame;
+    }
+
+    public void setPreviousFrame(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +75,7 @@ public class ClientesTable extends javax.swing.JFrame {
         tbClientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tbClientes.setAutoCreateRowSorter(true);
         tbClientes.setModel(new javax.swing.table.DefaultTableModel(

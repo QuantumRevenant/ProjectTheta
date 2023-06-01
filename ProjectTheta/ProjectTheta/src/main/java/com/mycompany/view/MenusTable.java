@@ -8,6 +8,7 @@ import com.mycompany.controller.MenuController;
 import com.mycompany.model.entities.Servicios;
 import com.mycompany.services.MenuService;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class MenusTable extends javax.swing.JFrame {
     MenuController mController = new MenuController(new MenuService());
     DefaultTableModel dtmMenus = new DefaultTableModel();
+        private JFrame previousFrame;
     /**
      * Creates new form MenusTable
      */
@@ -44,6 +46,15 @@ public class MenusTable extends javax.swing.JFrame {
         }
         tbMenus.setModel(dtmMenus);
     }
+
+    public JFrame getPreviousFrame() {
+        return previousFrame;
+    }
+
+    public void setPreviousFrame(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,7 +68,7 @@ public class MenusTable extends javax.swing.JFrame {
         tbMenus = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tbMenus.setAutoCreateRowSorter(true);
         tbMenus.setModel(new javax.swing.table.DefaultTableModel(

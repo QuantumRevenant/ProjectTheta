@@ -878,6 +878,10 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfiguracionesActionPerformed
 
     private void btnPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidosActionPerformed
+        PedidosTable form= new PedidosTable();
+        form.setPreviousFrame(this);
+        OptionsMainMenu.dispose();
+        form.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPedidosActionPerformed
 

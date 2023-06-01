@@ -48,15 +48,11 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="lblClock" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jToggleButton3" max="32767" attributes="0"/>
-                                  <Component id="jToggleButton4" pref="117" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jToggleButton1" max="32767" attributes="0"/>
-                                  <Component id="jToggleButton2" max="32767" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jToggleButton3" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jToggleButton4" alignment="0" pref="117" max="32767" attributes="0"/>
+                              <Component id="jToggleButton2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jToggleButton1" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -253,6 +249,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Colaboradores"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -268,13 +267,19 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButton2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Administradores"/>
+            <Property name="text" type="java.lang.String" value="Clientes"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButton3">
           <Properties>
             <Property name="text" type="java.lang.String" value="Men&#xfa;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButton4">
           <Properties>
@@ -285,6 +290,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Registro Pedidos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton5ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="jToggleButton6">
           <Properties>

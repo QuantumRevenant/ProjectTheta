@@ -11,6 +11,7 @@ import com.mycompany.model.entities.Pedido;
 import com.mycompany.services.DetallePedidoService;
 import com.mycompany.services.PedidoService;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,6 +23,8 @@ public class PedidosTable extends javax.swing.JFrame {
     DetallePedidoController dController = new DetallePedidoController(new DetallePedidoService());
     DefaultTableModel dtmPedidos = new DefaultTableModel();
     DefaultTableModel dtmDetalles = new DefaultTableModel();
+    
+    private JFrame previousFrame;
     /**
      * Creates new form PedidosTable
      */
@@ -70,6 +73,15 @@ public class PedidosTable extends javax.swing.JFrame {
             System.out.println("Error");
         }
     }
+
+    public JFrame getPreviousFrame() {
+        return previousFrame;
+    }
+
+    public void setPreviousFrame(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,7 +98,7 @@ public class PedidosTable extends javax.swing.JFrame {
         tbDetalles = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tbPedidos.setAutoCreateRowSorter(true);
         tbPedidos.setModel(new javax.swing.table.DefaultTableModel(
