@@ -1,7 +1,6 @@
 package com.mycompany.controller;
 
 import com.mycompany.model.entities.DetallePedido;
-import com.mycompany.model.entities.Servicios;
 import com.mycompany.services.DetallePedidoService;
 import lombok.RequiredArgsConstructor;
 

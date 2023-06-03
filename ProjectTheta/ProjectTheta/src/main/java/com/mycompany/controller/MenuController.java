@@ -1,8 +1,6 @@
 package com.mycompany.controller;
 
-import com.mycompany.model.entities.Cliente;
-import com.mycompany.model.entities.Servicios;
-import com.mycompany.services.ClienteService;
+import com.mycompany.model.entities.Menu;
 import com.mycompany.services.MenuService;
 import lombok.RequiredArgsConstructor;
 
@@ -12,23 +10,23 @@ import java.util.List;
 public class MenuController {
     private final MenuService menuService;
 
-    public List<Servicios> getMenus(){
+    public List<Menu> getMenus(){
         return menuService.findAll();
     }
 
-    public void addMenu(Servicios menu) {
+    public void addMenu(Menu menu) {
         menuService.save(menu);
     }
 
-    public void deleteMenu(Servicios menu){
+    public void deleteMenu(Menu menu){
         menuService.delete(menu);
     }
 
-    public void updateMenu(Servicios menu){
+    public void updateMenu(Menu menu){
         menuService.update(menu);
     }
 
-    public Servicios findServicioById(int id){
+    public Menu findServicioById(int id){
         return menuService.findById(id);
     }
 }

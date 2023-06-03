@@ -10,10 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- *
- * @author sebap
- */
 public class ProgramController {
 
     private int tiempoEstandarEnMesa;

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetallePedido {
-    private Servicios idServicio;
+    private Menu idMenu;
     private Pedido idPedido;
     private int cantidadPlatos;
     private double subTotal;

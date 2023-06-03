@@ -164,24 +164,26 @@ END;
 
 CREATE PROCEDURE createMenu(
     IN idMenu INT,
+    IN idCategoria INT,
     IN tipo VARCHAR(25),
     IN descripcion VARCHAR(200),
     IN precio DOUBLE(255, 2)
 )
 BEGIN
-    INSERT INTO menu (idMenu, tipo, descripcion, precio)
-    VALUES (idMenu, tipo, descripcion, precio);
+    INSERT INTO menu (idMenu, idCategoria, tipo, descripcion, precio)
+    VALUES (idMenu, idCategoria, tipo, descripcion, precio);
 END;
 
 CREATE PROCEDURE updateMenu(
     IN idMenu INT,
+    IN idCategoria INT,
     IN tipo VARCHAR(25),
     IN descripcion VARCHAR(200),
     IN precio DOUBLE(255, 2)
 )
 BEGIN
     UPDATE menu
-    SET tipo = tipo, descripcion = descripcion, precio = precio
+    SET idCategoria = idCategoria, tipo = tipo, descripcion = descripcion, precio = precio
     WHERE idMenu = idMenu;
 END;
 
@@ -192,7 +194,6 @@ BEGIN
     DELETE FROM menu
     WHERE idMenu = idMenu;
 END;
-
 
 /*PROCEDURE CRUD ORDER*/
 

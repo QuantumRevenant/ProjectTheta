@@ -2,9 +2,8 @@ package com.mycompany.services;
 
 import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.*;
-import lombok.RequiredArgsConstructor;
+import com.mycompany.model.entities.Menu;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.*;
 import java.util.List;
@@ -21,13 +20,13 @@ public class DetallePedidoService {
 
                 int serviciosId = listGet.getInt("idServicio");
                 MenuService menuService = new MenuService();
-                Servicios servicios = menuService.findById(serviciosId);
+                Menu menu = menuService.findById(serviciosId);
                 int pedidoId = listGet.getInt("idPedido");
                 PedidoService pedidoService = new PedidoService();
                 Pedido pedido = pedidoService.findById(pedidoId);
 
                 details.setIdPedido(pedido);
-                details.setIdServicio(servicios);
+                details.setIdMenu(menu);
                 details.setCantidadPlatos(listGet.getInt("cantidadPlatos"));
                 details.setSubTotal(listGet.getDouble("subtotal"));
                 orderDetails.add(details);
@@ -45,7 +44,7 @@ public class DetallePedidoService {
         try {
             CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL createOrderDetails(?,?,?,?)}");
             caller.setInt(1, detallePedido.getIdPedido().getIdPedido());
-            caller.setInt(2, detallePedido.getIdServicio().getIdServicio());
+            caller.setInt(2, detallePedido.getIdMenu().getIdMenu());
             caller.setInt(3, detallePedido.getCantidadPlatos());
             caller.setDouble(4, detallePedido.getSubTotal());
             caller.executeUpdate();

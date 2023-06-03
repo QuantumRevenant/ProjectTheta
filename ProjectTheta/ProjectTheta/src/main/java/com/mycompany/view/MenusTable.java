@@ -5,7 +5,7 @@
 package com.mycompany.view;
 
 import com.mycompany.controller.MenuController;
-import com.mycompany.model.entities.Servicios;
+import com.mycompany.model.entities.Menu;
 import com.mycompany.services.MenuService;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -36,13 +36,13 @@ public class MenusTable extends javax.swing.JFrame {
 
     public void loadComboBox() {
         dcbmMenus.removeAllElements();
-        List<Servicios> lst = mController.getMenus();
+        List<Menu> lst = mController.getMenus();
         cBProductos.setModel(dcbmMenus);
         cBEditProductos.setModel(dcbmMenus);
         if (lst == null) {
             return;
         }
-        for (Servicios s : lst) {
+        for (Menu s : lst) {
             Object[] vec = new Object[3];
             vec[1] = s.getIdServicio();
             vec[2] = s.getTipo();
@@ -63,12 +63,12 @@ public class MenusTable extends javax.swing.JFrame {
     }
 
     public void loadRows() {
-        List<Servicios> lst = mController.getMenus();
+        List<Menu> lst = mController.getMenus();
         if (lst == null) {
             return;
         }
         dtmMenus.setRowCount(0);
-        for (Servicios s : lst) {
+        for (Menu s : lst) {
             Object[] vec = new Object[4];
             vec[1] = s.getIdServicio();
             vec[2] = s.getTipo();

@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Servicios {
-    private int idServicio;
+public class Menu {
+    private int idMenu;
+    private int idCategoria;
     private String tipo;
     private String descripcion;
     private double precio;
