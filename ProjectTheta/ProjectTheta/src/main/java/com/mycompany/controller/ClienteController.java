@@ -8,6 +8,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class ClienteController {
+
+
+    
     private final ClienteService clienteService;
     public List<Cliente> getEmployees(){
         return clienteService.findAll();
