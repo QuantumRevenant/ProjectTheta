@@ -8,7 +8,9 @@ import com.mycompany.controller.MenuController;
 import com.mycompany.model.entities.Servicios;
 import com.mycompany.services.MenuService;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,9 +18,12 @@ import javax.swing.table.DefaultTableModel;
  * @author bravo
  */
 public class MenusTable extends javax.swing.JFrame {
+
     MenuController mController = new MenuController(new MenuService());
     DefaultTableModel dtmMenus = new DefaultTableModel();
-        private JFrame previousFrame;
+    DefaultComboBoxModel dcbmMenus = new DefaultComboBoxModel();
+    private JFrame previousFrame;
+
     /**
      * Creates new form MenusTable
      */
@@ -26,22 +31,49 @@ public class MenusTable extends javax.swing.JFrame {
         initComponents();
         loadColumns();
         loadRows();
+        loadComboBox();
     }
 
-    public void loadColumns(){
+    public void loadComboBox() {
+        dcbmMenus.removeAllElements();
+        List<Servicios> lst = mController.getMenus();
+        cBProductos.setModel(dcbmMenus);
+        cBEditProductos.setModel(dcbmMenus);
+        if (lst == null) {
+            return;
+        }
+        for (Servicios s : lst) {
+            Object[] vec = new Object[3];
+            vec[1] = s.getIdServicio();
+            vec[2] = s.getTipo();
+            vec[3] = s.getDescripcion();
+            vec[4] = s.getPrecio();
+            dcbmMenus.addElement("[" + vec[1] + "] - " + vec[2] + " - S/. " + vec[4]);
+        }
+        cBProductos.setModel(dcbmMenus);
+        cBEditProductos.setModel(dcbmMenus);
+    }
+
+    public void loadColumns() {
+        dtmMenus.addColumn("ID");
         dtmMenus.addColumn("Tipo");
         dtmMenus.addColumn("Descripción");
         dtmMenus.addColumn("Precio");
         tbMenus.setModel(dtmMenus);
     }
-    public void loadRows(){
+
+    public void loadRows() {
         List<Servicios> lst = mController.getMenus();
+        if (lst == null) {
+            return;
+        }
         dtmMenus.setRowCount(0);
-        for(Servicios s:lst){
-            Object[] vec = new Object[3];
-            vec[0] = s.getTipo();
-            vec[1] = s.getDescripcion();
-            vec[2] = s.getPrecio();
+        for (Servicios s : lst) {
+            Object[] vec = new Object[4];
+            vec[1] = s.getIdServicio();
+            vec[2] = s.getTipo();
+            vec[3] = s.getDescripcion();
+            vec[4] = s.getPrecio();
             dtmMenus.addRow(vec);
         }
         tbMenus.setModel(dtmMenus);
@@ -64,9 +96,266 @@ public class MenusTable extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        NewForm = new javax.swing.JFrame();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtNewNombre = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtNewDescripcion = new javax.swing.JTextArea();
+        spnNewPrecio = new javax.swing.JSpinner();
+        btnNewSave = new javax.swing.JButton();
+        btnNewRestore = new javax.swing.JButton();
+        btnNewCancel = new javax.swing.JButton();
+        EditForm = new javax.swing.JFrame();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtEditNombre = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtEditDescripcion = new javax.swing.JTextArea();
+        spnEditPrecio = new javax.swing.JSpinner();
+        btnEditSave = new javax.swing.JButton();
+        btnEditRestore = new javax.swing.JButton();
+        btnEditCancel = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        cBEditProductos = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbMenus = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        btnOpenNewForm = new javax.swing.JToggleButton();
+        cBProductos = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        btnOpenEditForm = new javax.swing.JToggleButton();
+        btnEliminar = new javax.swing.JToggleButton();
+
+        NewForm.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        NewForm.setPreferredSize(new java.awt.Dimension(300, 375));
+        NewForm.setResizable(false);
+        NewForm.setSize(new java.awt.Dimension(300, 375));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 350));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("NUEVO PRODUCTO");
+
+        jLabel5.setText("Nombre");
+
+        jLabel6.setText("Descripción");
+
+        jLabel7.setText("Precio");
+
+        txtNewDescripcion.setColumns(20);
+        txtNewDescripcion.setRows(5);
+        jScrollPane3.setViewportView(txtNewDescripcion);
+
+        spnNewPrecio.setModel(new javax.swing.SpinnerNumberModel());
+
+        btnNewSave.setText("Guardar Producto");
+        btnNewSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewSaveActionPerformed(evt);
+            }
+        });
+
+        btnNewRestore.setText("Restablecer");
+        btnNewRestore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewRestoreActionPerformed(evt);
+            }
+        });
+
+        btnNewCancel.setText("Cancelar");
+        btnNewCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewCancelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNewNombre)
+                            .addComponent(spnNewPrecio)))
+                    .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtNewNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(spnNewPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNewSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNewRestore)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNewCancel)
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout NewFormLayout = new javax.swing.GroupLayout(NewForm.getContentPane());
+        NewForm.getContentPane().setLayout(NewFormLayout);
+        NewFormLayout.setHorizontalGroup(
+            NewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        NewFormLayout.setVerticalGroup(
+            NewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NewFormLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        EditForm.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        EditForm.setPreferredSize(new java.awt.Dimension(300, 400));
+        EditForm.setResizable(false);
+        EditForm.setSize(new java.awt.Dimension(300, 400));
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 375));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("MODIFICAR PRODUCTO");
+
+        jLabel9.setText("Nombre");
+
+        jLabel10.setText("Descripción");
+
+        jLabel11.setText("Precio");
+
+        txtEditDescripcion.setColumns(20);
+        txtEditDescripcion.setRows(5);
+        jScrollPane4.setViewportView(txtEditDescripcion);
+
+        spnEditPrecio.setModel(new javax.swing.SpinnerNumberModel());
+
+        btnEditSave.setText("Actualizar Producto");
+        btnEditSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditSaveActionPerformed(evt);
+            }
+        });
+
+        btnEditRestore.setText("Restablecer");
+        btnEditRestore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditRestoreActionPerformed(evt);
+            }
+        });
+
+        btnEditCancel.setText("Cancelar");
+        btnEditCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditCancelActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Productos");
+
+        cBEditProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(btnEditSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEditNombre)
+                            .addComponent(spnEditPrecio)
+                            .addComponent(cBEditProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(cBEditProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtEditNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(spnEditPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditRestore)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditCancel)
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
+        EditForm.getContentPane().setLayout(EditFormLayout);
+        EditFormLayout.setHorizontalGroup(
+            EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        EditFormLayout.setVerticalGroup(
+            EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EditFormLayout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -84,9 +373,36 @@ public class MenusTable extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbMenus);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Menús");
+        jLabel1.setText("Menú - PRODUCTOS");
+
+        btnOpenNewForm.setText("Registrar Nuevo");
+        btnOpenNewForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenNewFormActionPerformed(evt);
+            }
+        });
+
+        cBProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setText("PRODUCTO");
+
+        jLabel3.setText("BUSCAR");
+
+        btnOpenEditForm.setText("Modificar Existente");
+        btnOpenEditForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenEditFormActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,7 +412,22 @@ public class MenusTable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cBProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtSearch)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnOpenNewForm, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnOpenEditForm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -104,7 +435,20 @@ public class MenusTable extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cBProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnOpenNewForm)
+                    .addComponent(btnOpenEditForm)
+                    .addComponent(btnEliminar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -112,9 +456,82 @@ public class MenusTable extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnOpenNewFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenNewFormActionPerformed
+        NewForm.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOpenNewFormActionPerformed
+
+    private void btnOpenEditFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenEditFormActionPerformed
+        System.out.println("Funciona: No tenemos el Service - Cargar Datos en EditForm");
+        //Definir los datos del objeto Seleccionado
+        EditForm.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOpenEditFormActionPerformed
+
+    private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
+        System.out.println("Funciona: No tenemos el Service - Registro");
+        if(txtNewNombre.getText()==""||(int)spnNewPrecio.getValue()<=0)
+        {
+            JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea generar el nuevo Producto?");
+        if (resp != 0) {
+            return;
+        }
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNewSaveActionPerformed
+
+    private void btnNewRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewRestoreActionPerformed
+        txtNewNombre.setText("");
+        txtNewDescripcion.setText("");
+        spnNewPrecio.setValue(0);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNewRestoreActionPerformed
+
+    private void btnNewCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCancelActionPerformed
+        btnNewRestoreActionPerformed(evt);
+        NewForm.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNewCancelActionPerformed
+
+    private void btnEditSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSaveActionPerformed
+        System.out.println("Funciona: No tenemos el Service - Edit");
+        if(txtEditNombre.getText()==""||(int)spnEditPrecio.getValue()<=0)
+        {
+            JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea editar el Producto? Esta acción es Irreversible");
+        if (resp != 0) {
+            return;
+        }
+            // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditSaveActionPerformed
+
+    private void btnEditRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRestoreActionPerformed
+        System.out.println("Funciona: No tenemos el Service - Restore Edit");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditRestoreActionPerformed
+
+    private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
+        EditForm.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditCancelActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar el Producto? Esta acción es Irreversible");
+        if (resp != 0) {
+            return;
+        }
+        System.out.println("Funciona: No tenemos el Service - Delete");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -148,8 +565,43 @@ public class MenusTable extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame EditForm;
+    private javax.swing.JFrame NewForm;
+    private javax.swing.JButton btnEditCancel;
+    private javax.swing.JButton btnEditRestore;
+    private javax.swing.JButton btnEditSave;
+    private javax.swing.JToggleButton btnEliminar;
+    private javax.swing.JButton btnNewCancel;
+    private javax.swing.JButton btnNewRestore;
+    private javax.swing.JButton btnNewSave;
+    private javax.swing.JToggleButton btnOpenEditForm;
+    private javax.swing.JToggleButton btnOpenNewForm;
+    private javax.swing.JComboBox<String> cBEditProductos;
+    private javax.swing.JComboBox<String> cBProductos;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSpinner spnEditPrecio;
+    private javax.swing.JSpinner spnNewPrecio;
     private javax.swing.JTable tbMenus;
+    private javax.swing.JTextArea txtEditDescripcion;
+    private javax.swing.JTextField txtEditNombre;
+    private javax.swing.JTextArea txtNewDescripcion;
+    private javax.swing.JTextField txtNewNombre;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
