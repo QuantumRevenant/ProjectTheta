@@ -2,9 +2,7 @@ package com.mycompany.database;
 
 import lombok.NoArgsConstructor;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
+import java.sql.*;
 @NoArgsConstructor
 public class Configuration {
 

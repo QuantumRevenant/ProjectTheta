@@ -1,6 +1,14 @@
 CREATE DATABASE IF NOT EXISTS reservation;
 USE reservation;
-create table if not exists cliente(
+
+CREATE TABLE Categoria(
+    idCategoria int  NOT NULL AUTO_INCREMENT,
+    nombre varchar(25) NOT NULL,
+    PRIMARY KEY(idCategoria)
+);
+
+
+create table cliente(
     idCliente int auto_increment
         primary key,
     nombre    varchar(25)  not null,
@@ -9,7 +17,7 @@ create table if not exists cliente(
     telefono  varchar(25)  not null,
     direccion varchar(100) not null
 );
-create table if not exists personal(
+create table  personal(
     idPersonal  int auto_increment
         primary key,
     nombre      varchar(25) not null,
@@ -22,24 +30,26 @@ create table if not exists personal(
     diaDescanso varchar(10) null,
     nombreCargo varchar(30) not null
 );
-create table if not exists servicios(
-    idServicio  int auto_increment
-        primary key,
+create table  menu(
+    idMenu  int auto_increment primary key,
+    idCategoria int not null,
     tipo        varchar(25)    not null,
     descripcion varchar(200)   not null,
-    precio      double(255, 2) not null
+    precio      double(255, 2) not null,
+        constraint menus_ibfk_1
+        foreign key (idCategoria) references Categoria (idCategoria)
 );
-create table if not exists tipopago(
+create table  tipopago(
     idTipoPago  int         not null,
     descripcion varchar(20) not null,
     primary key (idTipoPago)
 );
-create table if not exists tipopedido(
+create table tipopedido(
     idTipoPedido int         not null,
     descripcion  varchar(20) not null,
     primary key (idTipoPedido)
 );
-create table if not exists pedidos(
+create table pedidos(
     idPedido     int auto_increment primary key,
     descripcion  varchar(200)   not null,
     total        double(255, 2) not null,
@@ -59,28 +69,33 @@ create table if not exists pedidos(
     constraint pedidos_ibfk_4
         foreign key (idTipoPago) references tipopago (idTipoPago)
 );
-create table if not exists detallepedido(
+create table detallepedido(
     idPedido       int            not null,
-    idServicio     int            not null,
+    idMenu     int            not null,
     cantidadPlatos int            not null,
     subtotal       double(255, 2) not null,
-    primary key (idPedido, idServicio),
+    primary key (idPedido, idMenu),
     constraint detallepedido_ibfk_1
         foreign key (idPedido) references pedidos (idPedido),
     constraint detallepedido_ibfk_2
-        foreign key (idServicio) references servicios (idServicio)
+        foreign key (idMenu) references menu (idMenu)
 );
 
-create index if not exists idServicio
-    on detallepedido (idServicio);
-create index if not exists idCliente
+create index idMenu
+    on detallepedido (idMenu);
+create index  idCliente
     on pedidos (idCliente);
-create index if not exists idPersonal
+create index  idPersonal
     on pedidos (idPersonal);
-create index if not exists idTipoPago
+create index  idTipoPago
     on pedidos (idTipoPago);
-create index if not exists idTipoPedido
+create index  idTipoPedido
     on pedidos (idTipoPedido);
+
+
+-- Crear o reemplazar índices
+
+
 
 /*PROCEDURES CRUD CLIENTE*/
 
@@ -101,7 +116,7 @@ INSERT INTO cliente (nombre, apellido, dni, telefono, direccion)
 VALUES (nombreCliente, apellidoCliente, dniCliente, telefonoCliente, direccionCliente);
 END;
 
-CREATE PROCEDURE updateEmployee(
+CREATE PROCEDURE updateCustomer(
     IN idCliente INT,
     IN nombreCliente VARCHAR(25),
     IN apellidoCliente VARCHAR(25),
@@ -131,51 +146,51 @@ END;
 
 CREATE PROCEDURE createOrderDetails(
     IN idPedido INT,
-    IN idServicio INT,
+    IN idMenu INT,
     IN cantidadPlatos INT,
     IN subtotal DOUBLE(255, 2)
 )
 BEGIN
-    INSERT INTO detallepedido (idPedido, idServicio, cantidadPlatos, subtotal)
-    VALUES (idPedido, idServicio, cantidadPlatos, subtotal);
+    INSERT INTO detallepedido (idPedido, idMenu, cantidadPlatos, subtotal)
+    VALUES (idPedido, idMenu, cantidadPlatos, subtotal);
 END;
 
 /*PROCEDURES CRUD MENU*/
 
 CREATE PROCEDURE menuList()
 BEGIN
-SELECT * FROM servicios;
+SELECT * FROM menu;
 END;
 
 CREATE PROCEDURE createMenu(
-    IN idServicio INT,
+    IN idMenu INT,
     IN tipo VARCHAR(25),
     IN descripcion VARCHAR(200),
     IN precio DOUBLE(255, 2)
 )
 BEGIN
-    INSERT INTO servicios (idServicio, tipo, descripcion, precio)
-    VALUES (idServicio, tipo, descripcion, precio);
+    INSERT INTO menu (idMenu, tipo, descripcion, precio)
+    VALUES (idMenu, tipo, descripcion, precio);
 END;
 
 CREATE PROCEDURE updateMenu(
-    IN idServicio INT,
+    IN idMenu INT,
     IN tipo VARCHAR(25),
     IN descripcion VARCHAR(200),
     IN precio DOUBLE(255, 2)
 )
 BEGIN
-    UPDATE servicios
+    UPDATE menu
     SET tipo = tipo, descripcion = descripcion, precio = precio
-    WHERE idServicio = idServicio;
+    WHERE idMenu = idMenu;
 END;
 
 CREATE PROCEDURE deleteMenu(
-    IN idServicio INT
+    IN idMenu INT
 )
 BEGIN
-    DELETE FROM servicios
-    WHERE idServicio = idServicio;
+    DELETE FROM menu
+    WHERE idMenu = idMenu;
 END;
 
 
