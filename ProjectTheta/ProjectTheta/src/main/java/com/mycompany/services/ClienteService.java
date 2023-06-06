@@ -37,13 +37,12 @@ public class ClienteService implements BaseService<Cliente>{
     public void save(Cliente cliente) {
         try{
             CallableStatement createCustomer =
-                    Configuration.getConnectionDatabase().prepareCall(("{CALL createCustomer(?,?,?,?,?,?)}"));
-            createCustomer.setInt(1, cliente.getIdCliente());
-            createCustomer.setString(2, cliente.getNombre());
-            createCustomer.setString(3, cliente.getApellido());
-            createCustomer.setString(4, cliente.getDni());
-            createCustomer.setString(5, cliente.getTelefono());
-            createCustomer.setString(6, cliente.getDireccion());
+                    Configuration.getConnectionDatabase().prepareCall(("{CALL createCustomer(?,?,?,?,?)}"));
+            createCustomer.setString(1, cliente.getNombre());
+            createCustomer.setString(2, cliente.getApellido());
+            createCustomer.setString(3, cliente.getDni());
+            createCustomer.setString(4, cliente.getTelefono());
+            createCustomer.setString(5, cliente.getDireccion());
             createCustomer.executeQuery();
         } catch(Exception e) {
             System.out.println(e.getMessage());
@@ -54,7 +53,7 @@ public class ClienteService implements BaseService<Cliente>{
     public void update(Cliente cliente) {
         try {
             CallableStatement updateCustomer =
-                    Configuration.getConnectionDatabase().prepareCall(("{CALL updateEmployee(?,?,?,?,?,?)}"));
+                    Configuration.getConnectionDatabase().prepareCall(("{CALL updateCustomer(?,?,?,?,?,?)}"));
             updateCustomer.setInt(1, cliente.getIdCliente());
             updateCustomer.setString(2, cliente.getNombre());
             updateCustomer.setString(3, cliente.getApellido());

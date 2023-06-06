@@ -44,10 +44,10 @@ public class MenusTable extends javax.swing.JFrame {
         }
         for (Menu s : lst) {
             Object[] vec = new Object[3];
-            vec[1] = s.getIdServicio();
-            vec[2] = s.getTipo();
-            vec[3] = s.getDescripcion();
-            vec[4] = s.getPrecio();
+            vec[0] = s.getIdMenu();
+            vec[1] = s.getTipo();
+            vec[2] = s.getDescripcion();
+            vec[3] = s.getPrecio();
             dcbmMenus.addElement("[" + vec[1] + "] - " + vec[2] + " - S/. " + vec[4]);
         }
         cBProductos.setModel(dcbmMenus);
@@ -70,10 +70,10 @@ public class MenusTable extends javax.swing.JFrame {
         dtmMenus.setRowCount(0);
         for (Menu s : lst) {
             Object[] vec = new Object[4];
-            vec[1] = s.getIdServicio();
-            vec[2] = s.getTipo();
-            vec[3] = s.getDescripcion();
-            vec[4] = s.getPrecio();
+            vec[0] = s.getIdMenu();
+            vec[1] = s.getTipo();
+            vec[2] = s.getDescripcion();
+            vec[3] = s.getPrecio();
             dtmMenus.addRow(vec);
         }
         tbMenus.setModel(dtmMenus);
@@ -136,7 +136,6 @@ public class MenusTable extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JToggleButton();
 
         NewForm.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        NewForm.setPreferredSize(new java.awt.Dimension(300, 375));
         NewForm.setResizable(false);
         NewForm.setSize(new java.awt.Dimension(300, 375));
 
@@ -242,7 +241,6 @@ public class MenusTable extends javax.swing.JFrame {
         );
 
         EditForm.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        EditForm.setPreferredSize(new java.awt.Dimension(300, 400));
         EditForm.setResizable(false);
         EditForm.setSize(new java.awt.Dimension(300, 400));
 

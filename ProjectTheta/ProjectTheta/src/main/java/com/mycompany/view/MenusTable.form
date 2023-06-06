@@ -5,9 +5,6 @@
     <Container class="javax.swing.JFrame" name="NewForm">
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="2"/>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[300, 375]"/>
-        </Property>
         <Property name="resizable" type="boolean" value="false"/>
         <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[300, 375]"/>
@@ -175,9 +172,6 @@
     <Container class="javax.swing.JFrame" name="EditForm">
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="2"/>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[300, 400]"/>
-        </Property>
         <Property name="resizable" type="boolean" value="false"/>
         <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[300, 400]"/>

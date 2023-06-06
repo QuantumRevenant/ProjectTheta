@@ -4,13 +4,21 @@
  */
 package com.mycompany.view;
 
+import com.mycompany.controller.ClienteController;
 import com.mycompany.controller.DetallePedidoController;
 import com.mycompany.controller.PedidoController;
+import com.mycompany.controller.PersonalController;
+import com.mycompany.model.entities.Cliente;
 import com.mycompany.model.entities.DetallePedido;
 import com.mycompany.model.entities.Pedido;
+import com.mycompany.model.entities.Personal;
+import com.mycompany.services.ClienteService;
 import com.mycompany.services.DetallePedidoService;
 import com.mycompany.services.PedidoService;
+import com.mycompany.services.PersonalService;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +29,8 @@ import javax.swing.table.DefaultTableModel;
 public class PedidosTable extends javax.swing.JFrame {
     PedidoController pController = new PedidoController(new PedidoService());
     DetallePedidoController dController = new DetallePedidoController(new DetallePedidoService());
+    PersonalController perController = new PersonalController(new PersonalService());
+    ClienteController cController = new ClienteController(new ClienteService());
     DefaultTableModel dtmPedidos = new DefaultTableModel();
     DefaultTableModel dtmDetalles = new DefaultTableModel();
     
@@ -32,6 +42,10 @@ public class PedidosTable extends javax.swing.JFrame {
         initComponents();
         loadColumns();
         loadRowsPedidos();
+        loadCboPersonal();
+        loadCboClientes();
+        loadCboStatus();
+        loadCboTipoPedido();
     }
 
     public void loadColumns(){
@@ -73,7 +87,35 @@ public class PedidosTable extends javax.swing.JFrame {
             System.out.println("Error");
         }
     }
-
+    public void loadCboPersonal(){
+        List<Personal> lst = perController.getEmployees();
+        cboPersonal.removeAllItems();
+        cboPersonal.addItem("[0] - All");
+        for(Personal p:lst){
+            cboPersonal.addItem("["+p.getIdPersonal()+"] - "+p.getNombre()+" "+p.getApellidos());
+        }
+    }
+    public void loadCboClientes(){
+        List<Cliente> lst = cController.getEmployees();
+        cboClientes.removeAllItems();
+        cboClientes.addItem("[0] - All");
+        for(Cliente c : lst){
+            cboClientes.addItem("[" + c.getIdCliente() + "] - " + c.getNombre() + " " + c.getApellido());
+        }
+    }
+    public void loadCboStatus(){
+        cboStatus.removeAllItems();
+        cboStatus.addItem("All");
+        cboStatus.addItem("Pendiente");
+        cboStatus.addItem("Envio");
+        cboStatus.addItem("Entregado");
+        cboStatus.addItem("Cancelado");
+    }
+    public void loadCboTipoPedido(){
+        //tipos
+        cboTipoPedido.removeAllItems();
+        cboTipoPedido.addItem("All");
+    }
     public JFrame getPreviousFrame() {
         return previousFrame;
     }
@@ -97,8 +139,25 @@ public class PedidosTable extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbDetalles = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        txtBusqueda = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtPersonal = new javax.swing.JTextField();
+        cboPersonal = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        txtClientes = new javax.swing.JTextField();
+        cboClientes = new javax.swing.JComboBox<>();
+        btnBuscar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        cboStatus = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        cboTipoPedido = new javax.swing.JComboBox<>();
+        btnFiltrar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setSize(new java.awt.Dimension(1050, 400));
 
         tbPedidos.setAutoCreateRowSorter(true);
         tbPedidos.setModel(new javax.swing.table.DefaultTableModel(
@@ -141,6 +200,66 @@ public class PedidosTable extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("DETALLES");
 
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBusquedaActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("BUSQUEDA POR ID");
+
+        jLabel4.setText("Personal");
+
+        txtPersonal.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtPersonalCaretUpdate(evt);
+            }
+        });
+
+        cboPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel5.setText("Clientes");
+
+        txtClientes.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtClientesCaretUpdate(evt);
+            }
+        });
+
+        cboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Status");
+
+        cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel7.setText("Tipo de Pedido");
+
+        cboTipoPedido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setText("Limpiar Filtros");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,7 +268,39 @@ public class PedidosTable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtBusqueda)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(39, 39, 39)
+                                        .addComponent(btnBuscar)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtPersonal)
+                                    .addComponent(cboPersonal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtClientes)
+                                    .addComponent(cboClientes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboStatus, 0, 120, Short.MAX_VALUE)
+                                    .addComponent(btnFiltrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                    .addComponent(cboTipoPedido, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(21, 21, 21)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -168,7 +319,40 @@ public class PedidosTable extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 100, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 9, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnBuscar))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txtPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel5)
+                                                .addComponent(jLabel6)
+                                                .addComponent(jLabel7))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(txtClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(cboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(cboTipoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(cboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(btnFiltrar)
+                                                .addComponent(btnLimpiar)))))))
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -185,7 +369,7 @@ public class PedidosTable extends javax.swing.JFrame {
         for(DetallePedido d:lst){
             if(d.getIdPedido().equals(id)){
                 Object[] vec = new Object[3];
-                vec[0] = d.getIdServicio().getDescripcion();
+                vec[0] = d.getIdMenu().getDescripcion();
                 vec[1] = d.getCantidadPlatos();
                 vec[2] = d.getSubTotal();
                 dtmDetalles.addRow(vec);
@@ -194,6 +378,141 @@ public class PedidosTable extends javax.swing.JFrame {
         tbDetalles.setModel(dtmDetalles);
     }//GEN-LAST:event_tbPedidosMouseClicked
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        List<Pedido> lst = pController.getOrders();
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtPersonalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtPersonalCaretUpdate
+        // TODO add your handling code here:
+        DefaultComboBoxModel<String> dcbmPersonal = new DefaultComboBoxModel<>();
+        loadCboClientes();
+        String busqueda = txtPersonal.getText();
+        for(int i=0;i<cboPersonal.getItemCount();i++){
+            String item = cboPersonal.getItemAt(i);
+            if(item.toLowerCase().contains(busqueda.toLowerCase())){
+                dcbmPersonal.addElement(item);
+            }
+        }
+        cboPersonal.setModel(dcbmPersonal);
+    }//GEN-LAST:event_txtPersonalCaretUpdate
+
+    private void txtClientesCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtClientesCaretUpdate
+        // TODO add your handling code here:
+        DefaultComboBoxModel<String> dcbmClientes = new DefaultComboBoxModel<>();
+        loadCboClientes();
+        String busqueda = txtClientes.getText();
+        for(int i=0;i<cboClientes.getItemCount();i++){
+            String item = cboClientes.getItemAt(i);
+            if(item.toLowerCase().contains(busqueda.toLowerCase())){
+                dcbmClientes.addElement(item);
+            }
+        }
+        cboClientes.setModel(dcbmClientes);
+    }//GEN-LAST:event_txtClientesCaretUpdate
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        // TODO add your handling code here:
+        List<Pedido> lst = filtrarPedidos(pController.getOrders());
+        dtmPedidos.setRowCount(0);
+        try{
+            for(Pedido p:lst){
+                Object[] vec = new Object[9];
+                vec[0] = p.getIdPedido();
+                vec[1] = p.getDescripcion();
+                vec[2] = p.getTotal();
+                vec[3] = p.getFechaPedido();
+                vec[4] = p.getStatus();
+                vec[5] = p.getIdPersonal().getNombre()+ " " +p.getIdPersonal().getApellidos();
+                vec[6] = p.getIdTipoPedido().getTipoPedido();
+                vec[7] = p.getIdCliente().getNombre()+" "+p.getIdCliente().getApellido();
+                vec[8] = p.getIdTipoPago().getTipo();
+                dtmPedidos.addRow(vec);
+            }
+            tbPedidos.setModel(dtmPedidos);
+        }catch(Exception ex){
+            System.out.println("Error");
+        }
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        cboClientes.setSelectedItem("[0] - All");
+        cboPersonal.setSelectedItem("[0] - All");
+        cboStatus.setSelectedItem("All");
+        cboTipoPedido.setSelectedItem("All");
+        loadRowsPedidos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+        // TODO add your handling code here:
+        List<Pedido> lst = pController.getOrders();
+        dtmPedidos.setRowCount(0);
+        try{
+            for(Pedido p:lst){
+                Object[] vec = new Object[9];
+                vec[0] = p.getIdPedido();
+                vec[1] = p.getDescripcion();
+                vec[2] = p.getTotal();
+                vec[3] = p.getFechaPedido();
+                vec[4] = p.getStatus();
+                vec[5] = p.getIdPersonal().getNombre()+ " " +p.getIdPersonal().getApellidos();
+                vec[6] = p.getIdTipoPedido().getTipoPedido();
+                vec[7] = p.getIdCliente().getNombre()+" "+p.getIdCliente().getApellido();
+                vec[8] = p.getIdTipoPago().getTipo();
+                dtmPedidos.addRow(vec);
+            }
+        tbPedidos.setModel(dtmPedidos);
+        }catch(Exception ex){
+            System.out.println("Error");
+        }
+    }//GEN-LAST:event_txtBusquedaActionPerformed
+
+    private int getSelectedPersonal(){
+        String palabra = cboPersonal.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
+        return Integer.parseInt(palabra.substring(1, indice));
+    }
+    
+    private int getSelectedCliente(){
+        String palabra = cboClientes.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
+        return Integer.parseInt(palabra.substring(1, indice));
+    }
+    private String getSelectedStatus(){
+        return cboStatus.getSelectedItem().toString();
+    }
+    private String getSelectedTipoPedido(){
+        return cboTipoPedido.getSelectedItem().toString();
+    }
+    private List<Pedido> filtrarPedidos(List<Pedido> lst){
+        return filtrarCliente(filtrarPersonal(filtrarStatus(filtrarTipoPedido(lst))));
+    }
+    private List<Pedido> filtrarCliente(List<Pedido> lst){
+        if(getSelectedCliente()!=0){
+            return lst.stream().filter(pedido -> pedido.getIdCliente().equals(getSelectedCliente())).collect(Collectors.toList());
+        }
+        return lst;
+    }
+    private List<Pedido> filtrarPersonal(List<Pedido> lst){
+        if(getSelectedPersonal()!=0){
+            return lst.stream().filter(pedido -> pedido.getIdPersonal().equals(getSelectedPersonal())).collect(Collectors.toList());
+        }
+        return lst;
+    }
+    private List<Pedido> filtrarStatus(List<Pedido> lst){
+        if(!getSelectedStatus().equalsIgnoreCase("all")){
+            return lst.stream().filter(pedido -> pedido.getStatus().equals(getSelectedStatus())).collect(Collectors.toList());
+        }
+        return lst;
+    }
+    private List<Pedido> filtrarTipoPedido(List<Pedido> lst){
+        if(getSelectedTipoPedido().equalsIgnoreCase("all")){
+            return lst.stream().filter(pedido -> pedido.getIdTipoPedido().equals(getSelectedTipoPedido())).collect(Collectors.toList());
+        }
+        return lst;
+    }
     /**
      * @param args the command line arguments
      */
@@ -230,11 +549,27 @@ public class PedidosTable extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cboClientes;
+    private javax.swing.JComboBox<String> cboPersonal;
+    private javax.swing.JComboBox<String> cboStatus;
+    private javax.swing.JComboBox<String> cboTipoPedido;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tbDetalles;
     private javax.swing.JTable tbPedidos;
+    private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JTextField txtClientes;
+    private javax.swing.JTextField txtPersonal;
     // End of variables declaration//GEN-END:variables
 }

@@ -36,7 +36,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
     
     public void loadCbos(){
         loadCboClientes();
-        //loadCboPersonal();
+        loadCboPersonal();
         loadCboTipoPago();
         loadCboProductos();
         loadColumnsDetalles();
