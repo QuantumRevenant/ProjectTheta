@@ -5,13 +5,20 @@
 package com.mycompany.controller;
 
 import com.mycompany.model.entities.Mesa;
+import com.mycompany.model.entities.Pedido;
+import com.mycompany.model.entities.TipoPedido;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author sebap
  */
+@Data
+@AllArgsConstructor
 public class MesaController {
 
     private List<Mesa> lstMesa = new ArrayList<>();
@@ -30,6 +37,53 @@ public class MesaController {
         for (int i = size(); i < cantidadDeMesas; i++) {
             lstMesa.add(new Mesa(i + 1));
         }
+    }
+
+    public int getQuantityStatus(Mesa.MESA_STATUS status) {
+        int output = 0;
+        for (Mesa x : lstMesa) {
+            if (x.getMesa_status() == status) {
+                output++;
+            }
+        }
+        return output;
+    }
+
+    public int getQuantityTypePedido(TipoPedido.PEDIDOS status) {
+        int output = 0;
+        for (Mesa x : lstMesa) {
+            if (x.getIdPedido() != null) {
+                if (x.getIdPedido().getIdTipoPedido().getTipoPedido() == status) {
+                    output++;
+                }
+            }
+        }
+        return output;
+    }
+
+    public int getQuantityStatusPedido(Pedido.PEDIDO_STATUS status) {
+        int output = 0;
+        for (Mesa x : lstMesa) {
+            if (x.getIdPedido() != null) {
+                if (x.getIdPedido().getStatus()== status) {
+                    output++;
+                }
+            }
+        }
+        return output;
+    }
+
+    public long getProximaMesaLibre() {
+        if (size() < 0) {
+            return 1;
+        }
+        long output = get(0).getMinutosFaltantes();
+        for (Mesa x : lstMesa) {
+            if (x.getMinutosFaltantes() > 0 && x.getMinutosFaltantes() < output) {
+                output = x.getMinutosFaltantes();
+            }
+        }
+        return output;
     }
 
     public Mesa get(int x) {
