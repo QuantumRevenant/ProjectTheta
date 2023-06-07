@@ -10,6 +10,6 @@ public class TipoPedido {
     private PEDIDOS tipoPedido;
 
     public static enum PEDIDOS{
-        PICKUP,RESERVA,DELIVERY
+        PICKUP,RESERVA,DELIVERY,SALON
     }
 }

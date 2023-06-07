@@ -8,16 +8,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pedido {
+
     private int idPedido;
     private String descripcion;
     private double total;
     private String fechaPedido;
-    private String Status;
+    private PEDIDO_STATUS Status;
     private Personal idPersonal;
     private TipoPedido idTipoPedido;
     private Cliente idCliente;
     private TipoPago idTipoPago;
     private double igv;
+
+    public static enum PEDIDO_STATUS {
+        COMPLETO, PENDIENTE, EN_ENVIO,POR_RECOGER, CANCELADO, OTRO;
+    }
 
     public double getIgv() {
         return .18;
