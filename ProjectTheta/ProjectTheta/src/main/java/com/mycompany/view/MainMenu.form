@@ -43,16 +43,16 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnCloseSesion" alignment="1" max="32767" attributes="0"/>
                           <Component id="btnCancel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnTurnos" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnReservas" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnReservas" alignment="0" pref="206" max="32767" attributes="0"/>
                           <Component id="btnMesas" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnPedidos" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnConfiguraciones" alignment="1" max="32767" attributes="0"/>
+                          <Component id="btnClientes" alignment="1" pref="206" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -66,12 +66,12 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnPedidos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnMesas" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnReservas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnTurnos" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Component id="btnMesas" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnClientes" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnCloseSesion" min="-2" max="-2" attributes="0"/>
@@ -97,14 +97,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPedidosActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnMesas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Consultar Mesas"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMesasActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnReservas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consultar Reservas"/>
@@ -113,12 +105,20 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReservasActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnTurnos">
+            <Component class="javax.swing.JButton" name="btnMesas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consultar Turnos"/>
+                <Property name="text" type="java.lang.String" value="Consultar Mesas"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTurnosActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMesasActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnClientes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Consultar Clientes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClientesActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnCancel">
@@ -150,7 +150,6 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="ShowMesaInfoFocusLost"/>
         <EventHandler event="windowLostFocus" listener="java.awt.event.WindowFocusListener" parameters="java.awt.event.WindowEvent" handler="ShowMesaInfoWindowLostFocus"/>
       </Events>
 

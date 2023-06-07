@@ -9,13 +9,18 @@ import com.mycompany.controller.ProgramController;
 import static java.lang.Thread.sleep;
 import com.mycompany.model.generics.General;
 import com.mycompany.model.entities.Mesa;
+import com.mycompany.model.entities.Pedido;
+import com.mycompany.model.entities.TipoPedido;
 import com.mycompany.model.generics.TimeAndDates;
+import java.awt.Color;
 import java.awt.Font;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 
 /**
  *
@@ -122,13 +127,16 @@ public class MainMenu extends javax.swing.JFrame {
 
     public void updateLblInfo() {
         lblInfo.setText("<html>"
-                + "M. disponible: " + "<br>" + " xxx/xxx" + "<br>"
-                + "M. Libre en: " + "<br>" + "xx min" + "<br>"
-                + "Reservas hoy: " + "<br>" + "xx" + "<br><br>"
-                + "Pedidos Pend.: " + "<br>" + "xx" + "<br>"
-                + "Pedidos Envio: " + "<br>" + "xx"
+                + "M. disponible: " + "<br>" + " > Mesas " + mc.getQuantityStatus(Mesa.MESA_STATUS.OCUPADA) + "/" + mc.size() + "<br>"
+                + "M. Libre en: " + "<br>" + " > " + mc.getProximaMesaLibre() + " min" + "<br>"
+                + "Reservas hoy: " + "<br>" + " > " + mc.getQuantityTypePedido(TipoPedido.PEDIDOS.RESERVA) + "<br><br>"
+                + "Pedidos Pend.: " + "<br>" + " > " + mc.getQuantityStatusPedido(Pedido.PEDIDO_STATUS.PENDIENTE) + "<br>"
+                + "Pedidos Envio: " + "<br>" + " > " + mc.getQuantityStatusPedido(Pedido.PEDIDO_STATUS.EN_ENVIO)
                 + "</html>"
         );
+        prgBrAforo.setMaximum(mc.size());
+        prgBrAforo.setValue(mc.getQuantityStatus(Mesa.MESA_STATUS.OCUPADA));
+        prgBrAforo.setStringPainted(true);
     }
 
     public JFrame getPreviousFrame() {
@@ -152,9 +160,9 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btnConfiguraciones = new javax.swing.JButton();
         btnPedidos = new javax.swing.JButton();
-        btnMesas = new javax.swing.JButton();
         btnReservas = new javax.swing.JButton();
-        btnTurnos = new javax.swing.JButton();
+        btnMesas = new javax.swing.JButton();
+        btnClientes = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnCloseSesion = new javax.swing.JButton();
         ShowMesaInfo = new javax.swing.JFrame();
@@ -210,7 +218,6 @@ public class MainMenu extends javax.swing.JFrame {
         spnGrupos = new javax.swing.JSpinner();
 
         OptionsMainMenu.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        OptionsMainMenu.setPreferredSize(new java.awt.Dimension(200, 300));
         OptionsMainMenu.setResizable(false);
         OptionsMainMenu.setSize(new java.awt.Dimension(200, 350));
 
@@ -230,13 +237,6 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        btnMesas.setText("Consultar Mesas");
-        btnMesas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMesasActionPerformed(evt);
-            }
-        });
-
         btnReservas.setText("Consultar Reservas");
         btnReservas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,10 +244,17 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        btnTurnos.setText("Consultar Turnos");
-        btnTurnos.addActionListener(new java.awt.event.ActionListener() {
+        btnMesas.setText("Consultar Mesas");
+        btnMesas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTurnosActionPerformed(evt);
+                btnMesasActionPerformed(evt);
+            }
+        });
+
+        btnClientes.setText("Consultar Clientes");
+        btnClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientesActionPerformed(evt);
             }
         });
 
@@ -269,16 +276,16 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCloseSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTurnos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnReservas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMesas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPedidos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnConfiguraciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCloseSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                    .addComponent(btnMesas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPedidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnConfiguraciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -289,12 +296,12 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPedidos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnMesas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnReservas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnTurnos)
-                .addGap(12, 12, 12)
+                .addComponent(btnMesas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnClientes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCancel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCloseSesion)
@@ -307,7 +314,7 @@ public class MainMenu extends javax.swing.JFrame {
             OptionsMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 218, Short.MAX_VALUE)
             .addGroup(OptionsMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
         );
         OptionsMainMenuLayout.setVerticalGroup(
             OptionsMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,14 +326,8 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         ShowMesaInfo.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        ShowMesaInfo.setPreferredSize(new java.awt.Dimension(200, 300));
         ShowMesaInfo.setResizable(false);
         ShowMesaInfo.setSize(new java.awt.Dimension(215, 350));
-        ShowMesaInfo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                ShowMesaInfoFocusLost(evt);
-            }
-        });
         ShowMesaInfo.addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {
             }
@@ -443,7 +444,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         Login.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         Login.setAlwaysOnTop(true);
-        Login.setPreferredSize(new java.awt.Dimension(200, 150));
         Login.setResizable(false);
         Login.setSize(new java.awt.Dimension(215, 175));
         Login.setType(java.awt.Window.Type.POPUP);
@@ -878,7 +878,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfiguracionesActionPerformed
 
     private void btnPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidosActionPerformed
-        PedidosTable form= new PedidosTable();
+        PedidosTable form = new PedidosTable();
         form.setPreviousFrame(this);
         OptionsMainMenu.dispose();
         form.setVisible(true);
@@ -893,11 +893,8 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReservasActionPerformed
 
-    private void btnTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTurnosActionPerformed
-
     private void ShowMesaInfo(int btnNumber) {
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         int valueGrupos = (Integer) spnGrupos.getValue();
         mesaSeleccionada = mc.get(btnNumber + (20 * (valueGrupos - 1)) - 1);
         lblMesaTitle.setText("Mesa #" + mesaSeleccionada.getCodigo());
@@ -906,17 +903,17 @@ public class MainMenu extends javax.swing.JFrame {
         } else {
             lblStatus.setText("Ocupado");
         }
-        if (mesaSeleccionada.getHoraDeReserva() > 0) {
-            lblReservaTiempo.setText("Hoy -" + mesaSeleccionada.getHoraDeReserva());
+        if (mesaSeleccionada.getIdPedido().getIdTipoPedido().getTipoPedido() == TipoPedido.PEDIDOS.RESERVA) {
+            lblReservaTiempo.setText(mesaSeleccionada.getFechaHoraMesa().format(myFormatObj));
             lblPedidoHoraLibre.setText("Hora: " + TimeAndDates.sumMinutos(mesaSeleccionada.getHoraDeLiberacion(), pc.getTiempoEstandarEnMesa()));
-            lblPedidoCliente.setText(mesaSeleccionada.getNombreCliente());
+            lblPedidoCliente.setText(mesaSeleccionada.getIdCliente().getNombre() + " " + mesaSeleccionada.getIdCliente().getApellido());
         } else {
             lblReservaTiempo.setText("No hay Reserva");
             lblPedidoHoraLibre.setText("Hora: " + TimeAndDates.getHoraString(0, 0, 0));
             lblPedidoCliente.setText("Sin Cliente");
         }
-        if (mesaSeleccionada.getCodigoPedido() > 0) {
-            lblPedidoCodigo.setText("#" + mesaSeleccionada.getCodigoPedido());
+        if (mesaSeleccionada.getIdPedido() != null) {
+            lblPedidoCodigo.setText("#" + mesaSeleccionada.getIdPedido().getIdPedido());
         } else {
             lblPedidoCodigo.setText("#xxxxxxxxxxx");
         }
@@ -1050,13 +1047,18 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_spnGruposStateChanged
 
-    private void ShowMesaInfoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ShowMesaInfoFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ShowMesaInfoFocusLost
-
     private void ShowMesaInfoWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_ShowMesaInfoWindowLostFocus
         ShowMesaInfo.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_ShowMesaInfoWindowLostFocus
+
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        ClientesTable form = new ClientesTable();
+        form.setPreviousFrame(this);
+        setVisible(false);
+        OptionsMainMenu.dispose();
+        form.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1100,6 +1102,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCancelarLogin;
+    private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnCloseSesion;
     private javax.swing.JButton btnConfiguraciones;
     private javax.swing.JButton btnMenuOptions;
@@ -1128,7 +1131,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnPedidos;
     private javax.swing.JButton btnReservaNueva;
     private javax.swing.JButton btnReservas;
-    private javax.swing.JButton btnTurnos;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
