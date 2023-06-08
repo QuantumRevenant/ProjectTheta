@@ -389,7 +389,7 @@ public class ClientesTable extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("CLIENTES");
 
@@ -559,12 +559,7 @@ public class ClientesTable extends javax.swing.JFrame {
 
     private void btnEditRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRestoreActionPerformed
         // TODO add your handling code here:
-        Cliente temp = cController.findCustomerById(getSelectedClienteEdit());
-        txtEditNombre.setText(temp.getNombre());
-        txtEditApellido.setText(temp.getApellido());
-        txtEditDNI.setText(temp.getDni());
-        txtEditTelefono.setText(temp.getTelefono());
-        txtEditDireccion.setText(temp.getDireccion());
+        llenarDatosEdit();
     }//GEN-LAST:event_btnEditRestoreActionPerformed
 
     private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
@@ -576,12 +571,7 @@ public class ClientesTable extends javax.swing.JFrame {
 
     private void cboEditClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEditClienteActionPerformed
         // TODO add your handling code here:
-        Cliente temp = cController.findCustomerById(getSelectedClienteEdit());
-        txtEditNombre.setText(temp.getNombre());
-        txtEditApellido.setText(temp.getApellido());
-        txtEditDNI.setText(temp.getDni());
-        txtEditTelefono.setText(temp.getTelefono());
-        txtEditDireccion.setText(temp.getDireccion());
+        llenarDatosEdit();
     }//GEN-LAST:event_cboEditClienteActionPerformed
 
     private void txtBuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBuscarCaretUpdate
@@ -688,6 +678,14 @@ public class ClientesTable extends javax.swing.JFrame {
         String palabra = cboClientes.getSelectedItem().toString();
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
+    }
+    private void llenarDatosEdit(){
+        Cliente temp = cController.findCustomerById(getSelectedClienteEdit());
+        txtEditNombre.setText(temp.getNombre());
+        txtEditApellido.setText(temp.getApellido());
+        txtEditDNI.setText(temp.getDni());
+        txtEditTelefono.setText(temp.getTelefono());
+        txtEditDireccion.setText(temp.getDireccion());
     }
     /**
      * @param args the command line arguments

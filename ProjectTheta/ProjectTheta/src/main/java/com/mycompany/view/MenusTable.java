@@ -5,6 +5,7 @@
 package com.mycompany.view;
 
 import com.mycompany.controller.MenuController;
+import com.mycompany.model.entities.Categoria;
 import com.mycompany.model.entities.Menu;
 import com.mycompany.services.MenuService;
 import java.util.List;
@@ -21,7 +22,6 @@ public class MenusTable extends javax.swing.JFrame {
 
     MenuController mController = new MenuController(new MenuService());
     DefaultTableModel dtmMenus = new DefaultTableModel();
-    DefaultComboBoxModel dcbmMenus = new DefaultComboBoxModel();
     private JFrame previousFrame;
 
     /**
@@ -31,31 +31,49 @@ public class MenusTable extends javax.swing.JFrame {
         initComponents();
         loadColumns();
         loadRows();
-        loadComboBox();
+        loadCboMenu();
     }
-
-    public void loadComboBox() {
-        dcbmMenus.removeAllElements();
+    
+    public void loadCboMenu(){
         List<Menu> lst = mController.getMenus();
-        cBProductos.setModel(dcbmMenus);
-        cBEditProductos.setModel(dcbmMenus);
-        if (lst == null) {
-            return;
-        }
+        cBProductos.removeAllItems();
+        cBProductos.addItem("[0] - All");
         for (Menu s : lst) {
             Object[] vec = new Object[3];
             vec[0] = s.getIdMenu();
             vec[1] = s.getTipo();
             vec[2] = s.getDescripcion();
             vec[3] = s.getPrecio();
-            dcbmMenus.addElement("[" + vec[1] + "] - " + vec[2] + " - S/. " + vec[4]);
+            cBProductos.addItem("[" + vec[0] + "] - " + vec[1] + " - S/. " + vec[3]);
         }
-        cBProductos.setModel(dcbmMenus);
-        cBEditProductos.setModel(dcbmMenus);
+    }
+    
+    public void loadCboEditMenu(){
+        List<Menu> lst = mController.getMenus();
+        cboEditMenus.removeAllItems();
+        for (Menu s : lst) {
+            Object[] vec = new Object[3];
+            vec[0] = s.getIdMenu();
+            vec[1] = s.getTipo();
+            vec[2] = s.getDescripcion();
+            vec[3] = s.getPrecio();
+            cboEditMenus.addItem("[" + vec[0] + "] - " + vec[1] + " - S/. " + vec[3]);
+        }
+    }
+    
+    private void loadCboNewCategoria(){
+        cboNewCategoria.removeAllItems();
+        cboNewCategoria.addItem("[0] - Prueba");
+    }
+    
+    private void loadCboEditCategoria(){
+        cboEditCategorias.removeAllItems();
+        cboEditCategorias.addItem("[0] - Prueba");
     }
 
     public void loadColumns() {
         dtmMenus.addColumn("ID");
+        dtmMenus.addColumn("Categoria");
         dtmMenus.addColumn("Tipo");
         dtmMenus.addColumn("Descripción");
         dtmMenus.addColumn("Precio");
@@ -71,9 +89,10 @@ public class MenusTable extends javax.swing.JFrame {
         for (Menu s : lst) {
             Object[] vec = new Object[4];
             vec[0] = s.getIdMenu();
-            vec[1] = s.getTipo();
-            vec[2] = s.getDescripcion();
-            vec[3] = s.getPrecio();
+            vec[1] = s.getIdCategoria();
+            vec[2] = s.getTipo();
+            vec[3] = s.getDescripcion();
+            vec[4] = s.getPrecio();
             dtmMenus.addRow(vec);
         }
         tbMenus.setModel(dtmMenus);
@@ -109,6 +128,8 @@ public class MenusTable extends javax.swing.JFrame {
         btnNewSave = new javax.swing.JButton();
         btnNewRestore = new javax.swing.JButton();
         btnNewCancel = new javax.swing.JButton();
+        cboNewCategoria = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         EditForm = new javax.swing.JFrame();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -123,17 +144,19 @@ public class MenusTable extends javax.swing.JFrame {
         btnEditRestore = new javax.swing.JButton();
         btnEditCancel = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        cBEditProductos = new javax.swing.JComboBox<>();
+        cboEditMenus = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        cboEditCategorias = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbMenus = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnOpenNewForm = new javax.swing.JToggleButton();
         cBProductos = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
         btnOpenEditForm = new javax.swing.JToggleButton();
         btnEliminar = new javax.swing.JToggleButton();
+        btnVolver = new javax.swing.JButton();
+        txtBusqueda = new javax.swing.JTextField();
 
         NewForm.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         NewForm.setResizable(false);
@@ -178,6 +201,10 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        cboNewCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel3.setText("Categoria");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -186,19 +213,22 @@ public class MenusTable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNewNombre)
-                            .addComponent(spnNewPrecio)))
-                    .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNewRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNewCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(spnNewPrecio)
+                            .addComponent(cboNewCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -211,9 +241,13 @@ public class MenusTable extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtNewNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboNewCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(4, 4, 4)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -285,7 +319,16 @@ public class MenusTable extends javax.swing.JFrame {
 
         jLabel12.setText("Productos");
 
-        cBEditProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboEditMenus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboEditMenus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboEditMenusActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Categorias");
+
+        cboEditCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -294,22 +337,29 @@ public class MenusTable extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboEditMenus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                     .addComponent(btnEditSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEditRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEditCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spnEditPrecio))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtEditNombre)
-                            .addComponent(spnEditPrecio)
-                            .addComponent(cBEditProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cboEditCategorias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -320,15 +370,19 @@ public class MenusTable extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(cBEditProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboEditMenus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtEditNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(cboEditCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -339,7 +393,7 @@ public class MenusTable extends javax.swing.JFrame {
                 .addComponent(btnEditRestore)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditCancel)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
@@ -383,10 +437,13 @@ public class MenusTable extends javax.swing.JFrame {
         });
 
         cBProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cBProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cBProductosActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("PRODUCTO");
-
-        jLabel3.setText("BUSCAR");
+        jLabel2.setText("Buscar Producto");
 
         btnOpenEditForm.setText("Modificar Existente");
         btnOpenEditForm.addActionListener(new java.awt.event.ActionListener() {
@@ -402,6 +459,14 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        btnVolver.setText("Volver");
+
+        txtBusqueda.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtBusquedaCaretUpdate(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -409,23 +474,22 @@ public class MenusTable extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cBProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtSearch)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnOpenNewForm, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpenEditForm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cBProductos, javax.swing.GroupLayout.Alignment.TRAILING, 0, 325, Short.MAX_VALUE)
+                            .addComponent(txtBusqueda, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -435,18 +499,17 @@ public class MenusTable extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cBProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cBProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOpenNewForm)
                     .addComponent(btnOpenEditForm)
-                    .addComponent(btnEliminar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnVolver))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -455,34 +518,49 @@ public class MenusTable extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenNewFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenNewFormActionPerformed
+        loadCboNewCategoria();
         NewForm.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnOpenNewFormActionPerformed
 
     private void btnOpenEditFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenEditFormActionPerformed
-        System.out.println("Funciona: No tenemos el Service - Cargar Datos en EditForm");
-        //Definir los datos del objeto Seleccionado
+        if(mController.getMenus().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Aún no hay menus registrados", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        loadCboEditMenu();
+        loadCboEditCategoria();
         EditForm.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnOpenEditFormActionPerformed
 
     private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
-        System.out.println("Funciona: No tenemos el Service - Registro");
-        if(txtNewNombre.getText()==""||(int)spnNewPrecio.getValue()<=0)
+
+        List<Menu> lst = mController.getMenus();
+        if(getNewNombre().isBlank()||getNewPrecio()<=0)
         {
             JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
             return;
+        }
+        for(Menu m:lst){
+            if(m.getTipo().equalsIgnoreCase(getNewNombre())){
+                JOptionPane.showMessageDialog(this, "Error, El nombre ingresado ya se encuentra registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
         }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea generar el nuevo Producto?");
         if (resp != 0) {
             return;
         }
-        
+        //Menu temp = new Menu(getCorrelativo(), getNewCategoria(), getNewNombre(), getNewDescipcion(), getNewPrecio());
+        System.out.println("Falta cargar cboCategorias para poder guardar menus");
+        //mController.addMenu(temp); FALTA CARGAR LAS CATEGORIAS
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNewSaveActionPerformed
 
     private void btnNewRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewRestoreActionPerformed
         txtNewNombre.setText("");
+        cboNewCategoria.setSelectedIndex(0);
         txtNewDescripcion.setText("");
         spnNewPrecio.setValue(0);
         // TODO add your handling code here:
@@ -490,43 +568,155 @@ public class MenusTable extends javax.swing.JFrame {
 
     private void btnNewCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCancelActionPerformed
         btnNewRestoreActionPerformed(evt);
+        loadCboMenu();
+        loadRows();
         NewForm.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNewCancelActionPerformed
 
     private void btnEditSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSaveActionPerformed
-        System.out.println("Funciona: No tenemos el Service - Edit");
-        if(txtEditNombre.getText()==""||(int)spnEditPrecio.getValue()<=0)
+        List<Menu> lst = mController.getMenus();
+        if(getEditNombre().isBlank()||(int)spnEditPrecio.getValue()<=0)
         {
             JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
             return;
+        }
+        for(Menu m:lst){
+            if(m.getTipo().equalsIgnoreCase(getEditNombre())){
+                JOptionPane.showMessageDialog(this, "Error, El nombre ingresado ya se encuentra registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
         }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea editar el Producto? Esta acción es Irreversible");
         if (resp != 0) {
             return;
         }
-            // TODO add your handling code here:
+        //Menu temp = new Menu(getSelectedEditMenu(), getEditCategoria(), getEditNombre(), getEditDescripcion(), getEditPrecio());
+        System.out.println("Falta cargar cboCategorias para poder guardar menus");
+        //mController.updateMenu(temp); CARGAR LAS CATEGORIAS
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnEditSaveActionPerformed
 
     private void btnEditRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRestoreActionPerformed
-        System.out.println("Funciona: No tenemos el Service - Restore Edit");
+        llenarDatosEdit();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditRestoreActionPerformed
 
     private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
+        loadCboMenu();
+        loadRows();
         EditForm.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditCancelActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        Menu temp = mController.findServicioById(getSelectedMenu());
+        if(getSelectedMenu()==0){
+            JOptionPane.showMessageDialog(this, "Error, aun no selecciona un producto", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar el Producto? Esta acción es Irreversible");
         if (resp != 0) {
             return;
         }
-        System.out.println("Funciona: No tenemos el Service - Delete");
+        mController.deleteMenu(temp);
+        loadRows();
+        loadCboMenu();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void txtBusquedaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBusquedaCaretUpdate
+        // TODO add your handling code here:
+        DefaultComboBoxModel<String> dcbmMenus = new DefaultComboBoxModel<>();
+        loadCboMenu();
+        String busqueda = txtBusqueda.getText();
+        for(int i=0;i<cBProductos.getItemCount();i++){
+            String item = cBProductos.getItemAt(i);
+            if(item.toLowerCase().contains(busqueda.toLowerCase())){
+                dcbmMenus.addElement(item);
+            }
+        }
+        cBProductos.setModel(dcbmMenus);
+    }//GEN-LAST:event_txtBusquedaCaretUpdate
+
+    private void cBProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBProductosActionPerformed
+        // TODO add your handling code here:
+        if(getSelectedMenu()==0){
+            loadRows();
+        }else{
+            Menu temp = mController.findServicioById(getSelectedMenu());
+            dtmMenus.setRowCount(0);
+            Object[] vec = new Object[6];
+            vec[0] = temp.getIdMenu();
+            vec[1] = temp.getIdCategoria();//Falta controller para obtener las categorias
+            vec[2] = temp.getTipo();
+            vec[3] = temp.getDescripcion();
+            vec[4] = temp.getPrecio();
+            dtmMenus.addRow(vec);
+            tbMenus.setModel(dtmMenus);
+        }
+    }//GEN-LAST:event_cBProductosActionPerformed
+
+    private void cboEditMenusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEditMenusActionPerformed
+        // TODO add your handling code here:
+        llenarDatosEdit();
+    }//GEN-LAST:event_cboEditMenusActionPerformed
+
+    private int getSelectedMenu(){
+        if(cBProductos.getItemCount()==0){
+            return 0;
+        }
+        String palabra = cBProductos.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
+        return Integer.parseInt(palabra.substring(1, indice));
+    }
+    private String getNewNombre(){
+        return txtNewNombre.getText();
+    }
+    private int getNewCategoria(){
+        String palabra = cboNewCategoria.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
+        return Integer.parseInt(palabra.substring(1, indice));
+    }
+    private String getNewDescipcion(){
+        return txtNewDescripcion.getText();
+    }
+    private int getNewPrecio(){
+        return (int) spnNewPrecio.getValue();
+    }
+    private int getCorrelativo(){//Posible eliminacion
+        List<Menu> lst = mController.getMenus();
+        return lst.get(lst.size()-1).getIdMenu()+1;
+    }
+    private int getSelectedEditMenu(){
+        if(cboEditMenus.getItemCount()==0){
+            return 0;
+        }
+        String palabra = cboEditMenus.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
+        return Integer.parseInt(palabra.substring(1, indice));
+    }
+    private String getEditNombre(){
+        return txtEditNombre.getText();
+    }
+    private int getEditCategoria(){
+        String palabra = cboEditCategorias.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
+        return Integer.parseInt(palabra.substring(1, indice));
+    }
+    private String getEditDescripcion(){
+        return txtEditDescripcion.getText();
+    }
+    private int getEditPrecio(){
+        return (int) spnEditPrecio.getValue();
+    }
+    private void llenarDatosEdit(){
+        Menu temp = mController.findServicioById(getSelectedEditMenu());
+        txtEditNombre.setText(temp.getTipo());
+        cboEditCategorias.setSelectedIndex(temp.getIdCategoria()-1);
+        txtEditDescripcion.setText(temp.getDescripcion());
+        spnEditPrecio.setValue(temp.getPrecio());
+    }
     /**
          * @param args the command line arguments
          */
@@ -574,12 +764,16 @@ public class MenusTable extends javax.swing.JFrame {
     private javax.swing.JButton btnNewSave;
     private javax.swing.JToggleButton btnOpenEditForm;
     private javax.swing.JToggleButton btnOpenNewForm;
-    private javax.swing.JComboBox<String> cBEditProductos;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cBProductos;
+    private javax.swing.JComboBox<String> cboEditCategorias;
+    private javax.swing.JComboBox<String> cboEditMenus;
+    private javax.swing.JComboBox<String> cboNewCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -596,10 +790,10 @@ public class MenusTable extends javax.swing.JFrame {
     private javax.swing.JSpinner spnEditPrecio;
     private javax.swing.JSpinner spnNewPrecio;
     private javax.swing.JTable tbMenus;
+    private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextArea txtEditDescripcion;
     private javax.swing.JTextField txtEditNombre;
     private javax.swing.JTextArea txtNewDescripcion;
     private javax.swing.JTextField txtNewNombre;
-    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
