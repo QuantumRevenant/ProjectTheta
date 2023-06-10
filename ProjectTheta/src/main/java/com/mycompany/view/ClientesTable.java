@@ -7,7 +7,6 @@ package com.mycompany.view;
 import com.mycompany.controller.ClienteController;
 import com.mycompany.model.entities.Cliente;
 import com.mycompany.services.ClienteService;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -45,9 +44,8 @@ public class ClientesTable extends javax.swing.JFrame {
     }
 
     public void loadRows() {
-        List<Cliente> lst = cController.getEmployees();
         dtmClientes.setRowCount(0);
-        for (Cliente c : lst) {
+        for (Cliente c : cController.getEmployees()) {
             Object[] vec = new Object[6];
             vec[0] = c.getIdCliente();
             vec[1] = c.getNombre();
@@ -61,20 +59,16 @@ public class ClientesTable extends javax.swing.JFrame {
     }
     
     public void loadCboClientes(){
-        List<Cliente> lst = cController.getEmployees();
         cboClientes.removeAllItems();
         cboClientes.addItem("[0] - All");
-        for(Cliente c : lst){
+        for(Cliente c : cController.getEmployees())
             cboClientes.addItem("[" + c.getIdCliente() + "] - " + c.getNombre() + " " + c.getApellido());
-        }
     }
     
     public void loadCboEditCliente(){
-        List<Cliente> lst = cController.getEmployees();
         cboEditCliente.removeAllItems();
-        for(Cliente c : lst){
+        for(Cliente c : cController.getEmployees())
             cboEditCliente.addItem("[" + c.getIdCliente() + "] - " + c.getNombre() + " " + c.getApellido());
-        }
     }
 
     public JFrame getPreviousFrame() {
@@ -485,21 +479,13 @@ public class ClientesTable extends javax.swing.JFrame {
 
     private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
         // TODO add your handling code here:
-        List<Cliente> lst = cController.getEmployees();
         if(getNewNombre().isBlank()||getNewApellido().isBlank()||getNewDni().isBlank()||getNewTelefono().isBlank()||getNewDireccion().isBlank()){
-            JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Datos sin llenar", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        for(Cliente c:lst){
-            if(c.getDni().equalsIgnoreCase(getNewDni())||c.getTelefono().equalsIgnoreCase(getNewTelefono())){
-                JOptionPane.showMessageDialog(this, "Error, El dni o el telefono ya se encuentran registrados", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        }
+        if(datosRegistrados(getNewDni(), getNewTelefono())) { return; }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea generar el nuevo cliente?");
-        if(resp!=0){
-            return;
-        }
+        if(resp!=0){ return; }
         Cliente temp = new Cliente(0, getNewNombre(), getNewApellido(), getNewDni(), getNewTelefono(), getNewDireccion());
         cController.addCustomer(temp);
     }//GEN-LAST:event_btnNewSaveActionPerformed
@@ -537,22 +523,14 @@ public class ClientesTable extends javax.swing.JFrame {
 
     private void btnEditSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSaveActionPerformed
         // TODO add your handling code here:
-        List<Cliente> lst = cController.getEmployees();
         if(getEditNombre().isBlank()||getEditApellido().isBlank()||getEditDni().isBlank()||getEditTelefono().isBlank()||getEditDireccion().isBlank())
         {
             JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        for(Cliente c:lst){
-            if(c.getIdCliente()!=getSelectedClienteEdit()&&(c.getDni().equalsIgnoreCase(getEditDni())||c.getTelefono().equalsIgnoreCase(getEditTelefono()))){
-                JOptionPane.showMessageDialog(this, "Error, El dni o el telefono ya se encuentran registrados", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        }
+        if(datosRegistrados(getEditDni(), getEditTelefono())) { return; }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea editar el Cliente? Esta acción es Irreversible");
-        if (resp != 0) {
-            return;
-        }
+        if (resp != 0) { return; }
         Cliente temp = new Cliente(getSelectedClienteEdit(), getEditNombre(), getEditApellido(), getEditDni(), getEditTelefono(), getEditDireccion());
         cController.updateCustomer(temp);
     }//GEN-LAST:event_btnEditSaveActionPerformed
@@ -590,9 +568,8 @@ public class ClientesTable extends javax.swing.JFrame {
 
     private void cboClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboClientesActionPerformed
         // TODO add your handling code here:
-        if(getSelectedClienteId()==0){
-            loadRows();
-        }else{
+        if(getSelectedClienteId()==0) { loadRows(); }
+        else{
             Cliente temp = cController.findCustomerById(getSelectedClienteId());
             dtmClientes.setRowCount(0);
             Object[] vec = new Object[6];
@@ -610,15 +587,13 @@ public class ClientesTable extends javax.swing.JFrame {
     private void btnDeleteClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteClienteActionPerformed
         // TODO add your handling code here:
         Cliente temp = cController.findCustomerById(getSelectedClienteId());
-        if(getSelectedCliente().equals("[0] - All"))
+        if(getSelectedClienteId()==0)
         {
             JOptionPane.showMessageDialog(this, "Error, aun no selecciona un cliente", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Cliente "+temp.getNombre()+" "+temp.getApellido()+"? Esta acción es Irreversible");
-        if (resp != 0) {
-            return;
-        }
+        if (resp != 0) { return; }
         cController.deleteCustomer(temp);
         loadRows();
         loadCboClientes();
@@ -630,53 +605,39 @@ public class ClientesTable extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private String getNewNombre(){
-        return txtNewNombre.getText();
-    }
-    private String getNewApellido(){
-        return txtNewApellido.getText();
-    }
-    private String getNewDni(){
-        return txtNewDNI.getText();
-    }
-    private String getNewTelefono(){
-        return txtNewTelefono.getText();
-    }
-    private String getNewDireccion(){
-        return txtNewDireccion.getText();
-    }
-    private String getEditNombre(){
-        return txtEditNombre.getText();
-    }
-    private String getEditApellido(){
-        return txtEditApellido.getText();
-    }
-    private String getEditDni(){
-        return txtEditDNI.getText();
-    }
-    private String getEditTelefono(){
-        return txtEditTelefono.getText();
-    }
-    private String getEditDireccion(){
-        return txtEditDireccion.getText();
-    }
+    private String getNewNombre()    { return txtNewNombre.getText();    }
+    private String getNewApellido()  { return txtNewApellido.getText();  }
+    private String getNewDni()       { return txtNewDNI.getText();       }
+    private String getNewTelefono()  { return txtNewTelefono.getText();  }
+    private String getNewDireccion() { return txtNewDireccion.getText(); }
+    
+    private String getEditNombre()   { return txtEditNombre.getText();   }
+    private String getEditApellido() { return txtEditApellido.getText(); }
+    private String getEditDni()      { return txtEditDNI.getText();      }
+    private String getEditTelefono() { return txtEditTelefono.getText(); }
+    private String getEditDireccion(){ return txtEditDireccion.getText();}
+    
     private int getSelectedClienteEdit(){
-        if(cboEditCliente.getItemCount()==0){
-            return 1;
-        }
-        String palabra = cboEditCliente.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
+        if(cboEditCliente.getItemCount()==0) { return 1; }
+        String  palabra = cboEditCliente.getSelectedItem().toString();
+        int     indice  = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
-    private String getSelectedCliente(){
-        return cboClientes.getSelectedItem().toString();
+    private boolean datosRegistrados(String dni, String telefono){
+        if(cController.dniExist(dni)){
+            JOptionPane.showMessageDialog(this, "Error, El dni ingresado ya se encuentra registrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+            return true;
+        }
+        if(cController.telefonoExist(telefono)){
+            JOptionPane.showMessageDialog(this, "Error, El telefono ingresado ya se encuentra registrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+            return true;
+        }
+        return false;
     }
     private int getSelectedClienteId(){
-        if(cboClientes.getItemCount()==0){
-            return 0;
-        }
-        String palabra = cboClientes.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
+        if(cboClientes.getItemCount()==0){ return 0; }
+        String  palabra = cboClientes.getSelectedItem().toString();
+        int     indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
     private void llenarDatosEdit(){

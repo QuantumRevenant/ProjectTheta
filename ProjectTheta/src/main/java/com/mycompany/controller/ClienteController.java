@@ -31,4 +31,18 @@ public class ClienteController {
     public Cliente findCustomerById(int id){
         return clienteService.findById(id);
     }
+    
+    public boolean dniExist(String dni){
+        for(Cliente c:getEmployees()){
+            if( c.getDni().equalsIgnoreCase(dni)){ return true; }
+        }
+        return false;
+    }
+    
+    public boolean telefonoExist(String telefono){
+        for(Cliente c:getEmployees()){
+            if( c.getTelefono().equalsIgnoreCase(telefono)){ return true; }
+        }
+        return false;
+    }
 }
