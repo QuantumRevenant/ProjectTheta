@@ -6,35 +6,58 @@ package com.mycompany.view;
 
 import com.mycompany.controller.MesaController;
 import com.mycompany.controller.ProgramController;
+import com.mycompany.model.generics.General;
+import static java.lang.Thread.sleep;
 import javax.swing.JFrame;
+import lombok.Data;
 
 /**
  *
  * @author sebap
  */
+@Data
 public class ConfigFrame extends javax.swing.JFrame {
+
     private JFrame previousFrame;
+
     /**
      * Creates new form ConfigFrame
      */
     public ConfigFrame() {
         initComponents();
-        ProgramController pc=new ProgramController();
+        ProgramController pc = ProgramController.getProgramController();
         pc.cargar();
         spnEstandarMesas.setValue(pc.getTiempoEstandarEnMesa());
         spnReservaMesas.setValue(pc.getTiempoPrevioReserva());
         spnEsperaMesas.setValue(pc.getTiempoPrevioReserva());
         spnCantMesas.setValue(pc.getCantidadMesas());
-    }
-    
-    public JFrame getPreviousFrame() {
-        return previousFrame;
+        pc.openSesion(1);
+        clock();
     }
 
-    public void setPreviousFrame(JFrame previousFrame) {
-        this.previousFrame = previousFrame;
+    public void clock() {
+        Thread clock = new Thread() {
+            public void run() {
+                try {
+                    for (;;) {
+                        ProgramController pc = ProgramController.getProgramController();
+                        if (pc.minutosRestanteSesion() < 0) {
+                            pc.cleanSesion();
+                            previousFrame.setVisible(true);
+                            dispose();
+                        }
+                        System.out.println(pc.minutosRestanteSesion());
+                        sleep(15000);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        clock.start();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -297,13 +320,13 @@ public class ConfigFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton7ActionPerformed
 
     private void btnSavePreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSavePreferencesActionPerformed
-        ProgramController pc=new ProgramController((Integer)spnEstandarMesas.getValue(), (Integer)spnReservaMesas.getValue(), (Integer)spnEsperaMesas.getValue(), (Integer)spnCantMesas.getValue());
+        ProgramController pc = new ProgramController((Integer) spnEstandarMesas.getValue(), (Integer) spnReservaMesas.getValue(), (Integer) spnEsperaMesas.getValue(), (Integer) spnCantMesas.getValue());
         pc.grabar();
 // TODO add your handling code here:
     }//GEN-LAST:event_btnSavePreferencesActionPerformed
 
     private void btnDeletePreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletePreferencesActionPerformed
-        ProgramController pc=new ProgramController();
+        ProgramController pc = new ProgramController();
         pc.cargar();
         spnEstandarMesas.setValue(pc.getTiempoEstandarEnMesa());
         spnReservaMesas.setValue(pc.getTiempoPrevioReserva());
@@ -313,7 +336,7 @@ public class ConfigFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeletePreferencesActionPerformed
 
     private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
-        ProgramController pc=new ProgramController();
+        ProgramController pc = new ProgramController();
         pc.cargarEstandar();
         spnEstandarMesas.setValue(pc.getTiempoEstandarEnMesa());
         spnReservaMesas.setValue(pc.getTiempoPrevioReserva());
@@ -324,33 +347,33 @@ public class ConfigFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRestablecerActionPerformed
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
-        PedidosTable form= new PedidosTable();
+        PedidosTable form = new PedidosTable();
         form.setPreviousFrame(this);
         form.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton5ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        ColaboradoresTable form= new ColaboradoresTable();
+        ColaboradoresTable form = new ColaboradoresTable();
         form.setPreviousFrame(this);
         form.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        ClientesTable form= new ClientesTable();
+        ClientesTable form = new ClientesTable();
         form.setPreviousFrame(this);
         form.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        MenusTable form= new MenusTable();
+        MenusTable form = new MenusTable();
         form.setPreviousFrame(this);
         form.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton3ActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */

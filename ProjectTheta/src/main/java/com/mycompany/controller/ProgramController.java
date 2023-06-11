@@ -4,24 +4,45 @@
  */
 package com.mycompany.controller;
 
+import com.mycompany.model.entities.Personal;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@AllArgsConstructor
+@Data
 public class ProgramController {
 
     private int tiempoEstandarEnMesa;
     private int tiempoPrevioReserva;
     private int tiempoEsperaEnMesa;
     private int cantidadMesas;
-
+    
+    private Personal IdColaboradorActivo=null;
+    private LocalDateTime cierreSesion=null;
+    
     private final String directoryRoute = "./src/main/java/com/mycompany/data/";
     private final String fileName = "preferences.csv";
     private final String standarFileName="standarPreferences.csv";
-
+    
+    public static ProgramController theProgramController;
+    
+    public static ProgramController getProgramController()
+    {
+        if(theProgramController==null){
+            theProgramController=new ProgramController();
+        }
+        return theProgramController;
+    }
+    
     public ProgramController() {
+        cargar();
     }
     
     public ProgramController(int tiempoEstandarEnMesa, int tiempoPrevioReserva, int tiempoEsperaEnMesa, int cantidadMesas) {
@@ -31,38 +52,32 @@ public class ProgramController {
         this.cantidadMesas = cantidadMesas;
     }
     
-    public int getTiempoEstandarEnMesa() {
-        return tiempoEstandarEnMesa;
+    public void openSesion(int minutos)
+    {
+        cierreSesion=LocalDateTime.now().plusMinutes(minutos);
     }
-
-    public void setTiempoEstandarEnMesa(int tiempoEstandarEnMesa) {
-        this.tiempoEstandarEnMesa = tiempoEstandarEnMesa;
+    
+    public long minutosRestanteSesion()
+    {
+        Duration d=Duration.between(LocalDateTime.now(),cierreSesion);
+        return d.toMinutes();
     }
-
-    public int getTiempoPrevioReserva() {
-        return tiempoPrevioReserva;
+    
+    public void cleanSesion()
+    {
+        IdColaboradorActivo=null;
+        cierreSesion=null;
     }
-
-    public void setTiempoPrevioReserva(int tiempoPrevioReserva) {
-        this.tiempoPrevioReserva = tiempoPrevioReserva;
+    
+    public boolean isActiveSesion()
+    {
+        return IdColaboradorActivo!=null;
     }
-
-    public int getTiempoEsperaEnMesa() {
-        return tiempoEsperaEnMesa;
+    
+    public void setSesion(Personal Id)
+    {
+        IdColaboradorActivo=Id;
     }
-
-    public void setTiempoEsperaEnMesa(int tiempoEsperaEnMesa) {
-        this.tiempoEsperaEnMesa = tiempoEsperaEnMesa;
-    }
-
-    public int getCantidadMesas() {
-        return cantidadMesas;
-    }
-
-    public void setCantidadMesas(int cantidadMesas) {
-        this.cantidadMesas = cantidadMesas;
-    }
-
     public void grabar() {
         try {
             PrintWriter pw;

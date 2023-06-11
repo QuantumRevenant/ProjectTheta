@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  *
@@ -22,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class MesaController {
 
     private List<Mesa> lstMesa = new ArrayList<>();
-    private ProgramController pc = new ProgramController();
+    private ProgramController pc = ProgramController.getProgramController();
 
     public MesaController() {
         updateQuantity();
