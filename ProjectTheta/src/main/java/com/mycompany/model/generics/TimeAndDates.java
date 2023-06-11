@@ -2,7 +2,9 @@ package com.mycompany.model.generics;
 import java.util.*;
 
 public class TimeAndDates {
-
+    public static enum DAYS_WEEK{
+        Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo
+    }
     public static int convertFechaSTOI(String fecha) {
         if (fecha.length() != 10) {
             return -1;

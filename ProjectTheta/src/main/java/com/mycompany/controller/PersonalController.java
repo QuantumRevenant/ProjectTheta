@@ -13,6 +13,9 @@ public class PersonalController {
     public List<Personal> getEmployees(){
         return personalService.findAll();
     }
+    public void addPersonal(Personal personal){
+        personalService.save(personal);
+    }
 
     public void deletePersonal(Personal personal){
         personalService.delete(personal);

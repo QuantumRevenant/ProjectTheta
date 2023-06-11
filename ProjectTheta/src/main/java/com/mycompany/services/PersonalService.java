@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import java.util.*;
 import java.sql.*;
 
-
 public class PersonalService implements BaseService<Personal> {
+
     @Override
     public List<Personal> findAll() {
         try {
@@ -33,26 +33,57 @@ public class PersonalService implements BaseService<Personal> {
             Configuration.getConnectionDatabase().close();
             listGet.close();
             return employees;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
 
     @Override
-    public void save(Personal t) {}
-
+    public void save(Personal personal) {
+        try {
+            CallableStatement createCustomer
+                    = Configuration.getConnectionDatabase().prepareCall(("{CALL createEmployee(?,?,?,?,?,?,?,?,?)}"));
+            createCustomer.setString(1, personal.getNombre());
+            createCustomer.setString(2, personal.getApellidos());
+            createCustomer.setString(3, personal.getTelefono());
+            if (personal.getNombreCargo() == Personal.CARGOS.ADMIN) {
+                createCustomer.setString(4, personal.getUsuario());
+            } else {
+                createCustomer.setNull(4, 0);
+            }
+            createCustomer.setString(5, personal.getPassword());
+            createCustomer.setString(6, personal.getHoraInicio());
+            createCustomer.setString(7, personal.getHoraFin());
+            createCustomer.setString(8, personal.getDiaDescanso());
+            createCustomer.setString(9, personal.getNombreCargo().toString());
+            createCustomer.executeQuery();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @Override
     public void update(Personal personal) {
         try {
-            PreparedStatement updateEmployee =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL updateEmployee(?,?,?)}"));
+            PreparedStatement updateEmployee
+                    = Configuration.getConnectionDatabase().prepareStatement(("{CALL updateEmployee(?,?,?,?,?,?,?,?,?,?)}"));
             updateEmployee.setInt(1, personal.getIdPersonal());
-            updateEmployee.setString(2, personal.getUsuario());  // VERIFICAR SOLO ACTUALIZAR 2 CAMPOS
-            updateEmployee.setString(3, personal.getPassword()); //VERIFICAR
+            updateEmployee.setString(2, personal.getNombre());
+            updateEmployee.setString(3, personal.getApellidos());
+            updateEmployee.setString(4, personal.getTelefono());
+            if (personal.getNombreCargo() == Personal.CARGOS.ADMIN) {
+                updateEmployee.setString(5, personal.getUsuario());
+            } else {
+                updateEmployee.setNull(5, 0);
+            }
+            updateEmployee.setString(6, personal.getPassword());
+            updateEmployee.setString(7, personal.getHoraInicio());
+            updateEmployee.setString(8, personal.getHoraFin());
+            updateEmployee.setString(9, personal.getDiaDescanso());
+            updateEmployee.setString(10, personal.getNombreCargo().toString());
             updateEmployee.executeUpdate();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -60,16 +91,16 @@ public class PersonalService implements BaseService<Personal> {
     @Override
     public void delete(Personal personal) {
         try {
-            PreparedStatement deleteEmployee =
-                    Configuration.getConnectionDatabase().prepareStatement(("{CALL deleteEmployeeById(?)}"));
+            PreparedStatement deleteEmployee
+                    = Configuration.getConnectionDatabase().prepareStatement(("{CALL deleteEmployeeById(?)}"));
             deleteEmployee.setInt(1, personal.getIdPersonal());
             deleteEmployee.executeUpdate();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public Personal findById(int id){
+    public Personal findById(int id) {
         try {
             PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM personal WHERE idPersonal = ?");
             statement.setInt(1, id);
@@ -100,8 +131,7 @@ public class PersonalService implements BaseService<Personal> {
 
     public Personal loginAdmin(String username, String password) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement
-                    ("SELECT idPersonal, nombre, apellidos FROM personal WHERE usuario = ? AND password = ? AND nombreCargo = 'ADMIN'");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT idPersonal, nombre, apellidos FROM personal WHERE usuario = ? AND password = ? AND nombreCargo = 'ADMIN'");
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
@@ -120,11 +150,9 @@ public class PersonalService implements BaseService<Personal> {
         return null;
     }
 
-
     public Personal loginEmployee(String password) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement
-                    ("SELECT idPersonal, nombre, apellidos FROM personal WHERE  password = ? AND (nombreCargo != 'ADMIN' OR nombreCargo='EMPLEADO')");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT idPersonal, nombre, apellidos FROM personal WHERE  password = ? AND (nombreCargo != 'ADMIN' OR nombreCargo='EMPLEADO')");
             statement.setString(1, password);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
