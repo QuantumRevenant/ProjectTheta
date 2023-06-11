@@ -44,24 +44,16 @@ public class PersonalController {
         return null;
     }
     
-    public boolean usuarioExist(String usuario){
-        for(Personal c:getEmployees()){
-            if( c.getUsuario().equalsIgnoreCase(usuario)){ return true; }
+    public byte datosExist(String usuario, String telefono, String password, int id, Personal.CARGOS cargo){
+        List<Personal> lstPersonal = getEmployees();
+        for(Personal p:lstPersonal){
+            if(p.getIdPersonal() != id){
+                if(p.getNombreCargo() == Personal.CARGOS.ADMIN)
+                    if(p.getUsuario().equalsIgnoreCase(usuario)){ return 1; }
+                if(p.getTelefono().equalsIgnoreCase(telefono))  { return 2; }
+                if(p.getPassword().equalsIgnoreCase(password))  { return 3; }
+            }
         }
-        return false;
-    }
-    
-    public boolean telefonoExist(String telefono){
-        for(Personal c:getEmployees()){
-            if( c.getTelefono().equalsIgnoreCase(telefono)){ return true; }
-        }
-        return false;
-    }
-    
-    public boolean contrasenaExist(String contrasena){
-        for(Personal c:getEmployees()){
-            if( c.getPassword().equalsIgnoreCase(contrasena)){ return true; }
-        }
-        return false;
+        return 0;
     }
 }

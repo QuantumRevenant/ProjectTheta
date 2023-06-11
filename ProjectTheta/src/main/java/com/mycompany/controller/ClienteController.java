@@ -30,17 +30,14 @@ public class ClienteController {
         return clienteService.findById(id);
     }
     
-    public boolean dniExist(String dni){
-        for(Cliente c:getEmployees()){
-            if( c.getDni().equalsIgnoreCase(dni)){ return true; }
+    public byte datosExist(String dni, String telefono, int id){
+        List<Cliente> lstClientes = getEmployees();
+        for(Cliente c : lstClientes){
+            if(c.getIdCliente() != id){
+                if(c.getDni().equalsIgnoreCase(dni)){ return 1; }
+                if(c.getTelefono().equalsIgnoreCase(telefono)){ return 2; }
+            }
         }
-        return false;
-    }
-    
-    public boolean telefonoExist(String telefono){
-        for(Cliente c:getEmployees()){
-            if( c.getTelefono().equalsIgnoreCase(telefono)){ return true; }
-        }
-        return false;
+        return 0;
     }
 }

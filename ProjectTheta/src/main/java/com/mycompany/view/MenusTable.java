@@ -4,9 +4,11 @@
  */
 package com.mycompany.view;
 
+import com.mycompany.controller.CategoriaController;
 import com.mycompany.controller.MenuController;
 import com.mycompany.model.entities.Categoria;
 import com.mycompany.model.entities.Menu;
+import com.mycompany.services.CategoriaService;
 import com.mycompany.services.MenuService;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -21,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class MenusTable extends javax.swing.JFrame {
 
     MenuController mController = new MenuController(new MenuService());
+    CategoriaController cController = new CategoriaController(new CategoriaService());
     DefaultTableModel dtmMenus = new DefaultTableModel();
     private JFrame previousFrame;
 
@@ -29,49 +32,37 @@ public class MenusTable extends javax.swing.JFrame {
      */
     public MenusTable() {
         initComponents();
+        loadCboMenu();
+        loadCboCategoria();
         loadColumns();
         loadRows();
-        loadCboMenu();
     }
     
     public void loadCboMenu(){
-        List<Menu> lst = mController.getMenus();
-        cBProductos.removeAllItems();
-        cBProductos.addItem("[0] - All");
-        for (Menu s : lst) {
-            Object[] vec = new Object[3];
-            vec[0] = s.getIdMenu();
-            vec[1] = s.getTipo();
-            vec[2] = s.getDescripcion();
-            vec[3] = s.getPrecio();
-            cBProductos.addItem("[" + vec[0] + "] - " + vec[1] + " - S/. " + vec[3]);
+        List<Menu> lstMenus = mController.getMenus();
+        DefaultComboBoxModel dcbmMenu = new DefaultComboBoxModel();
+        dcbmMenu.addElement("[0] - All");
+        for (Menu s : lstMenus) {
+            String menu = "[" + s.getIdMenu() + "] - " + s.getTipo() + " - S/. " + s.getPrecio();
+            dcbmMenu.addElement(menu);
         }
+        cBProductos.setModel(dcbmMenu);
+        cboEditMenus.setModel(dcbmMenu);
     }
     
-    public void loadCboEditMenu(){
-        List<Menu> lst = mController.getMenus();
-        cboEditMenus.removeAllItems();
-        for (Menu s : lst) {
-            Object[] vec = new Object[3];
-            vec[0] = s.getIdMenu();
-            vec[1] = s.getTipo();
-            vec[2] = s.getDescripcion();
-            vec[3] = s.getPrecio();
-            cboEditMenus.addItem("[" + vec[0] + "] - " + vec[1] + " - S/. " + vec[3]);
+    public void loadCboCategoria() {
+        List<Categoria> lstCategorias = cController.getCategories();
+        DefaultComboBoxModel dcbmCategoria = new DefaultComboBoxModel();
+        for (Categoria c : lstCategorias) {
+            String categoria = "[" + c.getIdCategoria() + "] - " + c.getNombre();
+            dcbmCategoria.addElement(categoria);
         }
-    }
-    
-    private void loadCboNewCategoria(){
-        cboNewCategoria.removeAllItems();
-        cboNewCategoria.addItem("[0] - Prueba");
-    }
-    
-    private void loadCboEditCategoria(){
-        cboEditCategorias.removeAllItems();
-        cboEditCategorias.addItem("[0] - Prueba");
+        cboNewCategoria.setModel(dcbmCategoria);
+        cboEditCategorias.setModel(dcbmCategoria);
     }
 
     public void loadColumns() {
+        dtmMenus.setColumnCount(0);
         dtmMenus.addColumn("ID");
         dtmMenus.addColumn("Categoria");
         dtmMenus.addColumn("Tipo");
@@ -82,19 +73,20 @@ public class MenusTable extends javax.swing.JFrame {
 
     public void loadRows() {
         List<Menu> lst = mController.getMenus();
-        if (lst == null) {
-            return;
-        }
         dtmMenus.setRowCount(0);
-        for (Menu s : lst) {
-            Object[] vec = new Object[4];
-            vec[0] = s.getIdMenu();
-            vec[1] = s.getIdCategoria();
-            vec[2] = s.getTipo();
-            vec[3] = s.getDescripcion();
-            vec[4] = s.getPrecio();
-            dtmMenus.addRow(vec);
-        }
+        try{
+            for (Menu s : lst) {
+                Categoria cat = cController.findCategoryById(s.getIdCategoria());
+                Object[] vec = new Object[5];
+                vec[0] = s.getIdMenu();
+                vec[1] = cat.getNombre();
+                vec[2] = s.getTipo();
+                vec[3] = s.getDescripcion();
+                vec[4] = s.getPrecio();
+                dtmMenus.addRow(vec);
+            }
+            tbMenus.setModel(dtmMenus);
+        }catch (Exception e){ System.out.println("Error loadRows()"); }
         tbMenus.setModel(dtmMenus);
     }
 
@@ -130,6 +122,7 @@ public class MenusTable extends javax.swing.JFrame {
         btnNewCancel = new javax.swing.JButton();
         cboNewCategoria = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         EditForm = new javax.swing.JFrame();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -147,6 +140,14 @@ public class MenusTable extends javax.swing.JFrame {
         cboEditMenus = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         cboEditCategorias = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
+        NewCategory = new javax.swing.JFrame();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        txtNewCategoria = new javax.swing.JTextField();
+        btnSaveCategory = new javax.swing.JButton();
+        btnCancelCategory = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbMenus = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -205,6 +206,13 @@ public class MenusTable extends javax.swing.JFrame {
 
         jLabel3.setText("Categoria");
 
+        jButton1.setText("Nuevo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -228,7 +236,10 @@ public class MenusTable extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNewNombre)
                             .addComponent(spnNewPrecio)
-                            .addComponent(cboNewCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cboNewCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -243,8 +254,9 @@ public class MenusTable extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboNewCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(4, 4, 4)
+                    .addComponent(jLabel3)
+                    .addComponent(jButton1))
+                .addGap(3, 3, 3)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,7 +288,7 @@ public class MenusTable extends javax.swing.JFrame {
 
         EditForm.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         EditForm.setResizable(false);
-        EditForm.setSize(new java.awt.Dimension(300, 400));
+        EditForm.setSize(new java.awt.Dimension(300, 430));
 
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 375));
 
@@ -330,6 +342,13 @@ public class MenusTable extends javax.swing.JFrame {
 
         cboEditCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton2.setText("Nuevo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -359,7 +378,10 @@ public class MenusTable extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtEditNombre)
-                            .addComponent(cboEditCategorias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(cboEditCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -378,8 +400,9 @@ public class MenusTable extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(cboEditCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                    .addComponent(cboEditCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(7, 7, 7)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,7 +416,7 @@ public class MenusTable extends javax.swing.JFrame {
                 .addComponent(btnEditRestore)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditCancel)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
@@ -404,9 +427,73 @@ public class MenusTable extends javax.swing.JFrame {
         );
         EditFormLayout.setVerticalGroup(
             EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EditFormLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+        );
+
+        NewCategory.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        NewCategory.setSize(new java.awt.Dimension(200, 200));
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("NUEVA CATEGORIA");
+
+        jLabel15.setText("Nombre");
+
+        btnSaveCategory.setText("Registrar Categoria");
+        btnSaveCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveCategoryActionPerformed(evt);
+            }
+        });
+
+        btnCancelCategory.setText("Cancelar");
+        btnCancelCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelCategoryActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSaveCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNewCategoria))
+                    .addComponent(btnCancelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(txtNewCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnSaveCategory)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancelCategory)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout NewCategoryLayout = new javax.swing.GroupLayout(NewCategory.getContentPane());
+        NewCategory.getContentPane().setLayout(NewCategoryLayout);
+        NewCategoryLayout.setHorizontalGroup(
+            NewCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        NewCategoryLayout.setVerticalGroup(
+            NewCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -518,44 +605,28 @@ public class MenusTable extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenNewFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenNewFormActionPerformed
-        loadCboNewCategoria();
         NewForm.setVisible(true);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnOpenNewFormActionPerformed
 
     private void btnOpenEditFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenEditFormActionPerformed
         if(mController.getMenus().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Aún no hay menus registrados", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Aún no hay menus registrados", "Menus no registrados", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        loadCboEditMenu();
-        loadCboEditCategoria();
         EditForm.setVisible(true);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnOpenEditFormActionPerformed
 
     private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
-
-        List<Menu> lst = mController.getMenus();
-        if(getNewNombre().isBlank()||getNewPrecio()<=0)
-        {
-            JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+        if(     getNewNombre().isBlank()
+              ||getNewPrecio()<=0){
+            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        for(Menu m:lst){
-            if(m.getTipo().equalsIgnoreCase(getNewNombre())){
-                JOptionPane.showMessageDialog(this, "Error, El nombre ingresado ya se encuentra registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        }
+        if (datosExist(getNewNombre(), 0)) { return; }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea generar el nuevo Producto?");
-        if (resp != 0) {
-            return;
-        }
-        //Menu temp = new Menu(getCorrelativo(), getNewCategoria(), getNewNombre(), getNewDescipcion(), getNewPrecio());
-        System.out.println("Falta cargar cboCategorias para poder guardar menus");
-        //mController.addMenu(temp); FALTA CARGAR LAS CATEGORIAS
-        // TODO add your handling code here:
+        if (resp != 0) { return; }
+        Menu temp = new Menu(mController.getCorrelativo(), getNewCategoria(), getNewNombre(), getNewDescipcion(), getNewPrecio());
+        mController.addMenu(temp);
     }//GEN-LAST:event_btnNewSaveActionPerformed
 
     private void btnNewRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewRestoreActionPerformed
@@ -563,160 +634,163 @@ public class MenusTable extends javax.swing.JFrame {
         cboNewCategoria.setSelectedIndex(0);
         txtNewDescripcion.setText("");
         spnNewPrecio.setValue(0);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnNewRestoreActionPerformed
 
     private void btnNewCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCancelActionPerformed
-        btnNewRestoreActionPerformed(evt);
         loadCboMenu();
         loadRows();
         NewForm.dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnNewCancelActionPerformed
 
     private void btnEditSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSaveActionPerformed
-        List<Menu> lst = mController.getMenus();
-        if(getEditNombre().isBlank()||(int)spnEditPrecio.getValue()<=0)
-        {
-            JOptionPane.showMessageDialog(this, "Error, Valores Inválidos", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+        if(     getEditNombre().isBlank()
+              ||getEditPrecio()<=0){
+            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas.", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        for(Menu m:lst){
-            if(m.getTipo().equalsIgnoreCase(getEditNombre())){
-                JOptionPane.showMessageDialog(this, "Error, El nombre ingresado ya se encuentra registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        }
+        if(datosExist(getEditNombre(), getSelectedEditMenu())) { return; }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea editar el Producto? Esta acción es Irreversible");
-        if (resp != 0) {
-            return;
-        }
-        //Menu temp = new Menu(getSelectedEditMenu(), getEditCategoria(), getEditNombre(), getEditDescripcion(), getEditPrecio());
-        System.out.println("Falta cargar cboCategorias para poder guardar menus");
-        //mController.updateMenu(temp); CARGAR LAS CATEGORIAS
-        // TODO add your handling code here:
+        if (resp != 0) { return; }
+        Menu temp = new Menu(getSelectedEditMenu(), getEditCategoria(), getEditNombre(), getEditDescripcion(), getEditPrecio());
+        mController.updateMenu(temp);
+        loadCboMenu();
+        cBProductos.setSelectedIndex(0);
+        llenarDatosEdit();
     }//GEN-LAST:event_btnEditSaveActionPerformed
 
     private void btnEditRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRestoreActionPerformed
         llenarDatosEdit();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnEditRestoreActionPerformed
 
     private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
         loadCboMenu();
         loadRows();
         EditForm.dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnEditCancelActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Menu temp = mController.findServicioById(getSelectedMenu());
         if(getSelectedMenu()==0){
-            JOptionPane.showMessageDialog(this, "Error, aun no selecciona un producto", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error, aun no selecciona un producto", "Producto sin seleccionar", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar el Producto? Esta acción es Irreversible");
-        if (resp != 0) {
-            return;
-        }
+        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar el Producto "+temp.getTipo()+"? Esta acción es Irreversible");
+        if (resp != 0) { return; }
         mController.deleteMenu(temp);
         loadRows();
         loadCboMenu();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBusquedaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBusquedaCaretUpdate
-        // TODO add your handling code here:
         DefaultComboBoxModel<String> dcbmMenus = new DefaultComboBoxModel<>();
         loadCboMenu();
         String busqueda = txtBusqueda.getText();
         for(int i=0;i<cBProductos.getItemCount();i++){
             String item = cBProductos.getItemAt(i);
-            if(item.toLowerCase().contains(busqueda.toLowerCase())){
-                dcbmMenus.addElement(item);
-            }
+            if(item.toLowerCase().contains(busqueda.toLowerCase())) { dcbmMenus.addElement(item); }
         }
         cBProductos.setModel(dcbmMenus);
     }//GEN-LAST:event_txtBusquedaCaretUpdate
 
     private void cBProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBProductosActionPerformed
-        // TODO add your handling code here:
         if(getSelectedMenu()==0){
             loadRows();
-        }else{
-            Menu temp = mController.findServicioById(getSelectedMenu());
-            dtmMenus.setRowCount(0);
-            Object[] vec = new Object[6];
-            vec[0] = temp.getIdMenu();
-            vec[1] = temp.getIdCategoria();//Falta controller para obtener las categorias
-            vec[2] = temp.getTipo();
-            vec[3] = temp.getDescripcion();
-            vec[4] = temp.getPrecio();
-            dtmMenus.addRow(vec);
-            tbMenus.setModel(dtmMenus);
+            return;
         }
+        Menu temp = mController.findServicioById(getSelectedMenu());
+        Categoria cat = cController.findCategoryById(temp.getIdCategoria());
+        dtmMenus.setRowCount(0);
+        Object[] vec = new Object[6];
+        vec[0] = temp.getIdMenu();
+        vec[1] = cat.getNombre();
+        vec[2] = temp.getTipo();
+        vec[3] = temp.getDescripcion();
+        vec[4] = temp.getPrecio();
+        dtmMenus.addRow(vec);
+        tbMenus.setModel(dtmMenus);
     }//GEN-LAST:event_cBProductosActionPerformed
 
     private void cboEditMenusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEditMenusActionPerformed
-        // TODO add your handling code here:
         llenarDatosEdit();
     }//GEN-LAST:event_cboEditMenusActionPerformed
 
-    private int getSelectedMenu(){
-        if(cBProductos.getItemCount()==0){
-            return 0;
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        NewCategory.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnSaveCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveCategoryActionPerformed
+        String categoria = txtNewCategoria.getText();
+        if(categoria.isBlank()){
+            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas.", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+        if(cController.datosExist(categoria, 0) == 1){
+            JOptionPane.showMessageDialog(this, "Error, La categoria ingresada ya fue registrada", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea registrar la categoria "+categoria+"?");
+        if (resp != 0) {
+            return;
+        }
+        cController.addCategory(new Categoria(0, categoria));
+        loadCboCategoria();
+    }//GEN-LAST:event_btnSaveCategoryActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        NewCategory.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnCancelCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelCategoryActionPerformed
+        NewCategory.setVisible(false);
+    }//GEN-LAST:event_btnCancelCategoryActionPerformed
+
+    private int getSelectedMenu()       {
+        if(cBProductos.getItemCount()==0){ return 0; }
         String palabra = cBProductos.getSelectedItem().toString();
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
-    private String getNewNombre(){
-        return txtNewNombre.getText();
-    }
-    private int getNewCategoria(){
+    private int getNewCategoria()       {
         String palabra = cboNewCategoria.getSelectedItem().toString();
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
-    private String getNewDescipcion(){
-        return txtNewDescripcion.getText();
-    }
-    private int getNewPrecio(){
-        return (int) spnNewPrecio.getValue();
-    }
-    private int getCorrelativo(){//Posible eliminacion
-        List<Menu> lst = mController.getMenus();
-        return lst.get(lst.size()-1).getIdMenu()+1;
-    }
-    private int getSelectedEditMenu(){
-        if(cboEditMenus.getItemCount()==0){
-            return 0;
-        }
+    private String getNewNombre()       { return txtNewNombre.getText(); }
+    private String getNewDescipcion()   { return txtNewDescripcion.getText(); }
+    private int getNewPrecio()          { return (int) spnNewPrecio.getValue(); }
+    
+    private int getSelectedEditMenu()   {
+        if(cboEditMenus.getItemCount()==0) { return 0; }
         String palabra = cboEditMenus.getSelectedItem().toString();
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
-    private String getEditNombre(){
-        return txtEditNombre.getText();
-    }
-    private int getEditCategoria(){
+    private int getEditCategoria()      {
         String palabra = cboEditCategorias.getSelectedItem().toString();
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
-    private String getEditDescripcion(){
-        return txtEditDescripcion.getText();
+    private String getEditNombre()      { return txtEditNombre.getText(); }
+    private String getEditDescripcion() { return txtEditDescripcion.getText(); }
+    private Double getEditPrecio()      { return (Double) spnEditPrecio.getValue(); }
+    
+    private boolean datosExist(String nombre, int id){
+        switch(mController.datosExist(nombre, id)){
+            case 1:
+                JOptionPane.showMessageDialog(this, "Error, El nombre ingresado ya se encuentra registrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+                return true;
+            default: return false;
+        }
     }
-    private int getEditPrecio(){
-        return (int) spnEditPrecio.getValue();
-    }
+    
     private void llenarDatosEdit(){
-        Menu temp = mController.findServicioById(getSelectedEditMenu());
+        Menu temp = new Menu(0, 0, "", "", 0);
+        if(getSelectedEditMenu() != 0){ temp = mController.findServicioById(getSelectedEditMenu()); }
         txtEditNombre.setText(temp.getTipo());
         cboEditCategorias.setSelectedIndex(temp.getIdCategoria()-1);
         txtEditDescripcion.setText(temp.getDescripcion());
         spnEditPrecio.setValue(temp.getPrecio());
-    }
+    }    
     /**
          * @param args the command line arguments
          */
@@ -754,7 +828,9 @@ public class MenusTable extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame EditForm;
+    private javax.swing.JFrame NewCategory;
     private javax.swing.JFrame NewForm;
+    private javax.swing.JButton btnCancelCategory;
     private javax.swing.JButton btnEditCancel;
     private javax.swing.JButton btnEditRestore;
     private javax.swing.JButton btnEditSave;
@@ -764,16 +840,21 @@ public class MenusTable extends javax.swing.JFrame {
     private javax.swing.JButton btnNewSave;
     private javax.swing.JToggleButton btnOpenEditForm;
     private javax.swing.JToggleButton btnOpenNewForm;
+    private javax.swing.JButton btnSaveCategory;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cBProductos;
     private javax.swing.JComboBox<String> cboEditCategorias;
     private javax.swing.JComboBox<String> cboEditMenus;
     private javax.swing.JComboBox<String> cboNewCategoria;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -784,6 +865,7 @@ public class MenusTable extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -793,6 +875,7 @@ public class MenusTable extends javax.swing.JFrame {
     private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextArea txtEditDescripcion;
     private javax.swing.JTextField txtEditNombre;
+    private javax.swing.JTextField txtNewCategoria;
     private javax.swing.JTextArea txtNewDescripcion;
     private javax.swing.JTextField txtNewNombre;
     // End of variables declaration//GEN-END:variables

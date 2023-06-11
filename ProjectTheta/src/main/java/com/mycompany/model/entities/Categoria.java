@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Categoria {
     private int idCategoria;
-    private int nombre;
+    private String nombre;
 }

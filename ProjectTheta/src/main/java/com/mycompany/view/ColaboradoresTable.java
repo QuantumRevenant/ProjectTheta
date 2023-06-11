@@ -12,10 +12,8 @@ import com.mycompany.services.PersonalService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -57,6 +55,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     public void loadRows() {
         List<Personal> lst = pController.getEmployees();
         dtmColaboradores.setRowCount(0);
+        
         try {
             for (Personal p : lst) {
                 Object[] vec = new Object[9];
@@ -72,11 +71,9 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 dtmColaboradores.addRow(vec);
             }
             tbColaboradores.setModel(dtmColaboradores);
-        TableColumnModel tcm= tbColaboradores.getColumnModel();
-        tcm.getColumn(0).setPreferredWidth(20);
-        } catch (Exception ex) {
-            System.out.println("Error");
-        }
+            TableColumnModel tcm= tbColaboradores.getColumnModel();
+            tcm.getColumn(0).setPreferredWidth(20);
+        } catch (Exception ex) { System.out.println("Error"); }
         tbColaboradores.setModel(dtmColaboradores);
     }
 
@@ -106,14 +103,16 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }
 
     public void loadCboPersonal() {
-        List<Personal> lst = pController.getEmployees();
+        List<Personal> lstPersonal = pController.getEmployees();
         DefaultComboBoxModel dcbmPersonal = new DefaultComboBoxModel();
-        dcbmPersonal.removeAllElements();
+        
         dcbmPersonal.addElement("[0] - All");
-        for (Personal p : lst) {
-            dcbmPersonal.addElement("[" + p.getIdPersonal() + "] - " + p.getNombre() + " " + p.getApellidos());
+        
+        for (Personal p : lstPersonal) {
+            String personal = "[" + p.getIdPersonal() + "] - " + p.getNombre() + " " + p.getApellidos();
+            dcbmPersonal.addElement(personal);
         }
-
+        
         cboPersonal.setModel(dcbmPersonal);
         cboEditPersonal.setModel(dcbmPersonal);
     }
@@ -222,8 +221,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         txtBuscar = new javax.swing.JTextField();
         cboPersonal = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
-        NewForm.setPreferredSize(new java.awt.Dimension(300, 513));
         NewForm.setSize(new java.awt.Dimension(300, 550));
 
         btnNewSave.setText("Guardar Colaborador");
@@ -272,6 +271,11 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         jLabel13.setText("Cargo");
 
         cboCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "EMPLEADO" }));
+        cboCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboCargoActionPerformed(evt);
+            }
+        });
 
         cboDiaDescanso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES" }));
 
@@ -392,6 +396,11 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         EditForm.setSize(new java.awt.Dimension(300, 550));
 
         cboEditCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "EMPLEADO" }));
+        cboEditCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboEditCargoActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Nombre");
 
@@ -564,6 +573,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        EditContrasenaForm.setSize(new java.awt.Dimension(201, 350));
+
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel26.setText("MODIFICAR CONTRASEÑA");
@@ -641,8 +652,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 400));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setSize(new java.awt.Dimension(600, 400));
 
         tbColaboradores.setModel(new javax.swing.table.DefaultTableModel(
@@ -703,6 +713,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
         jLabel2.setText("Buscar Personal");
 
+        jButton1.setText("Volver");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -710,14 +722,16 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNewPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEditPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDeletePersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEditPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeletePersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -741,7 +755,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNewPersonal)
                     .addComponent(btnEditPersonal)
-                    .addComponent(btnDeletePersonal))
+                    .addComponent(btnDeletePersonal)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -751,25 +766,21 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewPersonalActionPerformed
-        // TODO add your handling code here:
         NewForm.setVisible(true);
     }//GEN-LAST:event_btnNewPersonalActionPerformed
 
     private void btnEditPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPersonalActionPerformed
-        // TODO add your handling code here:
         if(pController.getEmployees().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Aún no hay personal registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Aún no hay personal registrado", "Personal sin registrar", JOptionPane.WARNING_MESSAGE);
             return;
         }
-//        loadCboEditPersonal();
         EditForm.setVisible(true);
     }//GEN-LAST:event_btnEditPersonalActionPerformed
 
     private void btnDeletePersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletePersonalActionPerformed
-        // TODO add your handling code here:
         Personal temp = pController.findPersonalById(getSelectedPersonal());
         if (getSelectedPersonal() == 0) {
-            JOptionPane.showMessageDialog(this, "Error, aun no selecciona un Colaborador", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error, aun no selecciona un Colaborador", "Colaborador sin seleccionar", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Colaborador "+temp.getNombre()+" "+temp.getApellidos()+"? Esta acción es Irreversible");
@@ -780,7 +791,6 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeletePersonalActionPerformed
 
     private void txtBuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBuscarCaretUpdate
-        // TODO add your handling code here:
         DefaultComboBoxModel<String> dcbmPersonal = new DefaultComboBoxModel<>();
         loadCboPersonal();
         String busqueda = txtBuscar.getText();
@@ -794,7 +804,6 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarCaretUpdate
 
     private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
-        // TODO add your handling code here:
         if (getSelectedPersonal() == 0) {
             loadRows();
             return;
@@ -813,19 +822,17 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         vec[8] = p.getNombreCargo();
         dtmColaboradores.addRow(vec);
         tbColaboradores.setModel(dtmColaboradores);
-
     }//GEN-LAST:event_cboPersonalActionPerformed
 
     private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
-        // TODO add your handling code here:
         String encryptedContrasena = Sha256.sha256(getNewContrasena());
-        if (getNewNombre().isBlank()
-                || getNewApellidos().isBlank()
-                || getNewContrasena().isBlank()
-                || getNewConfiContrasena().isBlank()
-                || (getSelectedCargo() == Personal.CARGOS.ADMIN && getNewUsuario().isBlank())
-                || getNewHoraInicio().isBlank()
-                || getNewHoraFin().isBlank()) {
+        if (    getNewNombre().isBlank()
+              ||getNewApellidos().isBlank()
+              ||getNewContrasena().isBlank()
+              ||getNewConfiContrasena().isBlank()
+              ||(getSelectedCargo() == Personal.CARGOS.ADMIN && getNewUsuario().isBlank())
+              ||getNewHoraInicio().isBlank()
+              ||getNewHoraFin().isBlank()) {
             JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -835,37 +842,15 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             txtNewConfiContrasena.setText("");
             return;
         }
-        List<Personal> lst=pController.getEmployees();
-        for (Personal p : lst) {
-            if (getSelectedCargo() == Personal.CARGOS.ADMIN) {
-                if (p.getUsuario().equalsIgnoreCase(getNewUsuario())) {
-                    JOptionPane.showMessageDialog(this, "Error, El usuario ingresado ya se encuentra regisstrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-            }
-
-            if (p.getTelefono().equalsIgnoreCase(getNewTelefono())) {
-                JOptionPane.showMessageDialog(this, "Error, El telefono ingresado ya se encuentra registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if (p.getPassword().equalsIgnoreCase(encryptedContrasena)) {
-                JOptionPane.showMessageDialog(this, "Error, La contraseña ingresada ya se encuentra registrada", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        }
+        if(datosExist(getNewUsuario(), getNewTelefono(), encryptedContrasena, 0, getSelectedCargo())) { return; }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea generar el nuevo colaborador?");
-        if (resp != 0) {
-            return;
-        }
+        if (resp != 0) { return; }
         Personal temp = new Personal(0, getNewNombre(), getNewApellidos(), getNewUsuario(), encryptedContrasena, getNewTelefono(), getNewHoraInicio(), getNewHoraFin(), getSelectedNewDiaDescanso(), getSelectedCargo());
-
-        //no existe new Personal, ni procedure, ni service
         pController.addPersonal(temp);
         btnNewRestoreActionPerformed(evt);
     }//GEN-LAST:event_btnNewSaveActionPerformed
 
     private void btnNewRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewRestoreActionPerformed
-        // TODO add your handling code here:
         cboCargo.setSelectedIndex(0);
         txtNewNombre.setText("");
         txtNewApellido.setText("");
@@ -879,231 +864,152 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewRestoreActionPerformed
 
     private void btnNewCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCancelActionPerformed
-        // TODO add your handling code here:
         loadCboPersonal();
         loadRows();
         NewForm.dispose();
     }//GEN-LAST:event_btnNewCancelActionPerformed
 
     private void btnUpdatePersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdatePersonalActionPerformed
-        // TODO add your handling code here:
-        List<Personal> lst = pController.getEmployees();
-        if (getEditNombre().isBlank()
-                || getEditApellidos().isBlank()
-                || (getEditSelectedCargo() == Personal.CARGOS.ADMIN && getEditUsuario().isBlank())
-                || getEditTelefono().isBlank()
-                || getEditHoraInicio().isBlank()
-                || getEditHoraFin().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+        if (    getEditNombre().isBlank()
+              ||getEditApellidos().isBlank()
+              ||(getEditSelectedCargo() == Personal.CARGOS.ADMIN && getEditUsuario().isBlank())
+              ||getEditTelefono().isBlank()
+              ||getEditHoraInicio().isBlank()
+              ||getEditHoraFin().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        for (Personal p : lst) {
-            if (p.getIdPersonal() != getSelectedPersonal()) {
-                if (getEditSelectedCargo() == Personal.CARGOS.ADMIN) {
-                    if (p.getUsuario().equalsIgnoreCase(getEditUsuario())) {
-                        JOptionPane.showMessageDialog(this, "Error, El usuario ingresado ya se encuentra registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                        return;
-                    }
-                }
-                if (p.getTelefono().equalsIgnoreCase(getEditTelefono())) {
-                    JOptionPane.showMessageDialog(this, "Error, El telefono ingresado ya se encuentra registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-            }
-        }
+        if(datosExist(getEditUsuario(), getEditTelefono(), "", getSelectedEditPersonal(), getEditSelectedCargo())) { return; }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea modificar al colaborador?");
-        if (resp != 0) {
-            return;
-        }
-        Personal temp = new Personal(getSelectedEditPersonal(), getEditNombre(), getEditApellidos(), getEditUsuario(), getEditContrasena(), getEditTelefono(), getEditHoraInicio(), getEditHoraFin(), getSelectedEditDiaDescanso(), getEditSelectedCargo());
-        //no existe new Personal, ni procedure, ni service
-        pController.updatePersonal(temp);
+        if (resp != 0) { return; }
+        Personal temp = pController.findPersonalById(getSelectedEditPersonal());
+        Personal editedPersonal = new Personal(temp.getIdPersonal(), getEditNombre(), getEditApellidos(), getEditUsuario(), temp.getPassword(), getEditTelefono(), getEditHoraInicio(), getEditHoraFin(), getSelectedEditDiaDescanso(), getEditSelectedCargo());
+        pController.updatePersonal(editedPersonal);
         loadCboPersonal();
         cboPersonal.setSelectedIndex(0);
         llenarDatosPersonal();
     }//GEN-LAST:event_btnUpdatePersonalActionPerformed
 
     private void btnEditRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRestoreActionPerformed
-        // TODO add your handling code here:
         llenarDatosPersonal();
     }//GEN-LAST:event_btnEditRestoreActionPerformed
 
     private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
-        // TODO add your handling code here:
         loadCboPersonal();
         loadRows();
         EditForm.dispose();
     }//GEN-LAST:event_btnEditCancelActionPerformed
 
     private void cboEditPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEditPersonalActionPerformed
-        // TODO add your handling code here:
         llenarDatosPersonal();
     }//GEN-LAST:event_cboEditPersonalActionPerformed
 
     private void btnEditSaveContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSaveContrasenaActionPerformed
-        // TODO add your handling code here:
-        List<Personal> lst = pController.getEmployees();
-        Personal temp = getPersonalXContrasena(Sha256.sha256(getAnteriorContrasena()));
-        if (getAnteriorContrasena().isBlank()
-                || getEditContrasena().isBlank()
-                || getEditConfiContrasena().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+        Personal temp = pController.findPersonalByPassword(Sha256.sha256(getAnteriorContrasena()));
+        if (    getAnteriorContrasena().isBlank()
+              ||getEditContrasena().isBlank()
+              ||getEditConfiContrasena().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (temp == null) {
-            JOptionPane.showMessageDialog(this, "Error, a contraseña anterior es inválida", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error, la contraseña anterior no es correcta", "Contraseña inválida", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (!getEditContrasena().equalsIgnoreCase(getEditConfiContrasena())) {
-            JOptionPane.showMessageDialog(this, "Error, las contraseñas no coinciden", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error, las contraseñas no coinciden", "Contraseñas diferentes", JOptionPane.WARNING_MESSAGE);
             txtEditContrasena.setText("");
             txtEditConfiContrasena.setText("");
             return;
         }
-        for (Personal p : lst) {
-            if (p.getPassword().equalsIgnoreCase(Sha256.sha256(getEditContrasena()))) {
-                JOptionPane.showMessageDialog(this, "Error, La contraseña ingresada ya se encuentra regitrada", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        }
-        //UpadteContraseña
-        System.out.println("Funcion aun no implementada, falta procedure/service");
+        String editContraseña = Sha256.sha256(getEditContrasena());
+        if(datosExist("", "", editContraseña, temp.getIdPersonal(), temp.getNombreCargo())) { return; }
+        temp.setPassword(editContraseña);
+        pController.updatePersonal(temp);
+        //System.out.println("Funcion aun no implementada, falta procedure/service");
         EditContrasenaForm.dispose();
     }//GEN-LAST:event_btnEditSaveContrasenaActionPerformed
 
     private void btnEditCancelContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelContrasenaActionPerformed
-        // TODO add your handling code here:
         EditContrasenaForm.dispose();
     }//GEN-LAST:event_btnEditCancelContrasenaActionPerformed
 
     private void btnCambiarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarContrasenaActionPerformed
-        // TODO add your handling code here:
         EditContrasenaForm.setVisible(true);
     }//GEN-LAST:event_btnCambiarContrasenaActionPerformed
 
     private void tbColaboradoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbColaboradoresMouseClicked
-        cboPersonal.setSelectedIndex((Integer) dtmColaboradores.getValueAt(tbColaboradores.getSelectedRow(), 0));
-// TODO add your handling code here:
+        txtBuscar.setText(dtmColaboradores.getValueAt(tbColaboradores.getSelectedRow(), 0).toString());
     }//GEN-LAST:event_tbColaboradoresMouseClicked
 
-    private String getNewNombre() {
-        return txtNewNombre.getText();
-    }
+    private void cboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCargoActionPerformed
+        if(getSelectedCargo() == Personal.CARGOS.ADMIN){ txtNewUsuario.setEditable(true); }
+        else{
+            txtNewUsuario.setText("");
+            txtNewUsuario.setEditable(false);
+        }
+    }//GEN-LAST:event_cboCargoActionPerformed
 
-    private String getNewApellidos() {
-        return txtNewApellido.getText();
-    }
+    private void cboEditCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEditCargoActionPerformed
+        if(getEditSelectedCargo() == Personal.CARGOS.ADMIN){ txtEditUsuario.setEditable(true); }
+        else{
+            txtEditUsuario.setText("");
+            txtEditUsuario.setEditable(false);
+        }
+    }//GEN-LAST:event_cboEditCargoActionPerformed
 
-    private String getNewUsuario() {
-        return txtNewUsuario.getText();
-    }
+    private String getNewNombre()                   { return txtNewNombre.getText(); }
+    private String getNewApellidos()                { return txtNewApellido.getText(); }
+    private String getNewUsuario()                  { return txtNewUsuario.getText(); }
+    private String getNewContrasena()               { return new String(txtNewContrasena.getPassword()); }
+    private String getNewConfiContrasena()          { return new String(txtNewConfiContrasena.getPassword()); }
+    private String getNewTelefono()                 { return txtNewTelefono.getText(); }
+    private String getNewHoraInicio()               { return txtNewHoraInicio.getText(); }
+    private String getNewHoraFin()                  { return txtNewHoraFin.getText(); }
+    private String getSelectedNewDiaDescanso()      { return cboDiaDescanso.getSelectedItem().toString(); }
+    private Personal.CARGOS getSelectedCargo()      { return Personal.CARGOS.valueOf((String) cboCargo.getSelectedItem()); }
 
-    private String getNewContrasena() {
-        return new String(txtNewContrasena.getPassword());
-    }
-
-    private String getNewConfiContrasena() {
-        return new String(txtNewConfiContrasena.getPassword());
-    }
-
-    private String getNewTelefono() {
-        return txtNewTelefono.getText();
-    }
-
-    private String getNewHoraInicio() {
-        return txtNewHoraInicio.getText();
-    }
-
-    private String getNewHoraFin() {
-        return txtNewHoraFin.getText();
-    }
-
-    private String getSelectedNewDiaDescanso() {
-        return cboDiaDescanso.getSelectedItem().toString();
-    }
-
-    private Personal.CARGOS getSelectedCargo() {
-        return Personal.CARGOS.valueOf((String) cboCargo.getSelectedItem());
-    }
-
-    private String getEditNombre() {
-        return txtEditNombre.getText();
-    }
-
-    private String getEditApellidos() {
-        return txtEditApellido.getText();
-    }
-
-    private String getEditUsuario() {
-        return txtEditUsuario.getText();
-    }
-
-    private String getEditContrasena() {
-        return new String(txtEditContrasena.getPassword());
-    }
-
-    private String getEditConfiContrasena() {
-        return new String(txtEditConfiContrasena.getPassword());
-    }
-
-    private String getAnteriorContrasena() {
-        return new String(txtAnteriorContrasena.getPassword());
-    }
-
-    private String getEditTelefono() {
-        return txtEditTelefono.getText();
-    }
-
-    private String getEditHoraInicio() {
-        return txtEditHoraInicio.getText();
-    }
-
-    private String getEditHoraFin() {
-        return txtEditHoraFin.getText();
-    }
-
-    private String getSelectedEditDiaDescanso() {
-        return cboEditDiaDescanso.getSelectedItem().toString();
-    }
-
-    private Personal.CARGOS getEditSelectedCargo() {
-        return Personal.CARGOS.valueOf((String) cboEditCargo.getSelectedItem());
-    }
+    private String getEditNombre()                  { return txtEditNombre.getText(); }
+    private String getEditApellidos()               { return txtEditApellido.getText(); }
+    private String getEditUsuario()                 { return txtEditUsuario.getText(); }
+    private String getEditContrasena()              { return new String(txtEditContrasena.getPassword()); }
+    private String getEditConfiContrasena()         { return new String(txtEditConfiContrasena.getPassword()); }
+    private String getAnteriorContrasena()          { return new String(txtAnteriorContrasena.getPassword()); }
+    private String getEditTelefono()                { return txtEditTelefono.getText(); }
+    private String getEditHoraInicio()              { return txtEditHoraInicio.getText(); }
+    private String getEditHoraFin()                 { return txtEditHoraFin.getText(); }
+    private String getSelectedEditDiaDescanso()     { return cboEditDiaDescanso.getSelectedItem().toString(); }
+    private Personal.CARGOS getEditSelectedCargo()  { return Personal.CARGOS.valueOf((String) cboEditCargo.getSelectedItem()); }
 
     private int getSelectedPersonal() {
-        if (cboPersonal.getItemCount() == 0) {
-            return 0;
-        }
+        if (cboPersonal.getItemCount() == 0) { return 0; }
         String palabra = cboPersonal.getSelectedItem().toString();
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
 
     private int getSelectedEditPersonal() {
-        if (cboEditPersonal.getItemCount() == 0) {
-            return 1;
-        }
+        if (cboEditPersonal.getItemCount() == 0) { return 1; }
         String palabra = cboEditPersonal.getSelectedItem().toString();
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
     
-    private boolean datosRegistrados(String usuario, String telefono, String password){
-        if(pController.usuarioExist(usuario)){
-            JOptionPane.showMessageDialog(this, "Error, El usuario ingresado ya se encuentra regisstrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
-            return true;
+    private boolean datosExist(String usuario, String telefono, String password, int id, Personal.CARGOS cargo){
+        switch (pController.datosExist(usuario, telefono, password, id, cargo)) {
+            case 1:
+                JOptionPane.showMessageDialog(this, "Error, El usuario ingresado ya se encuentra regisstrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+                return true;
+            case 2:
+                JOptionPane.showMessageDialog(this, "Error, El telefono ingresado ya se encuentra registrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+                return true;
+            case 3:
+                JOptionPane.showMessageDialog(this, "Error, La contraseña ingresada ya se encuentra registrada", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+                return true;
+            default: return false;
         }
-        if(pController.telefonoExist(telefono)){
-            JOptionPane.showMessageDialog(this, "Error, El telefono ingresado ya se encuentra registrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
-            return true;
-        }
-        if(pController.contrasenaExist(password)){
-            JOptionPane.showMessageDialog(this, "Error, La contraseña ingresada ya se encuentra registrada", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
-            return true;
-        }
-        return false;
     }
-    
+
     private void llenarDatosPersonal() {
         Personal temp = new Personal(0, "", "", "", "", "", "", "", "Lunes", Personal.CARGOS.EMPLEADO);
         if (getSelectedPersonal() != 0) {
@@ -1118,16 +1024,6 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         txtEditHoraInicio.setText(temp.getHoraInicio());
         txtEditHoraFin.setText(temp.getHoraFin());
         cboEditDiaDescanso.setSelectedItem(TimeAndDates.DAYS_WEEK.valueOf(temp.getDiaDescanso()).toString());
-    }
-
-    public Personal getPersonalXContrasena(String contrasena) {
-        List<Personal> lst = pController.getEmployees();
-        for (Personal p : lst) {
-            if (p.getPassword().equalsIgnoreCase(contrasena)) {
-                return p;
-            }
-        }
-        return null;
     }
 
     /**
@@ -1187,6 +1083,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboEditDiaDescanso;
     private javax.swing.JComboBox<String> cboEditPersonal;
     private javax.swing.JComboBox<String> cboPersonal;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

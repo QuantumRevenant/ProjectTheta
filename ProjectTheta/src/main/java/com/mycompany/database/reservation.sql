@@ -291,6 +291,29 @@ DELIMITER $$
 SELECT * FROM menu */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `createCategory` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `createCategory` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `createCategory`(
+    IN nuevoNombre VARCHAR(25)
+)
+INSERT INTO categoria(nombre)
+	VALUES(nuevoNombre) */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `categoryList` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `categoryList` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `categoryList`()
+SELECT * FROM categoria */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `orderDetailsList` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `orderDetailsList` */;
