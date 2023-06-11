@@ -122,7 +122,7 @@ CREATE TABLE `personal` (
   `diaDescanso` varchar(10) DEFAULT NULL,
   `nombreCargo` varchar(30) NOT NULL,
   PRIMARY KEY (`idPersonal`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `personal` */
 

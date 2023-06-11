@@ -24,7 +24,6 @@ import javax.swing.table.TableColumnModel;
  * @author bravo
  */
 public class ColaboradoresTable extends javax.swing.JFrame {
-
     PersonalController pController = new PersonalController(new PersonalService());
     DefaultTableModel dtmColaboradores = new DefaultTableModel();
     private JFrame previousFrame;
@@ -78,6 +77,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println("Error");
         }
+        tbColaboradores.setModel(dtmColaboradores);
     }
 
     public void loadCboDias() {
@@ -756,7 +756,12 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewPersonalActionPerformed
 
     private void btnEditPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPersonalActionPerformed
-        //loadCboEditPersonal();
+        // TODO add your handling code here:
+        if(pController.getEmployees().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Aún no hay personal registrado", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+//        loadCboEditPersonal();
         EditForm.setVisible(true);
     }//GEN-LAST:event_btnEditPersonalActionPerformed
 
@@ -767,10 +772,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error, aun no selecciona un Colaborador", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Colaborado " + temp.getNombre() + " " + temp.getApellidos() + "? Esta acción es Irreversible");
-        if (resp != 0) {
-            return;
-        }
+        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Colaborador "+temp.getNombre()+" "+temp.getApellidos()+"? Esta acción es Irreversible");
+        if (resp != 0) { return; }
         pController.deletePersonal(temp);
         loadRows();
         loadCboPersonal();
@@ -815,7 +818,6 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
     private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
         // TODO add your handling code here:
-        List<Personal> lst = pController.getEmployees();
         String encryptedContrasena = Sha256.sha256(getNewContrasena());
         if (getNewNombre().isBlank()
                 || getNewApellidos().isBlank()
@@ -824,15 +826,16 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 || (getSelectedCargo() == Personal.CARGOS.ADMIN && getNewUsuario().isBlank())
                 || getNewHoraInicio().isBlank()
                 || getNewHoraFin().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (!getNewContrasena().equals(getNewConfiContrasena())) {
-            JOptionPane.showMessageDialog(this, "Error, Las contraseñas no coinciden", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+        if(!getNewContrasena().equalsIgnoreCase(getNewConfiContrasena())){
+            JOptionPane.showMessageDialog(this, "Error, Las contraseñas no coinciden", "Contraseñas diferentes", JOptionPane.WARNING_MESSAGE);
             txtNewContrasena.setText("");
             txtNewConfiContrasena.setText("");
             return;
         }
+        List<Personal> lst=pController.getEmployees();
         for (Personal p : lst) {
             if (getSelectedCargo() == Personal.CARGOS.ADMIN) {
                 if (p.getUsuario().equalsIgnoreCase(getNewUsuario())) {
@@ -1084,7 +1087,23 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
-
+    
+    private boolean datosRegistrados(String usuario, String telefono, String password){
+        if(pController.usuarioExist(usuario)){
+            JOptionPane.showMessageDialog(this, "Error, El usuario ingresado ya se encuentra regisstrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+            return true;
+        }
+        if(pController.telefonoExist(telefono)){
+            JOptionPane.showMessageDialog(this, "Error, El telefono ingresado ya se encuentra registrado", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+            return true;
+        }
+        if(pController.contrasenaExist(password)){
+            JOptionPane.showMessageDialog(this, "Error, La contraseña ingresada ya se encuentra registrada", "Dato ya registrado", JOptionPane.WARNING_MESSAGE);
+            return true;
+        }
+        return false;
+    }
+    
     private void llenarDatosPersonal() {
         Personal temp = new Personal(0, "", "", "", "", "", "", "", "Lunes", Personal.CARGOS.EMPLEADO);
         if (getSelectedPersonal() != 0) {

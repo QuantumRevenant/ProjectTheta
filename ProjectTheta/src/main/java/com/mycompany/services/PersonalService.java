@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 import java.sql.*;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class PersonalService implements BaseService<Personal> {
 
     @Override
