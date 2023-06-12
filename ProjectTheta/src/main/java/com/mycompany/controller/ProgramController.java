@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -23,61 +24,60 @@ public class ProgramController {
     private int tiempoPrevioReserva;
     private int tiempoEsperaEnMesa;
     private int cantidadMesas;
-    
-    private Personal IdColaboradorActivo=null;
-    private LocalDateTime cierreSesion=null;
-    
+
+    private Personal IdColaboradorActivo = null;
+    private LocalDateTime cierreSesion = null;
+
+    private final DateTimeFormatter formatDayTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private final DateTimeFormatter formatDay = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     private final String directoryRoute = "./src/main/java/com/mycompany/data/";
     private final String fileName = "preferences.csv";
-    private final String standarFileName="standarPreferences.csv";
-    
+    private final String standarFileName = "standarPreferences.csv";
+
     public static ProgramController theProgramController;
-    
-    public static ProgramController getProgramController()
-    {
-        if(theProgramController==null){
-            theProgramController=new ProgramController();
+
+    public static ProgramController getProgramController() {
+        if (theProgramController == null) {
+            theProgramController = new ProgramController();
         }
         return theProgramController;
     }
-    
+
     public ProgramController() {
         cargar();
     }
-    
+
     public ProgramController(int tiempoEstandarEnMesa, int tiempoPrevioReserva, int tiempoEsperaEnMesa, int cantidadMesas) {
         this.tiempoEstandarEnMesa = tiempoEstandarEnMesa;
         this.tiempoPrevioReserva = tiempoPrevioReserva;
         this.tiempoEsperaEnMesa = tiempoEsperaEnMesa;
         this.cantidadMesas = cantidadMesas;
     }
-    
-    public void openSesion(int minutos)
-    {
-        cierreSesion=LocalDateTime.now().plusMinutes(minutos);
+
+    public void openSesion(int minutos) {
+        cierreSesion = LocalDateTime.now().plusMinutes(minutos);
     }
-    
-    public long minutosRestanteSesion()
-    {
-        Duration d=Duration.between(LocalDateTime.now(),cierreSesion);
+
+    public long minutosRestanteSesion() {
+        Duration d = Duration.between(LocalDateTime.now(), cierreSesion);
         return d.toMinutes();
     }
-    
-    public void cleanSesion()
-    {
-        IdColaboradorActivo=null;
-        cierreSesion=null;
+
+    public void cleanSesion() {
+        IdColaboradorActivo = null;
+        cierreSesion = null;
     }
-    
-    public boolean isActiveSesion()
-    {
-        return IdColaboradorActivo!=null;
+
+    public boolean isActiveSesion() {
+        return IdColaboradorActivo != null;
     }
-    
-    public void setSesion(Personal Id)
-    {
-        IdColaboradorActivo=Id;
+
+    public void setSesion(Personal Id) {
+        IdColaboradorActivo = Id;
     }
+
     public void grabar() {
         try {
             PrintWriter pw;
@@ -114,7 +114,7 @@ public class ProgramController {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public void cargarEstandar() {
         try {
             BufferedReader br;

@@ -5,22 +5,22 @@
 package com.mycompany.view;
 
 import com.mycompany.controller.MesaController;
+import com.mycompany.controller.PersonalController;
 import com.mycompany.controller.ProgramController;
 import static java.lang.Thread.sleep;
 import com.mycompany.model.generics.General;
 import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.entities.Pedido;
 import com.mycompany.model.entities.TipoPedido;
-import com.mycompany.model.generics.TimeAndDates;
-import java.awt.Color;
+import com.mycompany.model.generics.Sha256;
+import com.mycompany.services.PersonalService;
 import java.awt.Font;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
 
 /**
  *
@@ -30,6 +30,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private MesaController mc = new MesaController();
     private ProgramController pc = new ProgramController();
+    private PersonalController prC = new PersonalController(new PersonalService());
     private SpinnerNumberModel spModel = new SpinnerNumberModel();
 
     private JFrame previousFrame;
@@ -184,7 +185,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtPasswordEmployee = new javax.swing.JPasswordField();
         btnAceptar = new javax.swing.JButton();
         btnCancelarLogin = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -344,7 +345,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel3.setText("Estatus:");
 
-        jLabel4.setText("Reserva para:");
+        jLabel4.setText("Reserva para las:");
 
         lblStatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         lblStatus.setText("Libre");
@@ -478,7 +479,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField1)
+                    .addComponent(txtPasswordEmployee)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(btnAceptar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
@@ -493,7 +494,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPasswordEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
@@ -893,36 +894,53 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReservasActionPerformed
 
-    private void ShowMesaInfo(int btnNumber) {
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private void setShowMesaInfo(String txtReservaTiempo, String txtLibreTiempo, String txtNombreCliente, String txtPedido) {
+        //Show Hora de la Mesa
+        lblReservaTiempo.setText(txtReservaTiempo);
+        //Show Hora de Liberación
+        lblPedidoHoraLibre.setText(txtLibreTiempo);
+        //Show Nombre Cliente
+        lblPedidoCliente.setText(txtNombreCliente);
+        //Set Pedido Codigo
+        lblPedidoCodigo.setText(txtPedido);
+    }
+
+    private void showMesaInfo(int btnNumber) {
         int valueGrupos = (Integer) spnGrupos.getValue();
         mesaSeleccionada = mc.get(btnNumber + (20 * (valueGrupos - 1)) - 1);
-        lblMesaTitle.setText("Mesa #" + mesaSeleccionada.getCodigo());
-        if (mesaSeleccionada.getMesa_status() == Mesa.MESA_STATUS.LIBRE) {
-            lblStatus.setText("Libre");
-        } else {
-            lblStatus.setText("Ocupado");
-        }
-        if (mesaSeleccionada.getIdPedido().getIdTipoPedido().getTipoPedido() == TipoPedido.PEDIDOS.RESERVA) {
-            lblReservaTiempo.setText(mesaSeleccionada.getFechaHoraMesa().format(myFormatObj));
-            lblPedidoHoraLibre.setText("Hora: " + TimeAndDates.sumMinutos(mesaSeleccionada.getHoraDeLiberacion(), pc.getTiempoEstandarEnMesa()));
-            lblPedidoCliente.setText(mesaSeleccionada.getIdCliente().getNombre() + " " + mesaSeleccionada.getIdCliente().getApellido());
-        } else {
-            lblReservaTiempo.setText("No hay Reserva");
-            lblPedidoHoraLibre.setText("Hora: " + TimeAndDates.getHoraString(0, 0, 0));
-            lblPedidoCliente.setText("Sin Cliente");
-        }
-        if (mesaSeleccionada.getIdPedido() != null) {
-            lblPedidoCodigo.setText("#" + mesaSeleccionada.getIdPedido().getIdPedido());
-        } else {
-            lblPedidoCodigo.setText("#xxxxxxxxxxx");
-        }
+        lblMesaTitle.setText(mesaSeleccionada.getNombreMesa());
 
+        lblStatus.setText(mesaSeleccionada.getMesa_status().toString());
+
+        if (mesaSeleccionada.getMesa_status() == Mesa.MESA_STATUS.OCUPADA) {
+            if (mesaSeleccionada.getIdPedido() != null) {
+                if (mesaSeleccionada.getIdPedido().getIdTipoPedido().getTipoPedido() == TipoPedido.PEDIDOS.RESERVA) {
+                    setShowMesaInfo(mesaSeleccionada.getFechaHoraMesa().format(pc.getFormatDayTime()),
+                            "Hora: " + mesaSeleccionada.getFechaHoraMesa().plusMinutes(pc.getTiempoEstandarEnMesa()).format(pc.getFormatTime()),
+                            mesaSeleccionada.getIdCliente().getNombre() + " " + mesaSeleccionada.getIdCliente().getApellido(),
+                            "#" + mesaSeleccionada.getIdPedido().getIdPedido());
+                } else {
+                    setShowMesaInfo("No hay Reserva",
+                            "Hora: " + mesaSeleccionada.getFechaHoraMesa().format(pc.getFormatTime()),
+                            mesaSeleccionada.getIdCliente().getNombre() + " " + mesaSeleccionada.getIdCliente().getApellido(),
+                            "#" + mesaSeleccionada.getIdPedido().getIdPedido());
+                }
+            } else {
+                setShowMesaInfo("No hay Reserva", "Hora: 00:00:00", "Sin Cliente", "#xxxxxxxxxxx");
+
+                System.out.println("Error, Ocupada y sin pedido, Liberando...");
+
+                mesaSeleccionada.LiberarMesa();
+                showMesaInfo(btnNumber);
+            }
+        } else if (mesaSeleccionada.getMesa_status() == Mesa.MESA_STATUS.LIBRE) {
+            setShowMesaInfo("No hay Reserva", "Hora: 00:00:00", "Sin Cliente", "#xxxxxxxxxxx");
+        }
         Login.setVisible(true);
     }
     private void btnMesa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa1ActionPerformed
         int numeroMesa = 1;
-        ShowMesaInfo(numeroMesa);
+        showMesaInfo(numeroMesa);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa1ActionPerformed
 
@@ -931,9 +949,13 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_spnGruposMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        System.out.println("Sesión Iniciada - Falta implementar la validación");
-        ShowMesaInfo.setVisible(true);
-        Login.dispose();
+        if (prC.findPersonalByPassword(Sha256.sha256(new String(txtPasswordEmployee.getPassword()))) != null) {
+            ShowMesaInfo.setVisible(true);
+            Login.dispose();
+        } else {
+            JOptionPane.showMessageDialog(Login, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -944,102 +966,102 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnMesa2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa2ActionPerformed
         int numeroMesa = 2;
-        ShowMesaInfo(numeroMesa);
+        showMesaInfo(numeroMesa);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa2ActionPerformed
 
     private void btnMesa3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa3ActionPerformed
         int numeroMesa = 3;
-        ShowMesaInfo(numeroMesa);
+        showMesaInfo(numeroMesa);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa3ActionPerformed
 
     private void btnMesa4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa4ActionPerformed
         int numeroMesa = 4;
-        ShowMesaInfo(numeroMesa);
+        showMesaInfo(numeroMesa);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa4ActionPerformed
 
     private void btnMesa5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa5ActionPerformed
         int numeroMesa = 5;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa5ActionPerformed
 
     private void btnMesa6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa6ActionPerformed
         int numeroMesa = 6;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa6ActionPerformed
 
     private void btnMesa7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa7ActionPerformed
         int numeroMesa = 7;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa7ActionPerformed
 
     private void btnMesa8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa8ActionPerformed
         int numeroMesa = 8;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa8ActionPerformed
 
     private void btnMesa9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa9ActionPerformed
         int numeroMesa = 9;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa9ActionPerformed
 
     private void btnMesa10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa10ActionPerformed
         int numeroMesa = 10;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa10ActionPerformed
 
     private void btnMesa11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa11ActionPerformed
         int numeroMesa = 11;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa11ActionPerformed
 
     private void btnMesa12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa12ActionPerformed
         int numeroMesa = 12;
-        ShowMesaInfo(numeroMesa);
+        showMesaInfo(numeroMesa);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa12ActionPerformed
 
     private void btnMesa13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa13ActionPerformed
         int numeroMesa = 13;
-        ShowMesaInfo(numeroMesa);
+        showMesaInfo(numeroMesa);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa13ActionPerformed
 
     private void btnMesa14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa14ActionPerformed
         int numeroMesa = 14;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa14ActionPerformed
 
     private void btnMesa15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa15ActionPerformed
         int numeroMesa = 15;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa15ActionPerformed
 
     private void btnMesa16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa16ActionPerformed
         int numeroMesa = 16;
-        ShowMesaInfo(numeroMesa); // TODO add your handling code here:
+        showMesaInfo(numeroMesa); // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa16ActionPerformed
 
     private void btnMesa17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa17ActionPerformed
         int numeroMesa = 17;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa17ActionPerformed
 
     private void btnMesa18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa18ActionPerformed
         int numeroMesa = 18;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa18ActionPerformed
 
     private void btnMesa19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa19ActionPerformed
         int numeroMesa = 19;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa19ActionPerformed
 
     private void btnMesa20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa20ActionPerformed
         int numeroMesa = 20;
-        ShowMesaInfo(numeroMesa);// TODO add your handling code here:
+        showMesaInfo(numeroMesa);// TODO add your handling code here:
     }//GEN-LAST:event_btnMesa20ActionPerformed
 
     private void spnGruposStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnGruposStateChanged
@@ -1074,16 +1096,24 @@ public class MainMenu extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -1145,7 +1175,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel lblClock;
     private javax.swing.JLabel lblInfo;
     private javax.swing.JLabel lblMesaTitle;
@@ -1156,5 +1185,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblStatus;
     private javax.swing.JProgressBar prgBrAforo;
     private javax.swing.JSpinner spnGrupos;
+    private javax.swing.JPasswordField txtPasswordEmployee;
     // End of variables declaration//GEN-END:variables
 }

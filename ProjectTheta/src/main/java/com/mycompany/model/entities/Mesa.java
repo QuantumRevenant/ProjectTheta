@@ -20,11 +20,11 @@ import lombok.NoArgsConstructor;
 public class Mesa {
 
     private int codigo;
+    private String nombreMesa;
     private MESA_STATUS mesa_status;
     private Pedido idPedido;
     private LocalDateTime fechaHoraMesa;
     private Cliente idCliente;
-    private int horaDeLiberacion;
 
     public static enum MESA_STATUS {
         LIBRE, OCUPADA
@@ -32,6 +32,7 @@ public class Mesa {
 
     public Mesa(int codigo) {
         this.codigo = codigo;
+        nombreMesa="Mesa #"+codigo;
         LiberarMesa();
     }
 
@@ -40,7 +41,6 @@ public class Mesa {
         idPedido = null;
         fechaHoraMesa = LocalDateTime.now();
         idCliente = null;
-        horaDeLiberacion = -1;
     }
 
     public long getMinutosFaltantes() {
