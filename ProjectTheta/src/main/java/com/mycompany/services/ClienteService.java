@@ -80,7 +80,7 @@ public class ClienteService implements BaseService<Cliente>{
 
     public Cliente findById(int id){
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM cliente WHERE idCliente = ?");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.cliente WHERE idCliente = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

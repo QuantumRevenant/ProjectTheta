@@ -56,7 +56,7 @@ public class CategoriaService implements BaseService<Categoria>{
     
     public Categoria findById(int id){
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM categoria WHERE idCategoria = ?");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.categoria WHERE idCategoria = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

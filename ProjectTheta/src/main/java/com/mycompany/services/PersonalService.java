@@ -104,7 +104,7 @@ public class PersonalService implements BaseService<Personal> {
 
     public Personal findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM personal WHERE idPersonal = ?");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.personal WHERE idPersonal = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -133,7 +133,9 @@ public class PersonalService implements BaseService<Personal> {
 
     public Personal loginAdmin(String username, String password) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT idPersonal, nombre, apellidos FROM personal WHERE usuario = ? AND password = ? AND nombreCargo = 'ADMIN'");
+            PreparedStatement statement =
+                    Configuration.getConnectionDatabase()
+                            .prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE usuario = ? AND password = ? AND nombreCargo = 'ADMIN'");
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
@@ -154,7 +156,9 @@ public class PersonalService implements BaseService<Personal> {
 
     public Personal loginEmployee(String password) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT idPersonal, nombre, apellidos FROM personal WHERE  password = ? AND (nombreCargo != 'ADMIN' OR nombreCargo='EMPLEADO')");
+            PreparedStatement statement =
+                    Configuration.getConnectionDatabase()
+                            .prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE  password = ? AND (nombreCargo != 'ADMIN' OR nombreCargo='EMPLEADO')");
             statement.setString(1, password);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

@@ -10,7 +10,7 @@ public class Configuration {
         Connection con = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/reservation","root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/reservation","root","root");
             //modificar database connection segun tus parametros
             System.out.println("Conexion exitosa!!!");
         } catch(Exception ex) {

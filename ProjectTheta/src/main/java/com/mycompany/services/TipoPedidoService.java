@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 public class TipoPedidoService {
     public TipoPedido findById(int id){
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM tipopedido WHERE idTipoPedido = ?");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.tipopedido WHERE idTipoPedido = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

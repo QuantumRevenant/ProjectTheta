@@ -33,6 +33,10 @@ public class PedidoService {
                 TipoPagoService tipoPagoService = new TipoPagoService();
                 TipoPago tPago = tipoPagoService.findById(tPagoId);
 
+                pedido.setIdPedido(listGet.getInt("idPedido"));
+                pedido.setDescripcion(listGet.getString("descripcion"));
+                pedido.setTotal(listGet.getDouble("total"));
+                pedido.setFechaPedido(listGet.getString("fechaPedido"));
                 switch (listGet.getString("status")) {
                     case "Completo":
                         pedido.setStatus(Pedido.PEDIDO_STATUS.COMPLETO);
@@ -53,10 +57,6 @@ public class PedidoService {
                         pedido.setStatus(Pedido.PEDIDO_STATUS.OTRO);
                         break;
                 }
-                pedido.setIdPedido(listGet.getInt("idPedido"));
-                pedido.setDescripcion(listGet.getString("descripcion"));
-                pedido.setTotal(listGet.getDouble("total"));
-                pedido.setFechaPedido(listGet.getString("fechaPedido"));
                 pedido.setIdPersonal(personal);
                 pedido.setIdTipoPedido(tPedido);
 
@@ -168,7 +168,7 @@ public class PedidoService {
 
     public Pedido findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM pedidos WHERE idPedido = ?");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.pedidos WHERE idPedido = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
