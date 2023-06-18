@@ -107,7 +107,7 @@ public class MenuService implements BaseService<Menu> {
     private int getCategoriaId(int idCategoria) {
         int categoriaId = 0;
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT idCategoria FROM categoria WHERE idCategoria = ?");
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT idCategoria FROM reservation.categoria WHERE idCategoria = ?");
             statement.setInt(1, idCategoria);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

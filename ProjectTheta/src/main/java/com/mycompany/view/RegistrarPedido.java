@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.view;
 
 import com.mycompany.controller.ClienteController;
@@ -17,10 +13,6 @@ import com.mycompany.services.PersonalService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author bravo
- */
 public class RegistrarPedido extends javax.swing.JFrame {
     ClienteController cController = new ClienteController(new ClienteService());
     PersonalController pController = new PersonalController(new PersonalService());

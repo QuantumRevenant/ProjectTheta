@@ -5,11 +5,11 @@ import com.mycompany.services.PersonalService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PersonalController {
     private final PersonalService personalService;
-
     public List<Personal> getEmployees(){
         return personalService.findAll();
     }
@@ -38,10 +38,10 @@ public class PersonalController {
     }
     
     public Personal findPersonalByPassword(String password){
-        for(Personal p:getEmployees()){
-            if(p.getPassword().equalsIgnoreCase(password)){ return p; }
-        }
-        return null;
+        Optional<Personal> foundEmployee = getEmployees().stream()
+                .filter(p -> p.getPassword().equalsIgnoreCase(password))
+                .findFirst();
+        return foundEmployee.orElse(null);
     }
     
     public byte datosExist(String usuario, String telefono, String password, int id, Personal.CARGOS cargo){

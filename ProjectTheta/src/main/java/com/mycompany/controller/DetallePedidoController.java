@@ -9,7 +9,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DetallePedidoController {
     private final DetallePedidoService detallePedidoService;
-
     public List<DetallePedido> getDetails(){
         return detallePedidoService.findAll();
     }

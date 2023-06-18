@@ -1,13 +1,8 @@
 package com.mycompany.services;
 
 import com.mycompany.database.Configuration;
-import com.mycompany.model.entities.Personal;
 import com.mycompany.model.entities.TipoPedido;
-import lombok.RequiredArgsConstructor;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
+import java.sql.*;
 
 public class TipoPedidoService {
     public TipoPedido findById(int id){

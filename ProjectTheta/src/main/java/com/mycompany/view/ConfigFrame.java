@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.view;
 
 import com.mycompany.controller.MesaController;
@@ -11,10 +7,6 @@ import static java.lang.Thread.sleep;
 import javax.swing.JFrame;
 import lombok.Data;
 
-/**
- *
- * @author sebap
- */
 @Data
 public class ConfigFrame extends javax.swing.JFrame {
 

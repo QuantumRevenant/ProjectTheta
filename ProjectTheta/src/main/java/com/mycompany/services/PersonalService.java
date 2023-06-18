@@ -68,8 +68,8 @@ public class PersonalService implements BaseService<Personal> {
     @Override
     public void update(Personal personal) {
         try {
-            PreparedStatement updateEmployee
-                    = Configuration.getConnectionDatabase().prepareStatement(("{CALL updateEmployee(?,?,?,?,?,?,?,?,?,?)}"));
+            CallableStatement updateEmployee
+                    = Configuration.getConnectionDatabase().prepareCall(("{CALL updateEmployee(?,?,?,?,?,?,?,?,?,?)}"));
             updateEmployee.setInt(1, personal.getIdPersonal());
             updateEmployee.setString(2, personal.getNombre());
             updateEmployee.setString(3, personal.getApellidos());
@@ -138,19 +138,25 @@ public class PersonalService implements BaseService<Personal> {
                             .prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE usuario = ? AND password = ? AND nombreCargo = 'ADMIN'");
             statement.setString(1, username);
             statement.setString(2, password);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                Personal personal = new Personal();
-                personal.setIdPersonal(resultSet.getInt("idPersonal"));
-                personal.setNombre(resultSet.getString("nombre"));
-                personal.setApellidos(resultSet.getString("apellidos"));
-                return personal;
-            }
-            resultSet.close();
-            statement.close();
+            Personal personal = getPersonal(statement);
+            if (personal != null) return personal;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return null;
+    }
+
+    private Personal getPersonal(PreparedStatement statement) throws SQLException {
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            Personal personal = new Personal();
+            personal.setIdPersonal(resultSet.getInt("idPersonal"));
+            personal.setNombre(resultSet.getString("nombre"));
+            personal.setApellidos(resultSet.getString("apellidos"));
+            return personal;
+        }
+        resultSet.close();
+        statement.close();
         return null;
     }
 
@@ -160,16 +166,8 @@ public class PersonalService implements BaseService<Personal> {
                     Configuration.getConnectionDatabase()
                             .prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE  password = ? AND (nombreCargo != 'ADMIN' OR nombreCargo='EMPLEADO')");
             statement.setString(1, password);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                Personal personal = new Personal();
-                personal.setIdPersonal(resultSet.getInt("idPersonal"));
-                personal.setNombre(resultSet.getString("nombre"));
-                personal.setApellidos(resultSet.getString("apellidos"));
-                return personal;
-            }
-            resultSet.close();
-            statement.close();
+            Personal personal = getPersonal(statement);
+            if (personal != null) return personal;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

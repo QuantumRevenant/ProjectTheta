@@ -1,23 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.services;
 
 import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.Categoria;
 import java.sql.*;
 import java.util.*;
-
-/**
- *
- * @author bravo
- */
 public class CategoriaService implements BaseService<Categoria>{
 
     @Override
     public List<Categoria> findAll() {
-        try {
+       /* try {
             List<Categoria> lst = new ArrayList<>();
             CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL categoryList()}");
             ResultSet listGet = caller.executeQuery();
@@ -33,7 +24,21 @@ public class CategoriaService implements BaseService<Categoria>{
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return null;
+        return null;*/    //<- FUNCION PREDETERMINADA, EN CASO NO FUNCIONE
+        List<Categoria> lst = new ArrayList<>();
+        try (CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL categoryList()}")) {
+            try (ResultSet listGet = caller.executeQuery()) {
+                while (listGet.next()) {
+                    Categoria c = new Categoria();
+                    c.setIdCategoria(listGet.getInt("idCategoria"));
+                    c.setNombre(listGet.getString("nombre"));
+                    lst.add(c);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return lst.isEmpty() ? null : lst;
     }
 
     @Override

@@ -2,8 +2,6 @@ package com.mycompany.services;
 
 import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.TipoPago;
-
-
 import java.sql.*;
 public class TipoPagoService {
     public TipoPago findById(int id){

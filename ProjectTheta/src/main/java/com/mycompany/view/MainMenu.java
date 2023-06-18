@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.view;
 
 import com.mycompany.controller.MesaController;
@@ -22,10 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 
-/**
- *
- * @author sebap
- */
 public class MainMenu extends javax.swing.JFrame {
 
     private MesaController mc = new MesaController();

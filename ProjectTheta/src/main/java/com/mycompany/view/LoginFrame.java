@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.view;
 
 import com.mycompany.controller.PersonalController;
@@ -14,10 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import lombok.Data;
 
-/**
- *
- * @author sebap
- */
 @Data
 public class LoginFrame extends javax.swing.JFrame {
 
