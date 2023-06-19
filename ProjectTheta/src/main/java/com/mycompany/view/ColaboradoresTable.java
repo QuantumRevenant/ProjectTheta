@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.view;
 
 import com.mycompany.controller.PersonalController;
@@ -17,10 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-/**
- *
- * @author bravo
- */
 public class ColaboradoresTable extends javax.swing.JFrame {
     PersonalController pController = new PersonalController(new PersonalService());
     DefaultTableModel dtmColaboradores = new DefaultTableModel();

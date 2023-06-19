@@ -1,7 +1,6 @@
 package com.mycompany.services;
 
 import com.mycompany.database.Configuration;
-import com.mycompany.model.entities.Personal;
 import com.mycompany.model.entities.TipoPedido;
 import java.sql.CallableStatement;
 import lombok.RequiredArgsConstructor;

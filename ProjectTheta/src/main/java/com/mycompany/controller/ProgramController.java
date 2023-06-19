@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.controller;
-
 import com.mycompany.model.entities.Personal;
 import com.mycompany.model.generics.Sha256;
 import com.mycompany.services.PersonalService;
