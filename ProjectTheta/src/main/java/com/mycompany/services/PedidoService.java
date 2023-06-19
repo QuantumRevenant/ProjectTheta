@@ -76,36 +76,35 @@ public class PedidoService {
 
     public void save(Pedido pedido) {
         try {
-            CallableStatement createOrder = Configuration.getConnectionDatabase().prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            createOrder.setInt(1, pedido.getIdPedido());
-            createOrder.setString(2, pedido.getDescripcion());
-            createOrder.setDouble(3, pedido.getTotal());
-            createOrder.setString(4, pedido.getFechaPedido());
+            CallableStatement createOrder = Configuration.getConnectionDatabase().prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            createOrder.setString(1, pedido.getDescripcion());
+            createOrder.setDouble(2, pedido.getTotal());
+            createOrder.setString(3, pedido.getFechaPedido());
             switch (pedido.getStatus()) {
                 case COMPLETO:
-                    createOrder.setString(5, "Completo");
+                    createOrder.setString(4, "Completo");
                     break;
                 case PENDIENTE:
-                    createOrder.setString(5, "Pendiente");
+                    createOrder.setString(4, "Pendiente");
                     break;
                 case EN_ENVIO:
-                    createOrder.setString(5, "En Envio");
+                    createOrder.setString(4, "En Envio");
                     break;
                 case POR_RECOGER:
-                    createOrder.setString(5, "Por Recoger");
+                    createOrder.setString(4, "Por Recoger");
                     break;
                 case CANCELADO:
-                    createOrder.setString(5, "Cancelado");
+                    createOrder.setString(4, "Cancelado");
                     break;
                 default:
-                    createOrder.setString(5, "Otro");
+                    createOrder.setString(4, "Otro");
                     break;
             }
-            createOrder.setInt(6, pedido.getIdPersonal().getIdPersonal());
-            createOrder.setInt(7, pedido.getIdTipoPedido().getIdTipoPedido());
-            createOrder.setInt(8, pedido.getIdCliente().getIdCliente());
-            createOrder.setInt(9, pedido.getIdTipoPago().getIdTipoPago());
-            createOrder.setDouble(10, pedido.getIgv());
+            createOrder.setInt(5, pedido.getIdPersonal().getIdPersonal());
+            createOrder.setInt(6, pedido.getIdTipoPedido().getIdTipoPedido());
+            createOrder.setInt(7, pedido.getIdCliente().getIdCliente());
+            createOrder.setInt(8, pedido.getIdTipoPago().getIdTipoPago());
+            createOrder.setDouble(9, pedido.getIgv());
             createOrder.executeUpdate();
             Configuration.getConnectionDatabase().close();
         } catch (Exception e) {
@@ -191,7 +190,7 @@ public class PedidoService {
                 pedido.setIdPedido(resultSet.getInt("idPedido"));
                 pedido.setDescripcion(resultSet.getString("descripcion"));
                 pedido.setTotal(resultSet.getDouble("total"));
-                pedido.setFechaPedido(resultSet.getString("fecha"));
+                pedido.setFechaPedido(resultSet.getString("fechaPedido"));
                 switch (resultSet.getString("status")) {
                     case "Completo":
                         pedido.setStatus(Pedido.PEDIDO_STATUS.COMPLETO);
@@ -227,4 +226,20 @@ public class PedidoService {
         return null;
     }
 
+    public Pedido findMaxItem() {
+        try {
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT MAX(idPedido) FROM pedidos");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int value = resultSet.getInt("MAX(idPedido)");
+                resultSet.close();
+                statement.close();
+                Configuration.getConnectionDatabase().close();
+                return findById(value);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

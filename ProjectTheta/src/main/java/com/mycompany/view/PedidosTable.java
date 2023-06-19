@@ -79,7 +79,7 @@ public class PedidosTable extends javax.swing.JFrame {
                 vec[5] = p.getIdPersonal().getNombre()+ " " +p.getIdPersonal().getApellidos();
                 vec[6] = p.getIdTipoPedido().getTipoPedido();
                 vec[7] = p.getIdCliente().getNombre()+" "+p.getIdCliente().getApellido();
-                vec[8] = p.getIdTipoPago().getTipo();
+                vec[8] = p.getIdTipoPago().getTipoPago();
                 dtmPedidos.addRow(vec);
             }
         tbPedidos.setModel(dtmPedidos);
@@ -427,7 +427,7 @@ public class PedidosTable extends javax.swing.JFrame {
                 vec[5] = p.getIdPersonal().getNombre()+ " " +p.getIdPersonal().getApellidos();
                 vec[6] = p.getIdTipoPedido().getTipoPedido();
                 vec[7] = p.getIdCliente().getNombre()+" "+p.getIdCliente().getApellido();
-                vec[8] = p.getIdTipoPago().getTipo();
+                vec[8] = p.getIdTipoPago().getTipoPago();
                 dtmPedidos.addRow(vec);
             }
             tbPedidos.setModel(dtmPedidos);
@@ -460,7 +460,7 @@ public class PedidosTable extends javax.swing.JFrame {
                 vec[5] = p.getIdPersonal().getNombre()+ " " +p.getIdPersonal().getApellidos();
                 vec[6] = p.getIdTipoPedido().getTipoPedido();
                 vec[7] = p.getIdCliente().getNombre()+" "+p.getIdCliente().getApellido();
-                vec[8] = p.getIdTipoPago().getTipo();
+                vec[8] = p.getIdTipoPago().getTipoPago();
                 dtmPedidos.addRow(vec);
             }
         tbPedidos.setModel(dtmPedidos);

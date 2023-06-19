@@ -24,7 +24,14 @@ public class PedidoController {
     public void updateOrder(Pedido pedido){
         pedidoService.update(pedido);
     }
-
+    
+     public Pedido findCustomerById(int id){
+        return pedidoService.findById(id);
+    }
+     
+     public Pedido findMaxItem(){
+         return pedidoService.findMaxItem();
+     }
     /*VALIDAR EN EL FRONT*/
 
 }

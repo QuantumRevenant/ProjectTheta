@@ -5,6 +5,11 @@
 package com.mycompany.controller;
 
 import com.mycompany.model.entities.Personal;
+import com.mycompany.model.generics.Sha256;
+import com.mycompany.services.PersonalService;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,6 +18,13 @@ import java.io.PrintWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -29,6 +41,7 @@ public class ProgramController {
     private LocalDateTime cierreSesion = null;
 
     private final DateTimeFormatter formatDayTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private final DateTimeFormatter formatDayTimeMinutes = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm");
     private final DateTimeFormatter formatDay = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -68,6 +81,80 @@ public class ProgramController {
     public void cleanSesion() {
         IdColaboradorActivo = null;
         cierreSesion = null;
+    }
+
+    public static Personal logInAdmin(JFrame parent) {
+        ProgramController pc = getProgramController();
+        PersonalController prC = new PersonalController(new PersonalService());
+        JPanel p = new JPanel(new BorderLayout(5, 5));
+
+        JPanel title = new JPanel(new GridLayout(0, 1, 2, 2));
+        JLabel lblTitle = new JLabel("Login as Admin", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        title.add(lblTitle);
+        p.add(title, BorderLayout.NORTH);
+
+        JPanel labels = new JPanel(new GridLayout(0, 1, 2, 2));
+        labels.add(new JLabel("User Name", SwingConstants.TRAILING));
+        labels.add(new JLabel("Password", SwingConstants.TRAILING));
+        p.add(labels, BorderLayout.LINE_START);
+
+        JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+        JTextField uf = new JTextField();
+        controls.add(uf);
+        JPasswordField pf = new JPasswordField();
+        controls.add(pf);
+        p.add(controls, BorderLayout.CENTER);
+
+        Personal empleado = null;
+        int okCxl = JOptionPane.showConfirmDialog(parent, p, "Login Admin", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (okCxl == JOptionPane.OK_OPTION) {
+            String password = Sha256.sha256(new String(pf.getPassword()));
+            empleado = prC.Admin(uf.getText(), password);
+        }
+        if (empleado != null) {
+            pc.cleanSesion();
+            pc.setIdColaboradorActivo(empleado);
+            pc.openSesion(15);
+        } else {
+            System.out.println("Sesión No Iniciada - Admin");
+        }
+        return empleado;
+    }
+
+    public static Personal logInUser(JFrame parent) {
+        ProgramController pc = getProgramController();
+        PersonalController prC = new PersonalController(new PersonalService());
+        JPanel p = new JPanel(new BorderLayout(5, 5));
+
+        JPanel title = new JPanel(new GridLayout(0, 1, 2, 2));
+        JLabel lblTitle = new JLabel("Login as User", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        title.add(lblTitle);
+        p.add(title, BorderLayout.NORTH);
+        JPanel labels = new JPanel(new GridLayout(0, 1, 2, 2));
+        labels.add(new JLabel("Password", SwingConstants.TRAILING));
+        p.add(labels, BorderLayout.LINE_START);
+
+        JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+        JPasswordField pf = new JPasswordField();
+        controls.add(pf);
+        p.add(controls, BorderLayout.CENTER);
+
+        Personal empleado = null;
+        int okCxl = JOptionPane.showConfirmDialog(parent, p, "Login User", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (okCxl == JOptionPane.OK_OPTION) {
+            String password = Sha256.sha256(new String(pf.getPassword()));
+            empleado = prC.findPersonalByPassword(password);
+        }
+        if (empleado != null) {
+            pc.cleanSesion();
+            pc.setIdColaboradorActivo(empleado);
+            pc.openSesion(15);
+        } else {
+            System.out.println("Sesión No Iniciada - User");
+        }
+        return empleado;
     }
 
     public boolean isActiveSesion() {

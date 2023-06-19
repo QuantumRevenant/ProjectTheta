@@ -12,11 +12,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import lombok.Data;
 
 /**
  *
  * @author bravo
  */
+@Data
 public class ClientesTable extends javax.swing.JFrame {
 
     ClienteController cController = new ClienteController(new ClienteService());
@@ -71,14 +73,6 @@ public class ClientesTable extends javax.swing.JFrame {
         cboClientes.setModel(dcbmCliente);
         cboEditCliente.setModel(dcbmCliente);
     }
-
-    public JFrame getPreviousFrame() {
-        return previousFrame;
-    }
-
-    public void setPreviousFrame(JFrame previousFrame) {
-        this.previousFrame = previousFrame;
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,7 +125,7 @@ public class ClientesTable extends javax.swing.JFrame {
         btnDeleteCliente = new javax.swing.JButton();
         cboClientes = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
         NewForm.setSize(new java.awt.Dimension(300, 350));
 
@@ -418,10 +412,10 @@ public class ClientesTable extends javax.swing.JFrame {
 
         jLabel2.setText("Buscar Cliente");
 
-        jButton1.setText("Volver");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setText("Volver");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
 
@@ -450,7 +444,7 @@ public class ClientesTable extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDeleteCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -469,7 +463,7 @@ public class ClientesTable extends javax.swing.JFrame {
                     .addComponent(btnNewCliente)
                     .addComponent(btnEditCliente)
                     .addComponent(btnDeleteCliente)
-                    .addComponent(jButton1))
+                    .addComponent(btnBack))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -598,10 +592,14 @@ public class ClientesTable extends javax.swing.JFrame {
         loadCboClientes();
     }//GEN-LAST:event_btnDeleteClienteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         previousFrame.setVisible(true);
+        if(RegistrarPedido.class.isInstance(previousFrame)){
+            RegistrarPedido obj=(RegistrarPedido)previousFrame;
+            obj.updateCbos();
+        }
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private String getNewNombre()    { return txtNewNombre.getText();    }
     private String getNewApellido()  { return txtNewApellido.getText();  }
@@ -686,6 +684,7 @@ public class ClientesTable extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame EditForm;
     private javax.swing.JFrame NewForm;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDeleteCliente;
     private javax.swing.JButton btnEditCancel;
     private javax.swing.JButton btnEditCliente;
@@ -697,7 +696,6 @@ public class ClientesTable extends javax.swing.JFrame {
     private javax.swing.JButton btnNewSave;
     private javax.swing.JComboBox<String> cboClientes;
     private javax.swing.JComboBox<String> cboEditCliente;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

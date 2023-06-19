@@ -11,16 +11,24 @@ import static java.lang.Thread.sleep;
 import com.mycompany.model.generics.General;
 import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.entities.Pedido;
+import com.mycompany.model.entities.Personal;
 import com.mycompany.model.entities.TipoPedido;
 import com.mycompany.model.generics.Sha256;
 import com.mycompany.services.PersonalService;
+import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -28,8 +36,8 @@ import javax.swing.SpinnerNumberModel;
  */
 public class MainMenu extends javax.swing.JFrame {
 
-    private MesaController mc = new MesaController();
-    private ProgramController pc = new ProgramController();
+    private MesaController mc = MesaController.getMesaController();
+    private ProgramController pc = ProgramController.getProgramController();
     private PersonalController prC = new PersonalController(new PersonalService());
     private SpinnerNumberModel spModel = new SpinnerNumberModel();
 
@@ -130,7 +138,7 @@ public class MainMenu extends javax.swing.JFrame {
         lblInfo.setText("<html>"
                 + "M. disponible: " + "<br>" + " > Mesas " + mc.getQuantityStatus(Mesa.MESA_STATUS.OCUPADA) + "/" + mc.size() + "<br>"
                 + "M. Libre en: " + "<br>" + " > " + mc.getProximaMesaLibre() + " min" + "<br>"
-                + "Reservas hoy: " + "<br>" + " > " + mc.getQuantityTypePedido(TipoPedido.PEDIDOS.RESERVA) + "<br><br>"
+                + "Reservas hoy: " + "<br>" + " > " + mc.getQuantityTypePedido(TipoPedido.RESERVA) + "<br><br>"
                 + "Pedidos Pend.: " + "<br>" + " > " + mc.getQuantityStatusPedido(Pedido.PEDIDO_STATUS.PENDIENTE) + "<br>"
                 + "Pedidos Envio: " + "<br>" + " > " + mc.getQuantityStatusPedido(Pedido.PEDIDO_STATUS.EN_ENVIO)
                 + "</html>"
@@ -850,7 +858,16 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuOptionsActionPerformed
 
     private void btnPedidoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidoNuevoActionPerformed
-        // TODO add your handling code here:
+        if (ProgramController.logInUser(Login) != null) {
+            RegistrarPedido form = new RegistrarPedido();
+            form.setPreviousFrame(this);
+            form.setRegistroValue(RegistrarPedido.REGISTRO.Registrar,null);       
+            form.setVisible(true);
+            setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(Login, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+// TODO add your handling code here:
     }//GEN-LAST:event_btnPedidoNuevoActionPerformed
 
     private void btnReservaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservaNuevaActionPerformed
@@ -914,7 +931,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         if (mesaSeleccionada.getMesa_status() == Mesa.MESA_STATUS.OCUPADA) {
             if (mesaSeleccionada.getIdPedido() != null) {
-                if (mesaSeleccionada.getIdPedido().getIdTipoPedido().getTipoPedido() == TipoPedido.PEDIDOS.RESERVA) {
+                if (mesaSeleccionada.getIdPedido().getIdTipoPedido().getIdTipoPedido()== TipoPedido.RESERVA) {
                     setShowMesaInfo(mesaSeleccionada.getFechaHoraMesa().format(pc.getFormatDayTime()),
                             "Hora: " + mesaSeleccionada.getFechaHoraMesa().plusMinutes(pc.getTiempoEstandarEnMesa()).format(pc.getFormatTime()),
                             mesaSeleccionada.getIdCliente().getNombre() + " " + mesaSeleccionada.getIdCliente().getApellido(),
@@ -936,7 +953,11 @@ public class MainMenu extends javax.swing.JFrame {
         } else if (mesaSeleccionada.getMesa_status() == Mesa.MESA_STATUS.LIBRE) {
             setShowMesaInfo("No hay Reserva", "Hora: 00:00:00", "Sin Cliente", "#xxxxxxxxxxx");
         }
-        Login.setVisible(true);
+        if (ProgramController.logInUser(Login)!= null) {
+            ShowMesaInfo.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(Login, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }
     private void btnMesa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa1ActionPerformed
         int numeroMesa = 1;
@@ -949,12 +970,6 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_spnGruposMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if (prC.findPersonalByPassword(Sha256.sha256(new String(txtPasswordEmployee.getPassword()))) != null) {
-            ShowMesaInfo.setVisible(true);
-            Login.dispose();
-        } else {
-            JOptionPane.showMessageDialog(Login, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
-        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarActionPerformed

@@ -9,9 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TipoPago {
     private int idTipoPago;
-    private TIPOPAGO tipo;
-
-    public static enum TIPOPAGO{
-        TARJETA,TRANSFERENCIA,EFECTIVO
-    }
+    private String tipoPago;
 }

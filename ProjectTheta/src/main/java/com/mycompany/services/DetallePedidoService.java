@@ -8,8 +8,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.List;
 
-
 public class DetallePedidoService {
+
     public List<DetallePedido> findAll() {
         try {
             List<DetallePedido> orderDetails = new ArrayList<>();
@@ -18,7 +18,7 @@ public class DetallePedidoService {
             while (listGet.next()) {
                 DetallePedido details = new DetallePedido();
 
-                int serviciosId = listGet.getInt("idServicio");
+                int serviciosId = listGet.getInt("idMenu");
                 MenuService menuService = new MenuService();
                 Menu menu = menuService.findById(serviciosId);
                 int pedidoId = listGet.getInt("idPedido");
@@ -54,4 +54,93 @@ public class DetallePedidoService {
         }
     }
 
+    public DetallePedido findByID(int idPersonal, int idMenu) {
+        try {
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM `pedidos` WHERE idPersonal = ? AND idCliente= ?");
+            statement.setInt(1, idPersonal);
+            statement.setInt(2, idMenu);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                DetallePedido details = new DetallePedido();
+                int serviciosId = resultSet.getInt("idMenu");
+                MenuService menuService = new MenuService();
+                Menu menu = menuService.findById(serviciosId);
+                int pedidoId = resultSet.getInt("idPedido");
+                PedidoService pedidoService = new PedidoService();
+                Pedido pedido = pedidoService.findById(pedidoId);
+
+                details.setIdPedido(pedido);
+                details.setIdMenu(menu);
+                details.setCantidadPlatos(resultSet.getInt("cantidadPlatos"));
+                details.setSubTotal(resultSet.getDouble("subtotal"));
+                return details;
+            }
+            resultSet.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<DetallePedido> findByPedidoID(int id) {
+        try {
+            List<DetallePedido> orderDetails = new ArrayList<>();
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.detallepedido WHERE idPedido = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                DetallePedido details = new DetallePedido();
+                int serviciosId = resultSet.getInt("idMenu");
+                MenuService menuService = new MenuService();
+                Menu menu = menuService.findById(serviciosId);
+                int pedidoId = resultSet.getInt("idPedido");
+                PedidoService pedidoService = new PedidoService();
+                Pedido pedido = pedidoService.findById(pedidoId);
+
+                details.setIdPedido(pedido);
+                details.setIdMenu(menu);
+                details.setCantidadPlatos(resultSet.getInt("cantidadPlatos"));
+                details.setSubTotal(resultSet.getDouble("subtotal"));
+                orderDetails.add(details);
+            }
+            resultSet.close();
+            statement.close();
+            return orderDetails;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<DetallePedido> findByMenuID(int id) {
+        try {
+            List<DetallePedido> orderDetails = new ArrayList<>();
+            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.detallepedido WHERE idMenu = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                DetallePedido details = new DetallePedido();
+                int serviciosId = resultSet.getInt("idMenu");
+                MenuService menuService = new MenuService();
+                Menu menu = menuService.findById(serviciosId);
+                int pedidoId = resultSet.getInt("idPedido");
+                PedidoService pedidoService = new PedidoService();
+                Pedido pedido = pedidoService.findById(pedidoId);
+
+                details.setIdPedido(pedido);
+                details.setIdMenu(menu);
+                details.setCantidadPlatos(resultSet.getInt("cantidadPlatos"));
+                details.setSubTotal(resultSet.getDouble("subtotal"));
+                orderDetails.add(details);
+            }
+            resultSet.close();
+            statement.close();
+            return orderDetails;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+            
+    }
 }

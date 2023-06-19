@@ -9,6 +9,7 @@ import com.mycompany.model.entities.Pedido;
 import com.mycompany.model.entities.TipoPedido;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -22,7 +23,16 @@ public class MesaController {
 
     private List<Mesa> lstMesa = new ArrayList<>();
     private ProgramController pc = ProgramController.getProgramController();
+    
+    public static MesaController theMesaController;
 
+    public static MesaController getMesaController() {
+        if (theMesaController == null) {
+            theMesaController = new MesaController();
+        }
+        return theMesaController;
+    }
+    
     public MesaController() {
         updateQuantity();
     }
@@ -48,12 +58,17 @@ public class MesaController {
         return output;
     }
 
-    public int getQuantityTypePedido(TipoPedido.PEDIDOS status) {
+    public int getQuantityTypePedido(int idStatus) {
+        if(idStatus==-1)
+        {
+            System.out.print("Error - "+new Object(){}.getClass().getEnclosingMethod().getName());
+            return 0;
+        }
         int output = 0;
         for (Mesa x : lstMesa) {
             if (x.getIdPedido() != null) {
-                if (x.getIdPedido().getIdTipoPedido().getTipoPedido() == status) {
-                    output++;
+                if (x.getIdPedido().getIdTipoPedido().getIdTipoPedido()== idStatus) {
+                    output+=JOptionPane.ALLBITS;
                 }
             }
         }

@@ -21,10 +21,14 @@ public class Pedido {
     private double igv;
 
     public static enum PEDIDO_STATUS {
-        COMPLETO, PENDIENTE, EN_ENVIO,POR_RECOGER, CANCELADO, OTRO;
+        PENDIENTE, EN_ENVIO, POR_RECOGER, COMPLETO, CANCELADO, OTRO;
     }
 
-    public double getIgv() {
+    public static double igv() {
         return .18;
+    }
+    
+    public Pedido clone(){
+        return new Pedido(idPedido, descripcion, total, fechaPedido, Status, idPersonal, idTipoPedido, idCliente, idTipoPago, igv);
     }
 }
