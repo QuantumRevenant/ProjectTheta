@@ -143,4 +143,15 @@ public class DetallePedidoService {
         return null;
             
     }
+    
+    public void deletePerIdPedido(Pedido idPedido) {
+        try {
+            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL deleteOrderDetailsPerPedido(?)}");
+            caller.setInt(1, idPedido.getIdPedido());
+            caller.executeUpdate();
+            caller.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

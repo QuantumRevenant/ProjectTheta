@@ -1,6 +1,7 @@
 package com.mycompany.controller;
 
 import com.mycompany.model.entities.DetallePedido;
+import com.mycompany.model.entities.Pedido;
 import com.mycompany.services.DetallePedidoService;
 import lombok.RequiredArgsConstructor;
 
@@ -38,5 +39,9 @@ public class DetallePedidoController {
     public List<DetallePedido> listByMenuID(int id)
     {
         return detallePedidoService.findByMenuID(id);
+    }	
+    	
+    public void deletePerIdPedido(Pedido idPedido) {	
+        detallePedidoService.deletePerIdPedido(idPedido);	
     }
 }

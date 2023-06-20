@@ -59,7 +59,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
     private TipoPedidoController tpeController = new TipoPedidoController(new TipoPedidoService());
     private DefaultTableModel dtmDetalles = new DefaultTableModel();
 
-    private REGISTRO registro = REGISTRO.Registrar;
+    private REGISTRO registro;
     private Pedido previousPedido = null;
     private Pedido IdPedido = new Pedido();
     private List<DetallePedido> lstDetalles = new ArrayList<>();
@@ -79,7 +79,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
         loadCbos();
         restablecer();
         iniciado = true;
-        setRegistroValue(REGISTRO.Actualizar, pedidoController.findCustomerById(11));
     }
 
     public void update() {
@@ -170,7 +169,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
 
     public void setRegistroValue(REGISTRO reg, Pedido pedido) {
         registro = reg;
-        previousPedido = reg != REGISTRO.Registrar ? pedido : null;
+        previousPedido = registro != REGISTRO.Registrar ? pedido : null;
         setInicialStatus();
         setValues();
         iniciado = false;
@@ -795,13 +794,25 @@ public class RegistrarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReduceProductActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        pedidoController.addOrder(IdPedido);
-        IdPedido = pedidoController.findMaxItem();
-        for(int i=0;i<lstDetalles.size();i++)
-        {
-            lstDetalles.get(i).setIdPedido(IdPedido);
+        int opt = JOptionPane.showConfirmDialog(this, registro.toString() + "a el pedido ¿Estas Seguro?", registro.toString().toUpperCase(), JOptionPane.OK_CANCEL_OPTION);
+        if (opt != JOptionPane.OK_OPTION) {
+            return;
+        }
+        actualizarPedido();
+        int idPed = 0;
+        if (registro == REGISTRO.Registrar) {
+            pedidoController.addOrder(IdPedido);
+            idPed = pedidoController.findMaxItem().getIdPedido();
+        } else {
+            pedidoController.updateOrder(IdPedido);
+            dpController.deletePerIdPedido(IdPedido);
+            idPed = IdPedido.getIdPedido();
+        }
+        for (int i = 0; i < lstDetalles.size(); i++) {
+            lstDetalles.get(i).setIdPedido(pedidoController.findCustomerById(idPed));
         }
         dpController.addLstDetails(lstDetalles);
+
 //        btnBackCancelActionPerformed(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
