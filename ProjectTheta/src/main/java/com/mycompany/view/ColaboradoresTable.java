@@ -792,6 +792,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 dcbmPersonal.addElement(item);
             }
         }
+        dcbmPersonal.addElement("[0] - All");
         cboPersonal.setModel(dcbmPersonal);
     }//GEN-LAST:event_txtBuscarCaretUpdate
 

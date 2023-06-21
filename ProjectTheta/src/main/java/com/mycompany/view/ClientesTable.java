@@ -553,6 +553,7 @@ public class ClientesTable extends javax.swing.JFrame {
                 dcbmClientes.addElement(item);
             }
         }
+        dcbmClientes.addElement("[0] - All");
         cboClientes.setModel(dcbmClientes);
     }//GEN-LAST:event_txtBuscarCaretUpdate
 

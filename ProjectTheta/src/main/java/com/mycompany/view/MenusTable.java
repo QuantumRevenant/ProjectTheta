@@ -681,6 +681,7 @@ public class MenusTable extends javax.swing.JFrame {
             String item = cBProductos.getItemAt(i);
             if(item.toLowerCase().contains(busqueda.toLowerCase())) { dcbmMenus.addElement(item); }
         }
+        dcbmMenus.addElement("[0] - All");
         cBProductos.setModel(dcbmMenus);
     }//GEN-LAST:event_txtBusquedaCaretUpdate
 
