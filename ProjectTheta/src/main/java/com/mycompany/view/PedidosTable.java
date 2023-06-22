@@ -249,6 +249,7 @@ public class PedidosTable extends javax.swing.JFrame {
 
         jLabel18.setText("Observación");
 
+        txtObservacion.setEditable(false);
         txtObservacion.setColumns(20);
         txtObservacion.setRows(5);
         jScrollPane4.setViewportView(txtObservacion);
@@ -304,9 +305,8 @@ public class PedidosTable extends javax.swing.JFrame {
                                         .addGap(11, 11, 11)
                                         .addComponent(txtPersonal_))
                                     .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)))
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtFecha))
                                 .addGap(0, 23, Short.MAX_VALUE)))
                         .addGap(20, 20, 20))))
         );
