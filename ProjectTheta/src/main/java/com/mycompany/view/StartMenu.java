@@ -1,7 +1,9 @@
 package com.mycompany.view;
 
+import com.mycompany.controller.ProgramController;
 import static java.lang.Thread.sleep;
 import com.mycompany.model.generics.General;
+import javax.swing.JOptionPane;
 
 public class StartMenu extends javax.swing.JFrame {
 
@@ -12,6 +14,7 @@ public class StartMenu extends javax.swing.JFrame {
         initComponents();
         clock();
     }
+
     public void clock() {
         Thread clock = new Thread() {
             public void run() {
@@ -27,6 +30,7 @@ public class StartMenu extends javax.swing.JFrame {
         };
         clock.start();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -126,13 +130,13 @@ public class StartMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuLogInActionPerformed
-//        setVisible(false);
-        LoginFrame form=new LoginFrame();
-        form.setNext_frame(LoginFrame.NEXT_FRAME.MAIN_MENU);
-        form.setPreviousFrame(this);
-        form.setVisible(true);
-        
-    // TODO add your handling code here:
+        if (ProgramController.logInAdmin(this) != null) {
+            MainMenu form = new MainMenu();
+            form.setPreviousFrame(this);
+            form.setVisible(true);
+            setVisible(false);
+        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnMenuLogInActionPerformed
 
     private void btnCloseProgramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseProgramActionPerformed
@@ -141,10 +145,13 @@ public class StartMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseProgramActionPerformed
 
     private void btnMenuConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuConfigActionPerformed
-        LoginFrame form=new LoginFrame();
-        form.setNext_frame(LoginFrame.NEXT_FRAME.CONFIG_MENU);
-        form.setPreviousFrame(this);
-        form.setVisible(true);
+       if (ProgramController.logInAdmin(this) != null) {
+            ConfigFrame form = new ConfigFrame();
+            form.setPreviousFrame(this);
+            form.setVisible(true);
+            setVisible(false);
+        } else {
+        }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnMenuConfigActionPerformed
 

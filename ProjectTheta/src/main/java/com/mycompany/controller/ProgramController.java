@@ -1,4 +1,5 @@
 package com.mycompany.controller;
+
 import com.mycompany.model.entities.Personal;
 import com.mycompany.model.generics.Sha256;
 import com.mycompany.services.PersonalService;
@@ -114,6 +115,9 @@ public class ProgramController {
         } else {
             System.out.println("Sesión No Iniciada - Admin");
         }
+        if (empleado == null) {
+            JOptionPane.showMessageDialog(parent, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
+        }
         return empleado;
     }
 
@@ -148,6 +152,9 @@ public class ProgramController {
             pc.openSesion(15);
         } else {
             System.out.println("Sesión No Iniciada - User");
+        }
+        if (empleado == null) {
+            JOptionPane.showMessageDialog(parent, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
         }
         return empleado;
     }

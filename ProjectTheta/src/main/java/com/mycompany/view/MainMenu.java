@@ -856,8 +856,6 @@ public class MainMenu extends javax.swing.JFrame {
             form.setRegistroValue(RegistrarPedido.REGISTRO.Registrar,null);       
             form.setVisible(true);
             setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(Login, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnPedidoNuevoActionPerformed
@@ -879,8 +877,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnConfiguracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionesActionPerformed
-        LoginFrame form = new LoginFrame();
-        form.setNext_frame(LoginFrame.NEXT_FRAME.CONFIG_MENU);
+        ConfigFrame form = new ConfigFrame();
         form.setPreviousFrame(this);
         OptionsMainMenu.dispose();
         form.setVisible(true);
@@ -947,8 +944,6 @@ public class MainMenu extends javax.swing.JFrame {
         }
         if (ProgramController.logInUser(Login)!= null) {
             ShowMesaInfo.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(Login, "Credencial Invalida", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
     private void btnMesa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa1ActionPerformed
