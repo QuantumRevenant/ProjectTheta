@@ -35,6 +35,7 @@ public class PedidoService {
 
                 pedido.setIdPedido(listGet.getInt("idPedido"));
                 pedido.setDescripcion(listGet.getString("descripcion"));
+                pedido.setIgv(listGet.getDouble("igv"));
                 pedido.setTotal(listGet.getDouble("total"));
                 pedido.setFechaPedido(listGet.getString("fechaPedido"));
                 switch (listGet.getString("status")) {
@@ -189,6 +190,7 @@ public class PedidoService {
                 TipoPago tPago = tipoPagoService.findById(tPagoId);
                 pedido.setIdPedido(resultSet.getInt("idPedido"));
                 pedido.setDescripcion(resultSet.getString("descripcion"));
+                pedido.setIgv(resultSet.getDouble("igv"));
                 pedido.setTotal(resultSet.getDouble("total"));
                 pedido.setFechaPedido(resultSet.getString("fechaPedido"));
                 switch (resultSet.getString("status")) {
