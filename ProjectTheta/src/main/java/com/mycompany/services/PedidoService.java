@@ -72,7 +72,7 @@ public class PedidoService {
                 pedido.setIdMesa(mesaService.findById(listGet.getInt("idMesa")));
                 orders.add(pedido);
             }
-            conn.close();
+            
             listGet.close();
             return orders;
         } catch (Exception e) {
@@ -84,7 +84,7 @@ public class PedidoService {
     public void save(Pedido pedido) {
         try {
             Connection conn = configuration.getConnectionDatabase();
-            CallableStatement createOrder = conn.prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement createOrder = conn.prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?,?)}");
             createOrder.setString(1, pedido.getDescripcion());
             createOrder.setDouble(2, pedido.getTotal());
             createOrder.setString(3, pedido.getFechaPedido());
@@ -113,8 +113,14 @@ public class PedidoService {
             createOrder.setInt(7, pedido.getIdCliente().getIdCliente());
             createOrder.setInt(8, pedido.getIdTipoPago().getIdTipoPago());
             createOrder.setDouble(9, pedido.getIgv());
+            if(pedido.getIdMesa()!=null)
+            {
+                            createOrder.setInt(10, pedido.getIdMesa().getCodigo());
+            }else{
+                createOrder.setNull(10,0);
+            }
             createOrder.executeUpdate();
-            conn.close();
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -156,7 +162,7 @@ public class PedidoService {
 
             caller.executeUpdate();
             caller.close();
-            conn.close();
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -228,7 +234,7 @@ public class PedidoService {
                 pedido.setIdTipoPago(tPago);
                 resultSet.close();
                 statement.close();
-                conn.close();
+                
                 return pedido;
             }
             resultSet.close();
@@ -320,7 +326,7 @@ public class PedidoService {
             }
 
             resultSet.close();
-            conn.close();
+            
             return orders;
         } catch (Exception e) {
             System.out.println(e.getMessage());

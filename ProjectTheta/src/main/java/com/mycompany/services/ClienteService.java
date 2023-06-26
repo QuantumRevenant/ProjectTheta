@@ -26,7 +26,7 @@ public class ClienteService implements BaseService<Cliente> {
                 c.setDireccion(listGet.getString("direccion"));
                 customers.add(c);
             }
-            conn.close();
+            
             listGet.close();
             configuration.releaseConnection(conn);
             return customers;
