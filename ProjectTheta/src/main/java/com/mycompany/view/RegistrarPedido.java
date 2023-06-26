@@ -126,7 +126,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
             cboStatus.setSelectedIndex(0);
             cboTipoPago.setSelectedIndex(0);
             cboTipoPedido.setSelectedIndex(0);
-            spnFecha.setValue(Date.from(Instant.now()));
             txtObs.setText("");
             txtSubtotal.setText("" + (double) 0);
             txtIGV.setText("" + (double) 0);
@@ -361,6 +360,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         cboTipoPedido = new javax.swing.JComboBox<>();
         btnUnlock = new javax.swing.JButton();
         cboStatus = new javax.swing.JComboBox<>();
+        btnUpdFecha = new javax.swing.JButton();
 
         modificarFrm.setSize(new java.awt.Dimension(275, 75));
 
@@ -563,6 +563,13 @@ public class RegistrarPedido extends javax.swing.JFrame {
 
         cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        btnUpdFecha.setText("↺");
+        btnUpdFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdFechaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -629,16 +636,19 @@ public class RegistrarPedido extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lblMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnUpdFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cboMesa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cboTipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(spnFecha)
                                     .addComponent(cboTipoPedido, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(cboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(spnFecha, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(19, 19, 19))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -670,7 +680,8 @@ public class RegistrarPedido extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(spnFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(spnFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpdFecha))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cboTipoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -711,7 +722,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
                     .addComponent(btnUpdate)
                     .addComponent(btnRestablecer)
                     .addComponent(btnBackCancel))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -868,6 +879,14 @@ public class RegistrarPedido extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cboMesaActionPerformed
 
+    private void btnUpdFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdFechaActionPerformed
+        if(!Print.warnConf("¿Desea Actualizar la Fecha y Hora?", this)){
+            return;
+        }
+        spnFecha.setValue(Date.from(Instant.now()));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdFechaActionPerformed
+
     public int getCodeFromString(String palabra) {
         int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
@@ -954,6 +973,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
     private javax.swing.JButton btnReducir;
     private javax.swing.JButton btnRestablecer;
     private javax.swing.JButton btnUnlock;
+    private javax.swing.JButton btnUpdFecha;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cboClientes;
     private javax.swing.JComboBox<String> cboMesa;

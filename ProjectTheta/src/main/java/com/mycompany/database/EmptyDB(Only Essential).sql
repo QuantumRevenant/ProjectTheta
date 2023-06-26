@@ -1,6 +1,6 @@
 /*
 SQLyog Community v13.2.0 (64 bit)
-MySQL - 10.4.21-MariaDB : Database - reservation
+MySQL - 10.4.28-MariaDB : Database - reservation
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 10.4.21-MariaDB : Database - reservation
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`reservation` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`reservation` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 
 USE `reservation`;
 
@@ -24,7 +24,7 @@ CREATE TABLE `categoria` (
   `idCategoria` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(25) NOT NULL,
   PRIMARY KEY (`idCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `categoria` */
 
@@ -52,12 +52,12 @@ CREATE TABLE `cliente` (
   `telefono` varchar(25) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `cliente` */
 
 insert  into `cliente`(`idCliente`,`nombre`,`apellido`,`dni`,`telefono`,`direccion`) values 
-(1,'Invitado','-','-','-','-');
+(1,'Invitado','Guest','-','-','-');
 
 /*Table structure for table `detallepedido` */
 
@@ -72,7 +72,7 @@ CREATE TABLE `detallepedido` (
   KEY `detallepedido_ibfk_2` (`idMenu`),
   CONSTRAINT `detallepedido_ibfk_1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`),
   CONSTRAINT `detallepedido_ibfk_2` FOREIGN KEY (`idMenu`) REFERENCES `menu` (`idMenu`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `detallepedido` */
 
@@ -89,7 +89,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`idMenu`),
   KEY `menus_ibfk_1` (`idCategoria`),
   CONSTRAINT `menus_ibfk_1` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`idCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `menu` */
 
@@ -105,7 +105,7 @@ CREATE TABLE `mesa` (
   `nombreMesa` varchar(25) NOT NULL,
   `statusMesa` varchar(25) NOT NULL,
   PRIMARY KEY (`idMesa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `mesa` */
 
@@ -114,7 +114,11 @@ insert  into `mesa`(`idMesa`,`nombreMesa`,`statusMesa`) values
 (2,'Mesa #2','LIBRE'),
 (3,'Mesa #3','LIBRE'),
 (4,'Mesa #4','LIBRE'),
-(5,'Mesa #5','LIBRE');
+(5,'Mesa #5','LIBRE'),
+(6,'Mesa #1','LIBRE'),
+(7,'Mesa #1','LIBRE'),
+(8,'Mesa #1','LIBRE'),
+(9,'Mesa #1','LIBRE');
 
 /*Table structure for table `pedidos` */
 
@@ -141,7 +145,7 @@ CREATE TABLE `pedidos` (
   CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`idPersonal`) REFERENCES `personal` (`idPersonal`),
   CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
   CONSTRAINT `pedidos_ibfk_4` FOREIGN KEY (`idTipoPago`) REFERENCES `tipopago` (`idTipoPago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `pedidos` */
 
@@ -161,7 +165,7 @@ CREATE TABLE `personal` (
   `diaDescanso` varchar(10) DEFAULT NULL,
   `nombreCargo` varchar(30) NOT NULL,
   PRIMARY KEY (`idPersonal`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `personal` */
 
@@ -177,7 +181,7 @@ CREATE TABLE `tipopago` (
   `idTipoPago` int(11) NOT NULL,
   `descripcion` varchar(20) NOT NULL,
   PRIMARY KEY (`idTipoPago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `tipopago` */
 
@@ -194,7 +198,7 @@ CREATE TABLE `tipopedido` (
   `idTipoPedido` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(20) NOT NULL,
   PRIMARY KEY (`idTipoPedido`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `tipopedido` */
 
@@ -434,10 +438,11 @@ DELIMITER $$
     IN idTipoPedido INT,
     IN idCliente INT,
     IN idTipoPago INT,
-    IN igv DOUBLE(255, 2)
+    IN igv DOUBLE(255, 2),
+    IN idMesa INT    
 )
-INSERT INTO pedidos (descripcion, total, fechaPedido , idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status)
-    VALUES (descripcion, total, fechaPedido, idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status) */$$
+INSERT INTO pedidos (descripcion, total, fechaPedido , idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status,idMesa)
+    VALUES (descripcion, total, fechaPedido, idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status,idMesa) */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `tipoPagoList` */
@@ -527,7 +532,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateOrder`(
-    IN idPedido INT,
+    IN id INT,
     IN descripcion VARCHAR(200),
     IN total DOUBLE(255, 2),
     IN fechaPedido VARCHAR(50),
@@ -536,12 +541,13 @@ DELIMITER $$
     IN idTipoPedido INT,
     IN idCliente INT,
     IN idTipoPago INT,
-    IN igv DOUBLE(255, 2)
+    IN igv DOUBLE(255, 2),
+    in idMesa INT
 )
 UPDATE pedidos
     SET descripcion = descripcion, total = total, fechaPedido = fechaPedido, idPersonal = idPersonal,
-        idTipoPedido = idTipoPedido, idCliente = idCliente, idTipoPago = idTipoPago, igv = igv, Status = status
-    WHERE idPedido = idPedido */$$
+        idTipoPedido = idTipoPedido, idCliente = idCliente, idTipoPago = idTipoPago, igv = igv, Status = status,idMesa=idMesa
+    WHERE idPedido = id */$$
 DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
