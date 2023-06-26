@@ -209,7 +209,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         if (registro == REGISTRO.Registrar) {
             numPed = pedidoController.findMaxItem().getIdPedido() + 1;
         } else {
-            numPed = IdPedido.getIdPedido();
+            numPed = previousPedido.getIdPedido();
         }
         lblTitle.setText(registro.toString().toUpperCase() + " PEDIDO #" + numPed);
         btnUpdate.setText(registro.toString());

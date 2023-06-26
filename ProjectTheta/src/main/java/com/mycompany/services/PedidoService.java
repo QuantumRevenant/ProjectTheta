@@ -131,7 +131,6 @@ public class PedidoService {
         try {
             Connection conn = configuration.getConnectionDatabase();
             CallableStatement caller = conn.prepareCall("{CALL updateOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            Print.log(pedido.getIdPedido());
             caller.setInt(1, pedido.getIdPedido());
             caller.setString(2, pedido.getDescripcion());
             caller.setDouble(3, pedido.getTotal());
@@ -161,7 +160,7 @@ public class PedidoService {
             caller.setInt(8, pedido.getIdCliente().getIdCliente());
             caller.setInt(9, pedido.getIdTipoPago().getIdTipoPago());
             caller.setDouble(10, pedido.getIgv());
-
+            caller.setInt(11,pedido.getIdMesa().getCodigo());
             caller.executeUpdate();
             caller.close();
             configuration.releaseConnection(conn);
@@ -206,7 +205,7 @@ public class PedidoService {
                 int tPagoId = resultSet.getInt("idTipoPago");
                 TipoPagoService tipoPagoService = new TipoPagoService();
                 TipoPago tPago = tipoPagoService.findById(tPagoId);
-                pedido.setIdPedido(resultSet.getInt("idPedido"));
+                pedido.setIdPedido(id);
                 pedido.setDescripcion(resultSet.getString("descripcion"));
                 pedido.setIgv(resultSet.getDouble("igv"));
                 pedido.setTotal(resultSet.getDouble("total"));
@@ -235,7 +234,6 @@ public class PedidoService {
                 pedido.setIdTipoPedido(tPedido);
                 pedido.setIdCliente(cliente);
                 pedido.setIdTipoPago(tPago);
-                pedido.setIdPedido(tPedidoId);
                 MesaService mesaService = new MesaService();
                 pedido.setIdMesa(mesaService.findById(resultSet.getInt("idMesa")));
                 resultSet.close();

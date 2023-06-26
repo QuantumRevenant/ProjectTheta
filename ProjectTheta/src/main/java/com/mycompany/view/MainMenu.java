@@ -1357,7 +1357,6 @@ public class MainMenu extends javax.swing.JFrame {
         }
         mesaSeleccionada.LiberarMesa();
         List<Pedido> lst = peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada);
-        Print.log(lst);
         for (int i = 0; i < lst.size(); i++) {
             lst.get(i).setStatus(Pedido.PEDIDO_STATUS.COMPLETO);
             peC.updateOrder(lst.get(i));
@@ -1464,7 +1463,6 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void tbOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbOrdersMouseClicked
         int id = (int) tbOrders.getModel().getValueAt(tbOrders.getSelectedRow(), 0);
-        Print.log("a");
         Pedido p = peC.findCustomerById(id);
         cboOrders.setSelectedItem("[" + p.getIdPedido() + "] - " + p.getIdCliente().getApellido() + " - " + p.getFechaPedido() + " - S/." + p.getTotal());
 // TODO add your handling code here:
