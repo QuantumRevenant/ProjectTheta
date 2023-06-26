@@ -10,10 +10,13 @@ import java.sql.*;
 
 public class PedidoService {
 
+    private Configuration configuration = Configuration.getConf();
+
     public List<Pedido> findAll() {
         try {
             List<Pedido> orders = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL ordersList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL ordersList()}");
             ResultSet listGet = caller.executeQuery();
             while (listGet.next()) {
                 Pedido pedido = new Pedido();
@@ -69,7 +72,7 @@ public class PedidoService {
                 pedido.setIdMesa(mesaService.findById(listGet.getInt("idMesa")));
                 orders.add(pedido);
             }
-            Configuration.getConnectionDatabase().close();
+            conn.close();
             listGet.close();
             return orders;
         } catch (Exception e) {
@@ -80,7 +83,8 @@ public class PedidoService {
 
     public void save(Pedido pedido) {
         try {
-            CallableStatement createOrder = Configuration.getConnectionDatabase().prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement createOrder = conn.prepareCall("{CALL saveOrder(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             createOrder.setString(1, pedido.getDescripcion());
             createOrder.setDouble(2, pedido.getTotal());
             createOrder.setString(3, pedido.getFechaPedido());
@@ -110,7 +114,7 @@ public class PedidoService {
             createOrder.setInt(8, pedido.getIdTipoPago().getIdTipoPago());
             createOrder.setDouble(9, pedido.getIgv());
             createOrder.executeUpdate();
-            Configuration.getConnectionDatabase().close();
+            conn.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -118,7 +122,8 @@ public class PedidoService {
 
     public void update(Pedido pedido) {
         try {
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL updateOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL updateOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             caller.setInt(1, pedido.getIdPedido());
             caller.setString(2, pedido.getDescripcion());
             caller.setDouble(3, pedido.getTotal());
@@ -151,7 +156,7 @@ public class PedidoService {
 
             caller.executeUpdate();
             caller.close();
-            Configuration.getConnectionDatabase().close();
+            conn.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -159,11 +164,11 @@ public class PedidoService {
 
     public void delete(Pedido pedido) {
         try {
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL deleteOrder(?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL deleteOrder(?)}");
             caller.setInt(1, pedido.getIdPedido());
             caller.executeUpdate();
             caller.close();
-            Configuration.getConnectionDatabase().close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -171,7 +176,8 @@ public class PedidoService {
 
     public Pedido findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.pedidos WHERE idPedido = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.pedidos WHERE idPedido = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -222,9 +228,12 @@ public class PedidoService {
                 pedido.setIdTipoPago(tPago);
                 resultSet.close();
                 statement.close();
-                Configuration.getConnectionDatabase().close();
+                conn.close();
                 return pedido;
             }
+            resultSet.close();
+            statement.close();
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -233,13 +242,13 @@ public class PedidoService {
 
     public Pedido findMaxItem() {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT MAX(idPedido) FROM pedidos");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT MAX(idPedido) FROM pedidos");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int value = resultSet.getInt("MAX(idPedido)");
                 resultSet.close();
                 statement.close();
-                Configuration.getConnectionDatabase().close();
                 return findById(value);
             }
         } catch (Exception e) {
@@ -251,7 +260,8 @@ public class PedidoService {
     public List<Pedido> findStatusOrder(Pedido.PEDIDO_STATUS status) {
         try {
             List<Pedido> orders = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL ordersList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL ordersList()}");
             ResultSet resultSet = caller.executeQuery();
             while (resultSet.next()) {
                 Pedido pedido = new Pedido();
@@ -310,7 +320,7 @@ public class PedidoService {
             }
 
             resultSet.close();
-            Configuration.getConnectionDatabase().close();
+            conn.close();
             return orders;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -321,7 +331,8 @@ public class PedidoService {
     public List<Pedido> findStatusTableOrder(Pedido.PEDIDO_STATUS status, Mesa idMesa) {
         try {
             List<Pedido> orders = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL ordersList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL ordersList()}");
             ResultSet listGet = caller.executeQuery();
             while (listGet.next()) {
                 Pedido pedido = new Pedido();
@@ -381,7 +392,7 @@ public class PedidoService {
                     }
                 }
             }
-            Configuration.getConnectionDatabase().close();
+            configuration.releaseConnection(conn);
             listGet.close();
             return orders;
         } catch (Exception e) {

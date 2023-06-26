@@ -185,7 +185,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton1" max="32767" attributes="0"/>
+                          <Component id="btnNewShow" max="32767" attributes="0"/>
                           <Component id="lblMesaTitle" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jLabel3" min="-2" pref="49" max="-2" attributes="0"/>
@@ -200,9 +200,9 @@
                               <Component id="lblPedidoCodigo" min="-2" pref="128" max="-2" attributes="0"/>
                           </Group>
                           <Component id="lblPedidoCliente" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton4" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnCleanShow" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnCancelShow" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnModifyShow" alignment="0" max="32767" attributes="0"/>
                           <Component id="lblPedidoHoraLibre" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -233,13 +233,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblPedidoHoraLibre" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnNewShow" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnModifyShow" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCleanShow" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCancelShow" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -302,24 +302,24 @@
                 <Property name="text" type="java.lang.String" value="Hora: XX:XX:XX"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Modificar Pedido"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="btnNewShow">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Crear Pedido"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="btnModifyShow">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Completar Pedido"/>
+                <Property name="text" type="java.lang.String" value="Modificar Pedidos"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="btnCleanShow">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cancelar Pedido"/>
+                <Property name="text" type="java.lang.String" value="Liberar Mesa"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnCancelShow">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cancelar Mesa"/>
               </Properties>
             </Component>
           </SubComponents>

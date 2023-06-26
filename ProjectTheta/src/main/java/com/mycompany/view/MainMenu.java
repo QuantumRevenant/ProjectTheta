@@ -185,10 +185,10 @@ public class MainMenu extends javax.swing.JFrame {
         lblPedidoCliente = new javax.swing.JLabel();
         lblPedidoCodigo = new javax.swing.JLabel();
         lblPedidoHoraLibre = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnNewShow = new javax.swing.JButton();
+        btnModifyShow = new javax.swing.JButton();
+        btnCleanShow = new javax.swing.JButton();
+        btnCancelShow = new javax.swing.JButton();
         Login = new javax.swing.JFrame();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -370,13 +370,13 @@ public class MainMenu extends javax.swing.JFrame {
 
         lblPedidoHoraLibre.setText("Hora: XX:XX:XX");
 
-        jButton1.setText("Modificar Pedido");
+        btnNewShow.setText("Crear Pedido");
 
-        jButton4.setText("Crear Pedido");
+        btnModifyShow.setText("Modificar Pedidos");
 
-        jButton2.setText("Completar Pedido");
+        btnCleanShow.setText("Liberar Mesa");
 
-        jButton3.setText("Cancelar Pedido");
+        btnCancelShow.setText("Cancelar Mesa");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -385,7 +385,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblMesaTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -398,9 +398,9 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblPedidoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblPedidoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCleanShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancelShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnModifyShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblPedidoHoraLibre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -426,13 +426,13 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPedidoHoraLibre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnNewShow)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(btnModifyShow)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(btnCleanShow)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(btnCancelShow)
                 .addGap(27, 27, 27))
         );
 
@@ -1247,7 +1247,9 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JFrame ShowMesaInfo;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCancelShow;
     private javax.swing.JButton btnCancelarLogin;
+    private javax.swing.JButton btnCleanShow;
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnCloseSesion;
     private javax.swing.JButton btnConfiguraciones;
@@ -1273,14 +1275,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnMesa8;
     private javax.swing.JButton btnMesa9;
     private javax.swing.JButton btnMesas;
+    private javax.swing.JButton btnModifyShow;
+    private javax.swing.JButton btnNewShow;
     private javax.swing.JButton btnPedidoNuevo;
     private javax.swing.JButton btnPedidos;
     private javax.swing.JButton btnReservaNueva;
     private javax.swing.JButton btnReservas;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

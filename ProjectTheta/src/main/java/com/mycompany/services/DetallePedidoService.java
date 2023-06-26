@@ -10,10 +10,13 @@ import java.util.List;
 
 public class DetallePedidoService {
 
+    private Configuration configuration = Configuration.getConf();
+
     public List<DetallePedido> findAll() {
         try {
             List<DetallePedido> orderDetails = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL orderDetailsList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL orderDetailsList()}");
             ResultSet listGet = caller.executeQuery();
             while (listGet.next()) {
                 DetallePedido details = new DetallePedido();
@@ -31,8 +34,9 @@ public class DetallePedidoService {
                 details.setSubTotal(listGet.getDouble("subtotal"));
                 orderDetails.add(details);
             }
-            Configuration.getConnectionDatabase().close();
+            conn.close();
             listGet.close();
+            configuration.releaseConnection(conn);
             return orderDetails;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -42,13 +46,15 @@ public class DetallePedidoService {
 
     public void save(DetallePedido detallePedido) {
         try {
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL createOrderDetails(?,?,?,?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL createOrderDetails(?,?,?,?)}");
             caller.setInt(1, detallePedido.getIdPedido().getIdPedido());
             caller.setInt(2, detallePedido.getIdMenu().getIdMenu());
             caller.setInt(3, detallePedido.getCantidadPlatos());
             caller.setDouble(4, detallePedido.getSubTotal());
             caller.executeUpdate();
             caller.close();
+            configuration.releaseConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +62,8 @@ public class DetallePedidoService {
 
     public DetallePedido findByID(int idPersonal, int idMenu) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM `pedidos` WHERE idPersonal = ? AND idCliente= ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM `pedidos` WHERE idPersonal = ? AND idCliente= ?");
             statement.setInt(1, idPersonal);
             statement.setInt(2, idMenu);
             ResultSet resultSet = statement.executeQuery();
@@ -73,10 +80,15 @@ public class DetallePedidoService {
                 details.setIdMenu(menu);
                 details.setCantidadPlatos(resultSet.getInt("cantidadPlatos"));
                 details.setSubTotal(resultSet.getDouble("subtotal"));
+                resultSet.close();
+                statement.close();
+                configuration.releaseConnection(conn);
                 return details;
             }
             resultSet.close();
             statement.close();
+            configuration.releaseConnection(conn);
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -86,7 +98,8 @@ public class DetallePedidoService {
     public List<DetallePedido> findByPedidoID(int id) {
         try {
             List<DetallePedido> orderDetails = new ArrayList<>();
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.detallepedido WHERE idPedido = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.detallepedido WHERE idPedido = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -106,6 +119,7 @@ public class DetallePedidoService {
             }
             resultSet.close();
             statement.close();
+            configuration.releaseConnection(conn);
             return orderDetails;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -116,7 +130,8 @@ public class DetallePedidoService {
     public List<DetallePedido> findByMenuID(int id) {
         try {
             List<DetallePedido> orderDetails = new ArrayList<>();
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.detallepedido WHERE idMenu = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.detallepedido WHERE idMenu = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -136,20 +151,23 @@ public class DetallePedidoService {
             }
             resultSet.close();
             statement.close();
+            configuration.releaseConnection(conn);
             return orderDetails;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
-            
+
     }
-    
+
     public void deletePerIdPedido(Pedido idPedido) {
         try {
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL deleteOrderDetailsPerPedido(?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL deleteOrderDetailsPerPedido(?)}");
             caller.setInt(1, idPedido.getIdPedido());
             caller.executeUpdate();
             caller.close();
+            configuration.releaseConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }

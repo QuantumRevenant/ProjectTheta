@@ -9,10 +9,13 @@ import java.util.List;
 
 public class TipoPagoService {
 
+    private Configuration configuration = Configuration.getConf();
+
     public List<TipoPago> findAll() {
         try {
             List<TipoPago> tipoPago = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL tipoPagoList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL tipoPagoList()}");
             ResultSet listGet = caller.executeQuery();
             while (listGet.next()) {
                 TipoPago p = new TipoPago();
@@ -20,8 +23,8 @@ public class TipoPagoService {
                 p.setTipoPago(listGet.getString("descripcion"));
                 tipoPago.add(p);
             }
-            Configuration.getConnectionDatabase().close();
             listGet.close();
+            configuration.releaseConnection(conn);
             return tipoPago;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -31,13 +34,17 @@ public class TipoPagoService {
 
     public TipoPago findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.tipopago WHERE idTipoPago = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.tipopago WHERE idTipoPago = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 TipoPago tPago = new TipoPago();
                 tPago.setIdTipoPago(resultSet.getInt("idTipoPago"));
                 tPago.setTipoPago(resultSet.getString("descripcion"));
+                resultSet.close();
+                statement.close();
+                configuration.releaseConnection(conn);
                 return tPago;
             }
             resultSet.close();

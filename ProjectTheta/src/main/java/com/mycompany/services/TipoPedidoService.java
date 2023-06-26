@@ -3,6 +3,7 @@ package com.mycompany.services;
 import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.TipoPedido;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.PreparedStatement;
@@ -10,12 +11,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class TipoPedidoService {
+
+    private Configuration configuration = Configuration.getConf();
+
     public List<TipoPedido> findAll() {
         try {
             List<TipoPedido> tipoPedido = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL tipoPedidoList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL tipoPedidoList()}");
             ResultSet listGet = caller.executeQuery();
             while (listGet.next()) {
                 TipoPedido p = new TipoPedido();
@@ -23,23 +27,28 @@ public class TipoPedidoService {
                 p.setTipoPedido(listGet.getString("descripcion"));
                 tipoPedido.add(p);
             }
-            Configuration.getConnectionDatabase().close();
             listGet.close();
+            configuration.releaseConnection(conn);
             return tipoPedido;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
-    public TipoPedido findById(int id){
+
+    public TipoPedido findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.tipopedido WHERE idTipoPedido = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.tipopedido WHERE idTipoPedido = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 TipoPedido tipoPedido = new TipoPedido();
                 tipoPedido.setIdTipoPedido(resultSet.getInt("idTipoPedido"));
                 tipoPedido.setTipoPedido(resultSet.getString("descripcion"));
+                resultSet.close();
+                statement.close();
+                configuration.releaseConnection(conn);
                 return tipoPedido;
             }
             resultSet.close();
@@ -49,20 +58,22 @@ public class TipoPedidoService {
         }
         return null;
     }
-    
-    public TipoPedido findByName(String name){
+
+    public TipoPedido findByName(String name) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.tipopedido WHERE UPPER(descripcion) LIKE UPPER(?)");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.tipopedido WHERE UPPER(descripcion) LIKE UPPER(?)");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 TipoPedido tipoPedido = new TipoPedido();
                 tipoPedido.setIdTipoPedido(resultSet.getInt("idTipoPedido"));
                 tipoPedido.setTipoPedido(resultSet.getString("descripcion"));
+                resultSet.close();
+                statement.close();
+                configuration.releaseConnection(conn);
                 return tipoPedido;
             }
-            resultSet.close();
-            statement.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

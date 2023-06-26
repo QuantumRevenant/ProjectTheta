@@ -4,13 +4,16 @@ import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.Categoria;
 import java.sql.*;
 import java.util.*;
-public class CategoriaService implements BaseService<Categoria>{
+
+public class CategoriaService implements BaseService<Categoria> {
+
+    private Configuration configuration = Configuration.getConf();
 
     @Override
     public List<Categoria> findAll() {
-       /* try {
+        /* try {
             List<Categoria> lst = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL categoryList()}");
+            CallableStatement caller = conn.prepareCall("{CALL categoryList()}");
             ResultSet listGet = caller.executeQuery();
             while (listGet.next()) {
                 Categoria c = new Categoria();
@@ -18,7 +21,7 @@ public class CategoriaService implements BaseService<Categoria>{
                 c.setNombre(listGet.getString("nombre"));
                 lst.add(c);
             }
-            Configuration.getConnectionDatabase().close();
+            conn.close();
             listGet.close();
             return lst;
         }catch (Exception e) {
@@ -26,7 +29,8 @@ public class CategoriaService implements BaseService<Categoria>{
         }
         return null;*/    //<- FUNCION PREDETERMINADA, EN CASO NO FUNCIONE
         List<Categoria> lst = new ArrayList<>();
-        try (CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL categoryList()}")) {
+        Connection conn = configuration.getConnectionDatabase();
+        try (CallableStatement caller = conn.prepareCall("{CALL categoryList()}")) {
             try (ResultSet listGet = caller.executeQuery()) {
                 while (listGet.next()) {
                     Categoria c = new Categoria();
@@ -38,40 +42,50 @@ public class CategoriaService implements BaseService<Categoria>{
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        configuration.releaseConnection(conn);
         return lst.isEmpty() ? null : lst;
     }
 
     @Override
     public void save(Categoria t) {
-        try{
-            CallableStatement createCategory =
-                    Configuration.getConnectionDatabase().prepareCall(("{CALL createCategory(?)}"));
+        try {
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement createCategory = conn.prepareCall(("{CALL createCategory(?)}"));
             createCategory.setString(1, t.getNombre());
             createCategory.executeQuery();
-        } catch(Exception e) {
+            configuration.releaseConnection(conn);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     @Override
-    public void update(Categoria t) { }
+    public void update(Categoria t) {
+    }
 
     @Override
-    public void delete(Categoria t) { }
-    
-    public Categoria findById(int id){
+    public void delete(Categoria t) {
+    }
+
+    public Categoria findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.categoria WHERE idCategoria = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.categoria WHERE idCategoria = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Categoria categoria = new Categoria();
                 categoria.setIdCategoria(resultSet.getInt("idCategoria"));
                 categoria.setNombre(resultSet.getString("nombre"));
+                resultSet.close();
+                statement.close();
+                configuration.releaseConnection(conn);
                 return categoria;
             }
             resultSet.close();
             statement.close();
+            configuration.releaseConnection(conn);
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

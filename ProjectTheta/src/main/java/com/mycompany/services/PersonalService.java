@@ -12,11 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonalService implements BaseService<Personal> {
 
+    private Configuration configuration = Configuration.getConf();
+
     @Override
     public List<Personal> findAll() {
         try {
             List<Personal> employees = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL employeesList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL employeesList()}");
             ResultSet listGet = caller.executeQuery();
             while (listGet.next()) {
                 Personal p = new Personal();
@@ -32,8 +35,8 @@ public class PersonalService implements BaseService<Personal> {
                 p.setNombreCargo(Personal.CARGOS.valueOf(listGet.getString("nombreCargo")));
                 employees.add(p);
             }
-            Configuration.getConnectionDatabase().close();
             listGet.close();
+            configuration.releaseConnection(conn);
             return employees;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -44,8 +47,8 @@ public class PersonalService implements BaseService<Personal> {
     @Override
     public void save(Personal personal) {
         try {
-            CallableStatement createCustomer
-                    = Configuration.getConnectionDatabase().prepareCall(("{CALL createEmployee(?,?,?,?,?,?,?,?,?)}"));
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement createCustomer = conn.prepareCall(("{CALL createEmployee(?,?,?,?,?,?,?,?,?)}"));
             createCustomer.setString(1, personal.getNombre());
             createCustomer.setString(2, personal.getApellidos());
             createCustomer.setString(3, personal.getTelefono());
@@ -68,8 +71,8 @@ public class PersonalService implements BaseService<Personal> {
     @Override
     public void update(Personal personal) {
         try {
-            CallableStatement updateEmployee
-                    = Configuration.getConnectionDatabase().prepareCall(("{CALL updateEmployee(?,?,?,?,?,?,?,?,?,?)}"));
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement updateEmployee = conn.prepareCall(("{CALL updateEmployee(?,?,?,?,?,?,?,?,?,?)}"));
             updateEmployee.setInt(1, personal.getIdPersonal());
             updateEmployee.setString(2, personal.getNombre());
             updateEmployee.setString(3, personal.getApellidos());
@@ -93,8 +96,8 @@ public class PersonalService implements BaseService<Personal> {
     @Override
     public void delete(Personal personal) {
         try {
-            PreparedStatement deleteEmployee
-                    = Configuration.getConnectionDatabase().prepareStatement(("{CALL deleteEmployeeById(?)}"));
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement deleteEmployee = conn.prepareStatement(("{CALL deleteEmployeeById(?)}"));
             deleteEmployee.setInt(1, personal.getIdPersonal());
             deleteEmployee.executeUpdate();
         } catch (Exception e) {
@@ -104,7 +107,8 @@ public class PersonalService implements BaseService<Personal> {
 
     public Personal findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.personal WHERE idPersonal = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.personal WHERE idPersonal = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -120,11 +124,15 @@ public class PersonalService implements BaseService<Personal> {
                 personal.setHoraFin(resultSet.getString("horaFin"));
                 personal.setDiaDescanso(resultSet.getString("diaDescanso"));
                 personal.setNombreCargo(Personal.CARGOS.valueOf(resultSet.getString("nombreCargo")));
-
+                resultSet.close();
+                statement.close();
+                configuration.releaseConnection(conn);
                 return personal;
             }
             resultSet.close();
             statement.close();
+            configuration.releaseConnection(conn);
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -133,13 +141,15 @@ public class PersonalService implements BaseService<Personal> {
 
     public Personal loginAdmin(String username, String password) {
         try {
-            PreparedStatement statement =
-                    Configuration.getConnectionDatabase()
-                            .prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE usuario = ? AND password = ? AND nombreCargo = 'ADMIN'");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE usuario = ? AND password = ? AND nombreCargo = 'ADMIN'");
             statement.setString(1, username);
             statement.setString(2, password);
             Personal personal = getPersonal(statement);
-            if (personal != null) return personal;
+            configuration.releaseConnection(conn);
+            if (personal != null) {
+                return personal;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -153,6 +163,9 @@ public class PersonalService implements BaseService<Personal> {
             personal.setIdPersonal(resultSet.getInt("idPersonal"));
             personal.setNombre(resultSet.getString("nombre"));
             personal.setApellidos(resultSet.getString("apellidos"));
+            resultSet.close();
+            statement.close();
+
             return personal;
         }
         resultSet.close();
@@ -162,12 +175,14 @@ public class PersonalService implements BaseService<Personal> {
 
     public Personal loginEmployee(String password) {
         try {
-            PreparedStatement statement =
-                    Configuration.getConnectionDatabase()
-                            .prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE  password = ? AND (nombreCargo != 'ADMIN' OR nombreCargo='EMPLEADO')");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT idPersonal, nombre, apellidos FROM reservation.personal WHERE  password = ? AND (nombreCargo != 'ADMIN' OR nombreCargo='EMPLEADO')");
             statement.setString(1, password);
             Personal personal = getPersonal(statement);
-            if (personal != null) return personal;
+            configuration.releaseConnection(conn);
+            if (personal != null) {
+                return personal;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

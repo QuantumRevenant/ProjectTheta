@@ -8,6 +8,7 @@ import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.entities.Pedido;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -19,11 +20,14 @@ import java.util.List;
  */
 public class MesaService implements BaseService<Mesa> {
 
+    private Configuration configuration = Configuration.getConf();
+
     @Override
     public List<Mesa> findAll() {
         try {
             List<Mesa> mesaList = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL mesaList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL mesaList()}");
             ResultSet resultSet = caller.executeQuery();
             while (resultSet.next()) {
                 Mesa mesa = new Mesa();
@@ -32,8 +36,8 @@ public class MesaService implements BaseService<Mesa> {
                 mesa.setMesa_status(Mesa.MESA_STATUS.valueOf(resultSet.getString("statusMesa")));
                 mesaList.add(mesa);
             }
-            Configuration.getConnectionDatabase().close();
             resultSet.close();
+            configuration.releaseConnection(conn);
             return mesaList;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -44,7 +48,8 @@ public class MesaService implements BaseService<Mesa> {
     public List<Mesa> findMinorsTo(int quantity) {
         try {
             List<Mesa> mesaList = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL mesaList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL mesaList()}");
             ResultSet resultSet = caller.executeQuery();
             while (resultSet.next()) {
                 Mesa mesa = new Mesa();
@@ -55,8 +60,8 @@ public class MesaService implements BaseService<Mesa> {
                     mesaList.add(mesa);
                 }
             }
-            Configuration.getConnectionDatabase().close();
             resultSet.close();
+            configuration.releaseConnection(conn);
             return mesaList;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -67,7 +72,8 @@ public class MesaService implements BaseService<Mesa> {
     @Override
     public void save(Mesa t) {
         try {
-            CallableStatement createMesa = Configuration.getConnectionDatabase().prepareCall("{CALL createMesa(?,?,?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement createMesa = conn.prepareCall("{CALL createMesa(?,?,?)}");
             int idmesa = findMaxId() + 1; // Obtener idCategoria de otra tabla
             createMesa.setInt(1, idmesa);
             createMesa.setString(2, t.getNombreMesa());
@@ -90,7 +96,8 @@ public class MesaService implements BaseService<Mesa> {
 
     public Mesa findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.mesa WHERE idMesa=?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.mesa WHERE idMesa=?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -98,10 +105,10 @@ public class MesaService implements BaseService<Mesa> {
                 mesa.setCodigo(resultSet.getInt("idMesa"));
                 mesa.setNombreMesa(resultSet.getString("nombreMesa"));
                 mesa.setMesa_status(Mesa.MESA_STATUS.valueOf(resultSet.getString("statusMesa")));
+                resultSet.close();
+                configuration.releaseConnection(conn);
                 return mesa;
             }
-            Configuration.getConnectionDatabase().close();
-            resultSet.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -110,13 +117,14 @@ public class MesaService implements BaseService<Mesa> {
 
     public int findMaxId() {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT MAX(idMesa) FROM mesa");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT MAX(idMesa) FROM mesa");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int value = resultSet.getInt("MAX(idMesa)");
                 resultSet.close();
                 statement.close();
-                Configuration.getConnectionDatabase().close();
+                configuration.releaseConnection(conn);
                 return value;
             }
         } catch (Exception e) {

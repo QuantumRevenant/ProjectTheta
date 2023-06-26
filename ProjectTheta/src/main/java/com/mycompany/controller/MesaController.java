@@ -6,6 +6,7 @@ import com.mycompany.model.entities.TipoPedido;
 import com.mycompany.model.generics.Print;
 import com.mycompany.services.MesaService;
 import com.mycompany.services.PedidoService;
+import static java.lang.Thread.sleep;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,11 +37,13 @@ public class MesaController {
 
     public MesaController(MesaService mS) {
         mesaService = mS;
-        updateController();
+        lstPedPendientes = pec.getStatusOrders(Pedido.PEDIDO_STATUS.PENDIENTE);
+        lstPedEnvios = pec.getStatusOrders(Pedido.PEDIDO_STATUS.EN_ENVIO);
+        updateQuantity();
+        updateStatusMesas();
     }
 
     public void updateController() {
-
         lstPedPendientes = pec.getStatusOrders(Pedido.PEDIDO_STATUS.PENDIENTE);
         lstPedEnvios = pec.getStatusOrders(Pedido.PEDIDO_STATUS.EN_ENVIO);
         updateQuantity();
@@ -56,21 +59,18 @@ public class MesaController {
         }
         lstMesa = mesaService.findMinorsTo(cantidadDeMesas);
     }
-    
-    public void updateStatusMesas(){
-        for(Mesa x:lstMesa)
-        {
-            List<Pedido> lstPedidos=pec.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, x);
-            if(lstPedidos==null || lstPedidos.size()==0)
-            {
+
+    public void updateStatusMesas() {
+        for (Mesa x : lstMesa) {
+            List<Pedido> lstPedidos = pec.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, x);
+            if (lstPedidos == null || lstPedidos.size() == 0) {
                 x.LiberarMesa();
-            }
-            else
-            {
+            } else {
                 x.OcuparMesa();
             }
         }
     }
+
     public int getQuantityStatus(Mesa.MESA_STATUS status) {
         int output = 0;
         for (Mesa x : lstMesa) {

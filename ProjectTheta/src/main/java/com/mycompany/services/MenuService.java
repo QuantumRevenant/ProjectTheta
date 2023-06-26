@@ -8,12 +8,14 @@ import java.util.*;
 
 public class MenuService implements BaseService<Menu> {
 
+    private Configuration configuration = Configuration.getConf();
 
     @Override
     public List<Menu> findAll() {
         try {
             List<Menu> menuList = new ArrayList<>();
-            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL menuList()}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement caller = conn.prepareCall("{CALL menuList()}");
             ResultSet resultSet = caller.executeQuery();
             while (resultSet.next()) {
                 Menu menu = new Menu();
@@ -25,8 +27,9 @@ public class MenuService implements BaseService<Menu> {
                 menu.setPrecio(resultSet.getDouble("precio"));
                 menuList.add(menu);
             }
-            Configuration.getConnectionDatabase().close();
+            caller.close();
             resultSet.close();
+            configuration.releaseConnection(conn);
             return menuList;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -37,8 +40,8 @@ public class MenuService implements BaseService<Menu> {
     @Override
     public void save(Menu menu) {
         try {
-            CallableStatement createMenu =
-                    Configuration.getConnectionDatabase().prepareCall("{CALL createMenu(?,?,?,?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement createMenu = conn.prepareCall("{CALL createMenu(?,?,?,?)}");
             int idCategoria = getCategoriaId(menu.getIdCategoria()); // Obtener idCategoria de otra tabla
             createMenu.setInt(1, idCategoria);
             createMenu.setString(2, menu.getTipo());
@@ -53,8 +56,8 @@ public class MenuService implements BaseService<Menu> {
     @Override
     public void update(Menu menu) {
         try {
-            CallableStatement updateMenu =
-                    Configuration.getConnectionDatabase().prepareCall("{CALL updateMenu(?,?,?,?,?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement updateMenu = conn.prepareCall("{CALL updateMenu(?,?,?,?,?)}");
             updateMenu.setInt(1, menu.getIdMenu());
             int idCategoria = getCategoriaId(menu.getIdCategoria()); // Obtener idCategoria de otra tabla
             updateMenu.setInt(2, idCategoria);
@@ -70,8 +73,8 @@ public class MenuService implements BaseService<Menu> {
     @Override
     public void delete(Menu menu) {
         try {
-            CallableStatement deleteMenu =
-                    Configuration.getConnectionDatabase().prepareCall("{CALL deleteMenu(?)}");
+            Connection conn = configuration.getConnectionDatabase();
+            CallableStatement deleteMenu = conn.prepareCall("{CALL deleteMenu(?)}");
             deleteMenu.setInt(1, menu.getIdMenu());
             deleteMenu.executeUpdate();
         } catch (Exception e) {
@@ -81,7 +84,8 @@ public class MenuService implements BaseService<Menu> {
 
     public Menu findById(int id) {
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT * FROM reservation.menu WHERE idMenu = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.menu WHERE idMenu = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -92,10 +96,15 @@ public class MenuService implements BaseService<Menu> {
                 menu.setTipo(resultSet.getString("tipo"));
                 menu.setDescripcion(resultSet.getString("descripcion"));
                 menu.setPrecio(resultSet.getDouble("precio"));
+                resultSet.close();
+                statement.close();
+                configuration.releaseConnection(conn);
                 return menu;
             }
             resultSet.close();
             statement.close();
+            configuration.releaseConnection(conn);
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -106,7 +115,8 @@ public class MenuService implements BaseService<Menu> {
     private int getCategoriaId(int idCategoria) {
         int categoriaId = 0;
         try {
-            PreparedStatement statement = Configuration.getConnectionDatabase().prepareStatement("SELECT idCategoria FROM reservation.categoria WHERE idCategoria = ?");
+            Connection conn = configuration.getConnectionDatabase();
+            PreparedStatement statement = conn.prepareStatement("SELECT idCategoria FROM reservation.categoria WHERE idCategoria = ?");
             statement.setInt(1, idCategoria);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -114,6 +124,7 @@ public class MenuService implements BaseService<Menu> {
             }
             resultSet.close();
             statement.close();
+            configuration.releaseConnection(conn);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
