@@ -57,7 +57,7 @@ CREATE TABLE `cliente` (
 /*Data for the table `cliente` */
 
 insert  into `cliente`(`idCliente`,`nombre`,`apellido`,`dni`,`telefono`,`direccion`) values 
-(1,'Invitado','-','-','-','-');
+(1,'Invitado','Guest','-','-','-');
 
 /*Table structure for table `detallepedido` */
 
@@ -75,6 +75,11 @@ CREATE TABLE `detallepedido` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `detallepedido` */
+
+insert  into `detallepedido`(`idPedido`,`idMenu`,`cantidadPlatos`,`subtotal`) values 
+(1,1,2,100.00),
+(2,1,3,150.00),
+(3,1,4,200.00);
 
 /*Table structure for table `menu` */
 
@@ -114,7 +119,11 @@ insert  into `mesa`(`idMesa`,`nombreMesa`,`statusMesa`) values
 (2,'Mesa #2','LIBRE'),
 (3,'Mesa #3','LIBRE'),
 (4,'Mesa #4','LIBRE'),
-(5,'Mesa #5','LIBRE');
+(5,'Mesa #5','LIBRE'),
+(6,'Mesa #1','LIBRE'),
+(7,'Mesa #1','LIBRE'),
+(8,'Mesa #1','LIBRE'),
+(9,'Mesa #1','LIBRE');
 
 /*Table structure for table `pedidos` */
 
@@ -141,9 +150,14 @@ CREATE TABLE `pedidos` (
   CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`idPersonal`) REFERENCES `personal` (`idPersonal`),
   CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
   CONSTRAINT `pedidos_ibfk_4` FOREIGN KEY (`idTipoPago`) REFERENCES `tipopago` (`idTipoPago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `pedidos` */
+
+insert  into `pedidos`(`idPedido`,`descripcion`,`fechaPedido`,`idTipoPedido`,`idPersonal`,`idCliente`,`idTipoPago`,`status`,`igv`,`total`,`idMesa`) values 
+(1,'test','24-06-2023 23:00:12',1,2,1,1,'Pendiente',36.00,200.00,1),
+(2,'test','23-06-2023 23:00:12',1,2,1,1,'Pendiente',36.00,200.00,1),
+(3,'test','22-06-2023 23:00:12',1,2,1,1,'Pendiente',36.00,200.00,3);
 
 /*Table structure for table `personal` */
 
@@ -434,10 +448,11 @@ DELIMITER $$
     IN idTipoPedido INT,
     IN idCliente INT,
     IN idTipoPago INT,
-    IN igv DOUBLE(255, 2)
+    IN igv DOUBLE(255, 2),
+    IN idMesa INT    
 )
-INSERT INTO pedidos (descripcion, total, fechaPedido , idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status)
-    VALUES (descripcion, total, fechaPedido, idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status) */$$
+INSERT INTO pedidos (descripcion, total, fechaPedido , idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status,idMesa)
+    VALUES (descripcion, total, fechaPedido, idPersonal, idTipoPedido, idCliente, idTipoPago, igv, status,idMesa) */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `tipoPagoList` */
@@ -527,7 +542,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateOrder`(
-    IN idPedido INT,
+    IN id INT,
     IN descripcion VARCHAR(200),
     IN total DOUBLE(255, 2),
     IN fechaPedido VARCHAR(50),
@@ -541,7 +556,7 @@ DELIMITER $$
 UPDATE pedidos
     SET descripcion = descripcion, total = total, fechaPedido = fechaPedido, idPersonal = idPersonal,
         idTipoPedido = idTipoPedido, idCliente = idCliente, idTipoPago = idTipoPago, igv = igv, Status = status
-    WHERE idPedido = idPedido */$$
+    WHERE idPedido = id */$$
 DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

@@ -84,6 +84,14 @@ public class RegistrarPedido extends javax.swing.JFrame {
         iniciado = true;
     }
 
+    public RegistrarPedido(Mesa idMesa) {
+        initComponents();
+        loadCbos();
+        mesaSeleccionada = idMesa;
+        restablecer();
+        iniciado = true;
+    }
+
     public void update() {
         if (!iniciado) {
             return;
@@ -110,7 +118,11 @@ public class RegistrarPedido extends javax.swing.JFrame {
         if (previousPedido == null) {
             IdPedido = new Pedido();
             cboClientes.setSelectedIndex(0);
-            cboMesa.setSelectedIndex(0);
+            if (mesaSeleccionada != null) {
+                cboMesa.setSelectedIndex(mesaSeleccionada.getCodigo());
+            } else {
+                cboMesa.setSelectedIndex(0);
+            }
             cboStatus.setSelectedIndex(0);
             cboTipoPago.setSelectedIndex(0);
             cboTipoPedido.setSelectedIndex(0);
@@ -156,7 +168,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         IdPedido.setIdCliente(cController.findCustomerById(getSelectedCliente()));
         IdPedido.setIdTipoPago(tpaController.findPersonalById(getSelectedTipoPago()));
         IdPedido.setIgv(total * Pedido.igv());
-        IdPedido.setIdMesa(mc.get(getCodeFromString((String)cboMesa.getSelectedItem())));
+        IdPedido.setIdMesa(mc.get(getCodeFromString((String) cboMesa.getSelectedItem())));
         Date theDate = (Date) spnFecha.getValue();
         LocalDateTime thedatetime = java.time.LocalDateTime.ofInstant(theDate.toInstant(), ZoneId.systemDefault());
         IdPedido.setFechaPedido(thedatetime.format(pc.getFormatDayTime()));
@@ -175,12 +187,12 @@ public class RegistrarPedido extends javax.swing.JFrame {
     public void setRegistroValue(REGISTRO reg, Pedido pedido) {
         registro = reg;
         previousPedido = registro != REGISTRO.Registrar ? pedido : null;
-        setInicialStatus();
         setValues();
         iniciado = false;
         restablecer();
         iniciado = true;
         update();
+        setInicialStatus();
     }
 
     public void setValues() {
@@ -193,7 +205,13 @@ public class RegistrarPedido extends javax.swing.JFrame {
     }
 
     public void setInicialStatus() {
-        lblTitle.setText(registro.toString().toUpperCase() + " PEDIDO");
+        int numPed = -1;
+        if (registro == REGISTRO.Registrar) {
+            numPed = pedidoController.findMaxItem().getIdPedido() + 1;
+        } else {
+            numPed = IdPedido.getIdPedido();
+        }
+        lblTitle.setText(registro.toString().toUpperCase() + " PEDIDO #" + numPed);
         btnUpdate.setText(registro.toString());
     }
 
@@ -813,13 +831,13 @@ public class RegistrarPedido extends javax.swing.JFrame {
             pedidoController.updateOrder(IdPedido);
             dpController.deletePerIdPedido(IdPedido);
             idPed = IdPedido.getIdPedido();
-        }        
+        }
         for (int i = 0; i < lstDetalles.size(); i++) {
             lstDetalles.get(i).setIdPedido(pedidoController.findCustomerById(idPed));
         }
         dpController.addLstDetails(lstDetalles);
 
-//        btnBackCancelActionPerformed(evt);
+        btnBackCancelActionPerformed(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
 

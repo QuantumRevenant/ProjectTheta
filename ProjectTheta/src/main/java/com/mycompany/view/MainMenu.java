@@ -20,6 +20,7 @@ import java.awt.GridLayout;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,6 +31,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class MainMenu extends javax.swing.JFrame {
 
@@ -41,6 +43,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private JFrame previousFrame;
     private Mesa mesaSeleccionada;
+    private Pedido pedidoSeleccionado;
     private List<JButton> buttonsMesas = new ArrayList<>();
 
     private boolean iniciado = false;
@@ -52,7 +55,7 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
         groupButtons();
         clock();
-        iniciado=true;
+        iniciado = true;
     }
 
     public void clock() {
@@ -196,6 +199,15 @@ public class MainMenu extends javax.swing.JFrame {
         txtPasswordEmployee = new javax.swing.JPasswordField();
         btnAceptar = new javax.swing.JButton();
         btnCancelarLogin = new javax.swing.JButton();
+        ShowOrders = new javax.swing.JFrame();
+        jPanel5 = new javax.swing.JPanel();
+        btnCompleteOrders = new javax.swing.JButton();
+        btnCancelOrders = new javax.swing.JButton();
+        btnModifyOrders = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbOrders = new javax.swing.JTable();
+        cboOrders = new javax.swing.JComboBox<>();
+        btnBackOrders = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnPedidoNuevo = new javax.swing.JButton();
         btnReservaNueva = new javax.swing.JButton();
@@ -371,12 +383,32 @@ public class MainMenu extends javax.swing.JFrame {
         lblPedidoHoraLibre.setText("Hora: XX:XX:XX");
 
         btnNewShow.setText("Crear Pedido");
+        btnNewShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewShowActionPerformed(evt);
+            }
+        });
 
-        btnModifyShow.setText("Modificar Pedidos");
+        btnModifyShow.setText("Consultar Pedidos");
+        btnModifyShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyShowActionPerformed(evt);
+            }
+        });
 
         btnCleanShow.setText("Liberar Mesa");
+        btnCleanShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCleanShowActionPerformed(evt);
+            }
+        });
 
         btnCancelShow.setText("Cancelar Mesa");
+        btnCancelShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelShowActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -522,6 +554,118 @@ public class MainMenu extends javax.swing.JFrame {
             LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        ShowOrders.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        ShowOrders.setPreferredSize(new java.awt.Dimension(500, 350));
+        ShowOrders.setResizable(false);
+        ShowOrders.setSize(new java.awt.Dimension(500, 350));
+        ShowOrders.addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                ShowOrdersWindowLostFocus(evt);
+            }
+        });
+
+        jPanel5.setPreferredSize(new java.awt.Dimension(454, 300));
+
+        btnCompleteOrders.setText("Completar");
+        btnCompleteOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompleteOrdersActionPerformed(evt);
+            }
+        });
+
+        btnCancelOrders.setText("Cancelar");
+        btnCancelOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelOrdersActionPerformed(evt);
+            }
+        });
+
+        btnModifyOrders.setText("Modificar");
+        btnModifyOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyOrdersActionPerformed(evt);
+            }
+        });
+
+        tbOrders.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbOrders.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbOrdersMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbOrders);
+
+        cboOrders.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnBackOrders.setText("Volver");
+        btnBackOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackOrdersActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnCompleteOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnModifyOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBackOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboOrders, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cboOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCompleteOrders)
+                    .addComponent(btnCancelOrders)
+                    .addComponent(btnModifyOrders)
+                    .addComponent(btnBackOrders))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout ShowOrdersLayout = new javax.swing.GroupLayout(ShowOrders.getContentPane());
+        ShowOrders.getContentPane().setLayout(ShowOrdersLayout);
+        ShowOrdersLayout.setHorizontalGroup(
+            ShowOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        ShowOrdersLayout.setVerticalGroup(
+            ShowOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ShowOrdersLayout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -919,21 +1063,19 @@ public class MainMenu extends javax.swing.JFrame {
         //Show Hora de la Mesa
         lblReservaTiempo.setText(txtReservaTiempo);
         //Show Hora de Liberación
-        lblPedidoHoraLibre.setText("Hora: "+txtLibreTiempo);
+        lblPedidoHoraLibre.setText("Hora: " + txtLibreTiempo);
         //Show Nombre Cliente
-        lblPedidoCliente.setText("Cliente: "+txtNombreCliente);
+        lblPedidoCliente.setText("Cliente: " + txtNombreCliente);
         //Set Pedido Codigo
         lblPedidoCodigo.setText(txtPedido);
     }
 
     private void showMesaInfo(int btnNumber) {
-        if(!iniciado)
-        {
+        if (!iniciado) {
             return;
         }
         int valueGrupos = (Integer) spnGrupos.getValue();
         mesaSeleccionada = mc.get(btnNumber + (20 * (valueGrupos - 1)) - 1);
-        Print.log(mesaSeleccionada);
         lblMesaTitle.setText(mesaSeleccionada.getNombreMesa());
 
         lblStatus.setText(mesaSeleccionada.getMesa_status().toString());
@@ -944,7 +1086,6 @@ public class MainMenu extends javax.swing.JFrame {
         String txtPedido = "#xxxxxxxxxxx";
 
         List<Pedido> lstPedidos = peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada);
-        Print.log(lstPedidos);
 
         if (lstPedidos == null || lstPedidos.size() == 0) {
             //Sin Pedidos
@@ -1198,6 +1339,137 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowGainedFocus
 
+    private void btnNewShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewShowActionPerformed
+        if (!iniciado) {
+            return;
+        }
+        RegistrarPedido form = new RegistrarPedido(mesaSeleccionada);
+        form.setPreviousFrame(this);
+        form.setRegistroValue(RegistrarPedido.REGISTRO.Registrar, null);
+        form.setVisible(true);
+        setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNewShowActionPerformed
+
+    private void btnCleanShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanShowActionPerformed
+        if (!Print.warnConf("¿Desea Cambiar el estado de TODOS los pedidos pendientes de la Mesa a 'COMPLETO'?", this)) {
+            return;
+        }
+        mesaSeleccionada.LiberarMesa();
+        List<Pedido> lst = peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada);
+        Print.log(lst);
+        for (int i = 0; i < lst.size(); i++) {
+            lst.get(i).setStatus(Pedido.PEDIDO_STATUS.COMPLETO);
+            peC.updateOrder(lst.get(i));
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCleanShowActionPerformed
+
+    private void btnCancelShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelShowActionPerformed
+        if (!Print.warnConf("¿Desea Cambiar el estado de TODOS los pedidos pendientes de la Mesa a 'CANCELADO'?", this)) {
+            return;
+        }
+        mesaSeleccionada.LiberarMesa();
+        List<Pedido> lst = peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada);
+        Print.log(lst);
+        for (int i = 0; i < lst.size(); i++) {
+            lst.get(i).setStatus(Pedido.PEDIDO_STATUS.CANCELADO);
+            peC.updateOrder(lst.get(i));
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelShowActionPerformed
+
+    private void setShowOrder(List<Pedido> lst) {
+        DefaultTableModel dtm = new DefaultTableModel();
+        List<String> columns = Arrays.asList("Id", "Cliente", "Total", "Fecha", "Estado");
+        for (String x : columns) {
+            dtm.addColumn(x);
+        }
+        dtm.setRowCount(0);
+        try {
+            for (Pedido p : lst) {
+                Object[] vec = new Object[6];
+                vec[0] = p.getIdPedido();
+                vec[1] = p.getIdCliente().getNombre() + " " + p.getIdCliente().getApellido();
+                vec[2] = p.getTotal();
+                vec[3] = p.getFechaPedido();
+                vec[4] = p.getStatus().toString();
+                dtm.addRow(vec);
+            }
+            tbOrders.setModel(dtm);
+        } catch (Exception ex) {
+            System.out.println("Error");
+        }
+
+        cboOrders.removeAllItems();
+        for (Pedido p : lst) {
+            cboOrders.addItem("[" + p.getIdPedido() + "] - " + p.getIdCliente().getApellido() + " - " + p.getFechaPedido() + " - S/." + p.getTotal());
+        }
+    }
+
+    private void btnModifyShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyShowActionPerformed
+        if (!iniciado) {
+            return;
+        }
+        setShowOrder(peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada));
+
+        ShowOrders.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModifyShowActionPerformed
+
+    private int getSelectedOrder() {
+        String palabra = cboOrders.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
+        return Integer.parseInt(palabra.substring(1, indice));
+    }
+
+    private void btnCompleteOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteOrdersActionPerformed
+        if (!Print.warnConf("¿Desea Cambiar el estado del pedido #" + getSelectedOrder() + " a 'COMPLETADO'?", ShowOrders)) {
+            return;
+        }
+        Pedido pedido = peC.findCustomerById(getSelectedOrder());
+        pedido.setStatus(Pedido.PEDIDO_STATUS.COMPLETO);
+        peC.updateOrder(pedido);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCompleteOrdersActionPerformed
+
+    private void btnCancelOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelOrdersActionPerformed
+        if (!Print.warnConf("¿Desea Cambiar el estado del pedido #" + getSelectedOrder() + " a 'CANCELADO'?", ShowOrders)) {
+            return;
+        }
+        Pedido pedido = peC.findCustomerById(getSelectedOrder());
+        pedido.setStatus(Pedido.PEDIDO_STATUS.CANCELADO);
+        peC.updateOrder(pedido);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelOrdersActionPerformed
+
+    private void btnModifyOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyOrdersActionPerformed
+        RegistrarPedido form = new RegistrarPedido();
+        form.setPreviousFrame(this);
+        form.setRegistroValue(RegistrarPedido.REGISTRO.Actualizar, peC.findCustomerById(getSelectedOrder()));
+        form.setVisible(true);
+        setVisible(false);
+        ShowOrders.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModifyOrdersActionPerformed
+
+    private void ShowOrdersWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_ShowOrdersWindowLostFocus
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ShowOrdersWindowLostFocus
+
+    private void btnBackOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackOrdersActionPerformed
+        ShowOrders.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackOrdersActionPerformed
+
+    private void tbOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbOrdersMouseClicked
+        int id = (int) tbOrders.getModel().getValueAt(tbOrders.getSelectedRow(), 0);
+        Print.log("a");
+        Pedido p = peC.findCustomerById(id);
+        cboOrders.setSelectedItem("[" + p.getIdPedido() + "] - " + p.getIdCliente().getApellido() + " - " + p.getFechaPedido() + " - S/." + p.getTotal());
+// TODO add your handling code here:
+    }//GEN-LAST:event_tbOrdersMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1245,13 +1517,17 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JFrame Login;
     private javax.swing.JFrame OptionsMainMenu;
     private javax.swing.JFrame ShowMesaInfo;
+    private javax.swing.JFrame ShowOrders;
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnBackOrders;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCancelOrders;
     private javax.swing.JButton btnCancelShow;
     private javax.swing.JButton btnCancelarLogin;
     private javax.swing.JButton btnCleanShow;
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnCloseSesion;
+    private javax.swing.JButton btnCompleteOrders;
     private javax.swing.JButton btnConfiguraciones;
     private javax.swing.JButton btnMenuOptions;
     private javax.swing.JButton btnMesa1;
@@ -1275,12 +1551,14 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnMesa8;
     private javax.swing.JButton btnMesa9;
     private javax.swing.JButton btnMesas;
+    private javax.swing.JButton btnModifyOrders;
     private javax.swing.JButton btnModifyShow;
     private javax.swing.JButton btnNewShow;
     private javax.swing.JButton btnPedidoNuevo;
     private javax.swing.JButton btnPedidos;
     private javax.swing.JButton btnReservaNueva;
     private javax.swing.JButton btnReservas;
+    private javax.swing.JComboBox<String> cboOrders;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1291,6 +1569,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblClock;
     private javax.swing.JLabel lblInfo;
     private javax.swing.JLabel lblMesaTitle;
@@ -1301,6 +1581,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblStatus;
     private javax.swing.JProgressBar prgBrAforo;
     private javax.swing.JSpinner spnGrupos;
+    private javax.swing.JTable tbOrders;
     private javax.swing.JPasswordField txtPasswordEmployee;
     // End of variables declaration//GEN-END:variables
 }

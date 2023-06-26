@@ -72,8 +72,9 @@ public class PedidoService {
                 pedido.setIdMesa(mesaService.findById(listGet.getInt("idMesa")));
                 orders.add(pedido);
             }
-            
+
             listGet.close();
+            configuration.releaseConnection(conn);
             return orders;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -113,14 +114,14 @@ public class PedidoService {
             createOrder.setInt(7, pedido.getIdCliente().getIdCliente());
             createOrder.setInt(8, pedido.getIdTipoPago().getIdTipoPago());
             createOrder.setDouble(9, pedido.getIgv());
-            if(pedido.getIdMesa()!=null)
-            {
-                            createOrder.setInt(10, pedido.getIdMesa().getCodigo());
-            }else{
-                createOrder.setNull(10,0);
+            if (pedido.getIdMesa() != null) {
+                createOrder.setInt(10, pedido.getIdMesa().getCodigo());
+            } else {
+                createOrder.setNull(10, 0);
             }
             createOrder.executeUpdate();
-            
+            configuration.releaseConnection(conn);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -130,6 +131,7 @@ public class PedidoService {
         try {
             Connection conn = configuration.getConnectionDatabase();
             CallableStatement caller = conn.prepareCall("{CALL updateOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            Print.log(pedido.getIdPedido());
             caller.setInt(1, pedido.getIdPedido());
             caller.setString(2, pedido.getDescripcion());
             caller.setDouble(3, pedido.getTotal());
@@ -162,7 +164,8 @@ public class PedidoService {
 
             caller.executeUpdate();
             caller.close();
-            
+            configuration.releaseConnection(conn);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -232,9 +235,13 @@ public class PedidoService {
                 pedido.setIdTipoPedido(tPedido);
                 pedido.setIdCliente(cliente);
                 pedido.setIdTipoPago(tPago);
+                pedido.setIdPedido(tPedidoId);
+                MesaService mesaService = new MesaService();
+                pedido.setIdMesa(mesaService.findById(resultSet.getInt("idMesa")));
                 resultSet.close();
                 statement.close();
-                
+                configuration.releaseConnection(conn);
+
                 return pedido;
             }
             resultSet.close();
@@ -255,8 +262,11 @@ public class PedidoService {
                 int value = resultSet.getInt("MAX(idPedido)");
                 resultSet.close();
                 statement.close();
+                configuration.releaseConnection(conn);
                 return findById(value);
             }
+            configuration.releaseConnection(conn);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -326,7 +336,8 @@ public class PedidoService {
             }
 
             resultSet.close();
-            
+            configuration.releaseConnection(conn);
+
             return orders;
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,5 +1,6 @@
 package com.mycompany.database;
 
+import com.mycompany.model.generics.Print;
 import lombok.NoArgsConstructor;
 
 import java.sql.*;
@@ -32,7 +33,9 @@ public class Configuration implements ConectionPool{
                 thisConfiguration=create("jdbc:mysql://localhost:3306/reservation","root", "");
                 return thisConfiguration;
             } catch (SQLException ex) {
-                Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);          
+                            Print.error("NO PUDIMOS CONECTAR CON LA DB (Cerramos el Programa por seguridad)");
+                System.exit(0);
             }
         }
         return null;
