@@ -43,6 +43,8 @@ public class MainMenu extends javax.swing.JFrame {
     private Mesa mesaSeleccionada;
     private List<JButton> buttonsMesas = new ArrayList<>();
 
+    private boolean iniciado = false;
+
     /**
      * Creates new form MainMenu
      */
@@ -50,6 +52,7 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
         groupButtons();
         clock();
+        iniciado=true;
     }
 
     public void clock() {
@@ -916,16 +919,21 @@ public class MainMenu extends javax.swing.JFrame {
         //Show Hora de la Mesa
         lblReservaTiempo.setText(txtReservaTiempo);
         //Show Hora de Liberación
-        lblPedidoHoraLibre.setText(txtLibreTiempo);
+        lblPedidoHoraLibre.setText("Hora: "+txtLibreTiempo);
         //Show Nombre Cliente
-        lblPedidoCliente.setText(txtNombreCliente);
+        lblPedidoCliente.setText("Cliente: "+txtNombreCliente);
         //Set Pedido Codigo
         lblPedidoCodigo.setText(txtPedido);
     }
 
     private void showMesaInfo(int btnNumber) {
+        if(!iniciado)
+        {
+            return;
+        }
         int valueGrupos = (Integer) spnGrupos.getValue();
         mesaSeleccionada = mc.get(btnNumber + (20 * (valueGrupos - 1)) - 1);
+        Print.log(mesaSeleccionada);
         lblMesaTitle.setText(mesaSeleccionada.getNombreMesa());
 
         lblStatus.setText(mesaSeleccionada.getMesa_status().toString());
@@ -936,8 +944,9 @@ public class MainMenu extends javax.swing.JFrame {
         String txtPedido = "#xxxxxxxxxxx";
 
         List<Pedido> lstPedidos = peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada);
+        Print.log(lstPedidos);
 
-        if (lstPedidos != null || lstPedidos.size() == 0) {
+        if (lstPedidos == null || lstPedidos.size() == 0) {
             //Sin Pedidos
             if (mesaSeleccionada.getMesa_status() != Mesa.MESA_STATUS.LIBRE) {
                 System.out.println("Error, Ocupada y sin pedido, Liberando...");
@@ -954,15 +963,15 @@ public class MainMenu extends javax.swing.JFrame {
             String time;
             if (pedido.getIdTipoPedido().getIdTipoPedido() == TipoPedido.RESERVA) {
                 time = localdatetime.format(pc.getFormatTime());
-                txtReservaHora = ("Hora: " + time);
+                txtReservaHora = (time);
 
                 localdatetime = localdatetime.plusMinutes(pc.getTiempoEstandarEnMesa());
                 time = localdatetime.format(pc.getFormatTime());
-                txtLibreHora = ("Hora: " + time);
+                txtLibreHora = (time);
             }
 
             time = localdatetime.format(pc.getFormatTime());
-            txtLibreHora = ("Hora: " + time);
+            txtLibreHora = (time);
 
             txtCliente = pedido.getIdCliente().getNombre() + " " + pedido.getIdCliente().getApellido();
             txtPedido = "#" + pedido.getIdPedido();
@@ -972,9 +981,7 @@ public class MainMenu extends javax.swing.JFrame {
                 mesaSeleccionada.OcuparMesa();
                 showMesaInfo(btnNumber);
                 return;
-
             }
-
         } else {
             //Con 2 Pedidos
             Pedido reservaMasPronta = null;
@@ -1043,7 +1050,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         setShowMesaInfo(txtReservaHora, txtLibreHora, txtCliente, txtPedido);
 
-        if (ProgramController.logInUser(Login)
+        if (ProgramController.logInUser(this)
                 != null) {
             ShowMesaInfo.setVisible(true);
         }

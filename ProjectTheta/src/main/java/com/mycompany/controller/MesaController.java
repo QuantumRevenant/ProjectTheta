@@ -44,6 +44,7 @@ public class MesaController {
         lstPedPendientes = pec.getStatusOrders(Pedido.PEDIDO_STATUS.PENDIENTE);
         lstPedEnvios = pec.getStatusOrders(Pedido.PEDIDO_STATUS.EN_ENVIO);
         updateQuantity();
+        updateStatusMesas();
     }
 
     public void updateQuantity() {
@@ -55,7 +56,21 @@ public class MesaController {
         }
         lstMesa = mesaService.findMinorsTo(cantidadDeMesas);
     }
-
+    
+    public void updateStatusMesas(){
+        for(Mesa x:lstMesa)
+        {
+            List<Pedido> lstPedidos=pec.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, x);
+            if(lstPedidos==null || lstPedidos.size()==0)
+            {
+                x.LiberarMesa();
+            }
+            else
+            {
+                x.OcuparMesa();
+            }
+        }
+    }
     public int getQuantityStatus(Mesa.MESA_STATUS status) {
         int output = 0;
         for (Mesa x : lstMesa) {
