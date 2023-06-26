@@ -52,7 +52,7 @@ CREATE TABLE `cliente` (
   `telefono` varchar(25) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `cliente` */
 
@@ -96,6 +96,26 @@ CREATE TABLE `menu` (
 insert  into `menu`(`idMenu`,`idCategoria`,`tipo`,`descripcion`,`precio`) values 
 (1,5,'Pollo con Papas','1 Pollo Entero\n1 Porcion Familiar de Papas',50.00);
 
+/*Table structure for table `mesa` */
+
+DROP TABLE IF EXISTS `mesa`;
+
+CREATE TABLE `mesa` (
+  `idMesa` int(11) NOT NULL,
+  `nombreMesa` varchar(25) NOT NULL,
+  `statusMesa` varchar(25) NOT NULL,
+  PRIMARY KEY (`idMesa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `mesa` */
+
+insert  into `mesa`(`idMesa`,`nombreMesa`,`statusMesa`) values 
+(1,'Mesa #1','LIBRE'),
+(2,'Mesa #2','LIBRE'),
+(3,'Mesa #3','LIBRE'),
+(4,'Mesa #4','LIBRE'),
+(5,'Mesa #5','LIBRE');
+
 /*Table structure for table `pedidos` */
 
 DROP TABLE IF EXISTS `pedidos`;
@@ -111,11 +131,13 @@ CREATE TABLE `pedidos` (
   `status` varchar(20) NOT NULL,
   `igv` double(255,2) DEFAULT NULL,
   `total` double(255,2) NOT NULL,
+  `idMesa` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPedido`),
   KEY `idCliente` (`idCliente`),
   KEY `idPersonal` (`idPersonal`),
   KEY `idTipoPago` (`idTipoPago`),
   KEY `idTipoPedido` (`idTipoPedido`),
+  KEY `idMesa` (`idMesa`),
   CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`idPersonal`) REFERENCES `personal` (`idPersonal`),
   CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
   CONSTRAINT `pedidos_ibfk_4` FOREIGN KEY (`idTipoPago`) REFERENCES `tipopago` (`idTipoPago`)
@@ -252,14 +274,28 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `createMenu`(
-    IN idMenu INT,
     IN idCategoria INT,
     IN tipo VARCHAR(25),
     IN descripcion VARCHAR(200),
     IN precio DOUBLE(255, 2)
 )
-INSERT INTO menu (idMenu, idCategoria, tipo, descripcion, precio)
-    VALUES (idMenu, idCategoria, tipo, descripcion, precio) */$$
+INSERT INTO menu (idCategoria, tipo, descripcion, precio)
+    VALUES (idCategoria, tipo, descripcion, precio) */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `createMesa` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `createMesa` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `createMesa`(
+    IN idMesa INT,
+    IN nombreMesa VARCHAR(25),
+    IN statusMesa VARCHAR(25)
+)
+INSERT INTO mesa (idMesa, nombreMesa, statusMesa)
+    VALUES (idMesa, nombreMesa, statusMesa) */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `createOrderDetails` */
@@ -351,6 +387,16 @@ DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `menuList`()
 SELECT * FROM menu */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `mesaList` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `mesaList` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `mesaList`()
+SELECT * FROM mesa */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `orderDetailsList` */

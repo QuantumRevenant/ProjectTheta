@@ -1,5 +1,6 @@
 package com.mycompany.controller;
 
+import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.entities.Pedido;
 import com.mycompany.services.PedidoService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,14 @@ public class PedidoController {
      public Pedido findMaxItem(){
          return pedidoService.findMaxItem();
      }
+     
+    public List<Pedido> getStatusOrders(Pedido.PEDIDO_STATUS status){
+        return pedidoService.findStatusOrder(status);
+    }
+    
+    public List<Pedido> getStatusTableOrders(Pedido.PEDIDO_STATUS status,Mesa idMesa){
+        return pedidoService.findStatusTableOrder(status, idMesa);
+    }
     /*VALIDAR EN EL FRONT*/
 
 }

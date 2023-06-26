@@ -38,13 +38,12 @@ public class MenuService implements BaseService<Menu> {
     public void save(Menu menu) {
         try {
             CallableStatement createMenu =
-                    Configuration.getConnectionDatabase().prepareCall("{CALL createMenu(?,?,?,?,?)}");
-            createMenu.setInt(1, menu.getIdMenu());
+                    Configuration.getConnectionDatabase().prepareCall("{CALL createMenu(?,?,?,?)}");
             int idCategoria = getCategoriaId(menu.getIdCategoria()); // Obtener idCategoria de otra tabla
-            createMenu.setInt(2, idCategoria);
-            createMenu.setString(3, menu.getTipo());
-            createMenu.setString(4, menu.getDescripcion());
-            createMenu.setDouble(5, menu.getPrecio());
+            createMenu.setInt(1, idCategoria);
+            createMenu.setString(2, menu.getTipo());
+            createMenu.setString(3, menu.getDescripcion());
+            createMenu.setDouble(4, menu.getPrecio());
             createMenu.executeQuery();
         } catch (Exception e) {
             System.out.println(e.getMessage());

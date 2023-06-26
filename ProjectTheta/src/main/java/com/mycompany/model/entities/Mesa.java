@@ -22,9 +22,6 @@ public class Mesa {
     private int codigo;
     private String nombreMesa;
     private MESA_STATUS mesa_status;
-    private Pedido idPedido;
-    private LocalDateTime fechaHoraMesa;
-    private Cliente idCliente;
 
     public static enum MESA_STATUS {
         LIBRE, OCUPADA
@@ -38,13 +35,10 @@ public class Mesa {
 
     public void LiberarMesa() {
         mesa_status = MESA_STATUS.LIBRE;
-        idPedido = null;
-        fechaHoraMesa = LocalDateTime.now();
-        idCliente = null;
     }
-
-    public long getMinutosFaltantes() {
-        Duration d = Duration.between(fechaHoraMesa, LocalDateTime.now());
-        return d.toMinutes();
-    }
+    
+    public void OcuparMesa()
+    {
+        mesa_status = MESA_STATUS.OCUPADA;        
+    }    
 }

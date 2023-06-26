@@ -18,6 +18,7 @@ import com.mycompany.model.entities.Pedido;
 import com.mycompany.model.entities.TipoPago;
 import com.mycompany.model.entities.TipoPedido;
 import com.mycompany.model.generics.General;
+import com.mycompany.model.generics.Print;
 import com.mycompany.services.ClienteService;
 import com.mycompany.services.DetallePedidoService;
 import com.mycompany.services.MenuService;
@@ -25,6 +26,7 @@ import com.mycompany.services.PedidoService;
 import com.mycompany.services.PersonalService;
 import com.mycompany.services.TipoPagoService;
 import com.mycompany.services.TipoPedidoService;
+import java.awt.Color;
 import static java.lang.Thread.sleep;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -59,10 +61,11 @@ public class RegistrarPedido extends javax.swing.JFrame {
     private TipoPedidoController tpeController = new TipoPedidoController(new TipoPedidoService());
     private DefaultTableModel dtmDetalles = new DefaultTableModel();
 
-    private REGISTRO registro;
+    private REGISTRO registro = REGISTRO.Registrar;
     private Pedido previousPedido = null;
     private Pedido IdPedido = new Pedido();
     private List<DetallePedido> lstDetalles = new ArrayList<>();
+    private Mesa mesaSeleccionada;
 
     private JFrame previousFrame;
     private boolean iniciado = false;
@@ -120,6 +123,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
             IdPedido = previousPedido.clone();
             lstDetalles = dpController.listByPedidoID(IdPedido.getIdPedido());
             cboClientes.setSelectedIndex(IdPedido.getIdCliente().getIdCliente() - 1);
+            cboMesa.setSelectedIndex(IdPedido.getIdMesa().getCodigo());
             cboStatus.setSelectedItem(IdPedido.getStatus().toString());
             cboTipoPago.setSelectedIndex(IdPedido.getIdTipoPago().getIdTipoPago() - 1);
             cboTipoPedido.setSelectedIndex(IdPedido.getIdTipoPedido().getIdTipoPedido() - 1);
@@ -152,6 +156,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         IdPedido.setIdCliente(cController.findCustomerById(getSelectedCliente()));
         IdPedido.setIdTipoPago(tpaController.findPersonalById(getSelectedTipoPago()));
         IdPedido.setIgv(total * Pedido.igv());
+        IdPedido.setIdMesa(mc.get(getCodeFromString((String)cboMesa.getSelectedItem())));
         Date theDate = (Date) spnFecha.getValue();
         LocalDateTime thedatetime = java.time.LocalDateTime.ofInstant(theDate.toInstant(), ZoneId.systemDefault());
         IdPedido.setFechaPedido(thedatetime.format(pc.getFormatDayTime()));
@@ -328,7 +333,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnRestablecer = new javax.swing.JButton();
         btnBackCancel = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
+        lblMesa = new javax.swing.JLabel();
         cboMesa = new javax.swing.JComboBox<>();
         spnFecha = new javax.swing.JSpinner();
         btnAddProduct = new javax.swing.JButton();
@@ -495,7 +500,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setText("Mesa");
+        lblMesa.setText("Mesa");
 
         cboMesa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboMesa.addActionListener(new java.awt.event.ActionListener() {
@@ -604,7 +609,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
                                     .addComponent(jScrollPane2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -654,7 +659,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
                             .addComponent(jLabel15))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
+                            .addComponent(lblMesa)
                             .addComponent(cboMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -799,6 +804,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
             return;
         }
         actualizarPedido();
+
         int idPed = 0;
         if (registro == REGISTRO.Registrar) {
             pedidoController.addOrder(IdPedido);
@@ -807,7 +813,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
             pedidoController.updateOrder(IdPedido);
             dpController.deletePerIdPedido(IdPedido);
             idPed = IdPedido.getIdPedido();
-        }
+        }        
         for (int i = 0; i < lstDetalles.size(); i++) {
             lstDetalles.get(i).setIdPedido(pedidoController.findCustomerById(idPed));
         }
@@ -841,25 +847,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRestablecerActionPerformed
 
     private void cboMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesaActionPerformed
-        if (!iniciado) {
-            return;
-        }
-        Mesa idMesa = getCodeFromString((String) cboMesa.getSelectedItem()) != 0 ? mc.getLstMesa().get(getCodeFromString((String) cboMesa.getSelectedItem()) - 1) : null;
-        if (idMesa == null) {
-            System.out.println("Mesa no encontrada -" + new Object() {
-            }.getClass().getEnclosingMethod().getName());
-            return;
-        }
-        if (idMesa.getIdPedido() != null) {
-            if (idMesa.getIdPedido().getIdPedido() != (previousPedido != null ? previousPedido.getIdPedido() : -1)) {
-                System.out.println("Mesa Ocupada -" + new Object() {
-                }.getClass().getEnclosingMethod().getName());
-            }
-        }
-        if (idMesa.getIdPedido().getIdPedido() == previousPedido.getIdPedido()) {
 
-        }
-        // TODO add your handling code here:
     }//GEN-LAST:event_cboMesaActionPerformed
 
     public int getCodeFromString(String palabra) {
@@ -957,7 +945,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboTipoPago;
     private javax.swing.JComboBox<String> cboTipoPedido;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -975,6 +962,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblMesa;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JFrame modificarFrm;
     private javax.swing.JSpinner spnFecha;

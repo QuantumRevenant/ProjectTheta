@@ -1,6 +1,7 @@
 package com.mycompany.view;
 
 import com.mycompany.controller.MesaController;
+import com.mycompany.controller.PedidoController;
 import com.mycompany.controller.PersonalController;
 import com.mycompany.controller.ProgramController;
 import static java.lang.Thread.sleep;
@@ -9,11 +10,15 @@ import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.entities.Pedido;
 import com.mycompany.model.entities.Personal;
 import com.mycompany.model.entities.TipoPedido;
+import com.mycompany.model.generics.Print;
 import com.mycompany.model.generics.Sha256;
+import com.mycompany.services.PedidoService;
 import com.mycompany.services.PersonalService;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -31,6 +36,7 @@ public class MainMenu extends javax.swing.JFrame {
     private MesaController mc = MesaController.getMesaController();
     private ProgramController pc = ProgramController.getProgramController();
     private PersonalController prC = new PersonalController(new PersonalService());
+    private PedidoController peC = new PedidoController(new PedidoService());
     private SpinnerNumberModel spModel = new SpinnerNumberModel();
 
     private JFrame previousFrame;
@@ -55,7 +61,6 @@ public class MainMenu extends javax.swing.JFrame {
                         updateLblInfo();
                         setSpinnerModel();
                         updateButtons();
-                        mc.updateQuantity();
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {
@@ -130,7 +135,7 @@ public class MainMenu extends javax.swing.JFrame {
         lblInfo.setText("<html>"
                 + "M. disponible: " + "<br>" + " > Mesas " + mc.getQuantityStatus(Mesa.MESA_STATUS.OCUPADA) + "/" + mc.size() + "<br>"
                 + "M. Libre en: " + "<br>" + " > " + mc.getProximaMesaLibre() + " min" + "<br>"
-                + "Reservas hoy: " + "<br>" + " > " + mc.getQuantityTypePedido(TipoPedido.RESERVA) + "<br><br>"
+                + "Reservas hoy: " + "<br>" + " > " + mc.getQTablebyTypeOrder(TipoPedido.RESERVA) + "<br><br>"
                 + "Pedidos Pend.: " + "<br>" + " > " + mc.getQuantityStatusPedido(Pedido.PEDIDO_STATUS.PENDIENTE) + "<br>"
                 + "Pedidos Envio: " + "<br>" + " > " + mc.getQuantityStatusPedido(Pedido.PEDIDO_STATUS.EN_ENVIO)
                 + "</html>"
@@ -519,6 +524,13 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         btnPedidoNuevo.setText("<html>Registrar<br>Pedido</html>");
         btnPedidoNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -853,7 +865,7 @@ public class MainMenu extends javax.swing.JFrame {
         if (ProgramController.logInUser(Login) != null) {
             RegistrarPedido form = new RegistrarPedido();
             form.setPreviousFrame(this);
-            form.setRegistroValue(RegistrarPedido.REGISTRO.Registrar,null);       
+            form.setRegistroValue(RegistrarPedido.REGISTRO.Registrar, null);
             form.setVisible(true);
             setVisible(false);
         }
@@ -918,31 +930,121 @@ public class MainMenu extends javax.swing.JFrame {
 
         lblStatus.setText(mesaSeleccionada.getMesa_status().toString());
 
-        if (mesaSeleccionada.getMesa_status() == Mesa.MESA_STATUS.OCUPADA) {
-            if (mesaSeleccionada.getIdPedido() != null) {
-                if (mesaSeleccionada.getIdPedido().getIdTipoPedido().getIdTipoPedido()== TipoPedido.RESERVA) {
-                    setShowMesaInfo(mesaSeleccionada.getFechaHoraMesa().format(pc.getFormatDayTime()),
-                            "Hora: " + mesaSeleccionada.getFechaHoraMesa().plusMinutes(pc.getTiempoEstandarEnMesa()).format(pc.getFormatTime()),
-                            mesaSeleccionada.getIdCliente().getNombre() + " " + mesaSeleccionada.getIdCliente().getApellido(),
-                            "#" + mesaSeleccionada.getIdPedido().getIdPedido());
-                } else {
-                    setShowMesaInfo("No hay Reserva",
-                            "Hora: " + mesaSeleccionada.getFechaHoraMesa().format(pc.getFormatTime()),
-                            mesaSeleccionada.getIdCliente().getNombre() + " " + mesaSeleccionada.getIdCliente().getApellido(),
-                            "#" + mesaSeleccionada.getIdPedido().getIdPedido());
-                }
-            } else {
-                setShowMesaInfo("No hay Reserva", "Hora: 00:00:00", "Sin Cliente", "#xxxxxxxxxxx");
+        String txtReservaHora = "No hay Reserva";
+        String txtLibreHora = "Hora: 00:00:00";
+        String txtCliente = "Sin Cliente";
+        String txtPedido = "#xxxxxxxxxxx";
 
+        List<Pedido> lstPedidos = peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada);
+
+        if (lstPedidos != null || lstPedidos.size() == 0) {
+            //Sin Pedidos
+            if (mesaSeleccionada.getMesa_status() != Mesa.MESA_STATUS.LIBRE) {
                 System.out.println("Error, Ocupada y sin pedido, Liberando...");
 
                 mesaSeleccionada.LiberarMesa();
                 showMesaInfo(btnNumber);
+                return;
             }
-        } else if (mesaSeleccionada.getMesa_status() == Mesa.MESA_STATUS.LIBRE) {
-            setShowMesaInfo("No hay Reserva", "Hora: 00:00:00", "Sin Cliente", "#xxxxxxxxxxx");
+
+        } else if (lstPedidos.size() == 1) {
+            //Con 1 Pedido
+            Pedido pedido = lstPedidos.get(0);
+            LocalDateTime localdatetime = LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime());
+            String time;
+            if (pedido.getIdTipoPedido().getIdTipoPedido() == TipoPedido.RESERVA) {
+                time = localdatetime.format(pc.getFormatTime());
+                txtReservaHora = ("Hora: " + time);
+
+                localdatetime = localdatetime.plusMinutes(pc.getTiempoEstandarEnMesa());
+                time = localdatetime.format(pc.getFormatTime());
+                txtLibreHora = ("Hora: " + time);
+            }
+
+            time = localdatetime.format(pc.getFormatTime());
+            txtLibreHora = ("Hora: " + time);
+
+            txtCliente = pedido.getIdCliente().getNombre() + " " + pedido.getIdCliente().getApellido();
+            txtPedido = "#" + pedido.getIdPedido();
+
+            if (mesaSeleccionada.getMesa_status() != Mesa.MESA_STATUS.OCUPADA) {
+                System.out.println("Error, Libre y con pedido, Ocupando...");
+                mesaSeleccionada.OcuparMesa();
+                showMesaInfo(btnNumber);
+                return;
+
+            }
+
+        } else {
+            //Con 2 Pedidos
+            Pedido reservaMasPronta = null;
+            Pedido primerPedido = null;
+            for (Pedido x : lstPedidos) {
+                //Gestion de Reserva
+                if (x.getIdTipoPedido().getIdTipoPedido() == TipoPedido.RESERVA) {
+                    if (reservaMasPronta == null) {
+                        reservaMasPronta = x;
+                    } else {
+                        LocalDateTime ldtNew = LocalDateTime.parse(x.getFechaPedido(), pc.getFormatDayTime());
+                        LocalDateTime ldtOld = LocalDateTime.parse(reservaMasPronta.getFechaPedido(), pc.getFormatDayTime());
+                        Duration dNew = Duration.between(ldtNew, LocalDateTime.now());
+                        Duration dOld = Duration.between(ldtOld, LocalDateTime.now());
+                        if (dNew.toMinutes() < dOld.toMinutes()) {
+                            reservaMasPronta = x;
+                        }
+                    }
+                } else {
+                    //Gestion de Pendiente
+                    if (primerPedido == null) {
+                        primerPedido = x;
+                    } else {
+                        LocalDateTime ldtNew = LocalDateTime.parse(x.getFechaPedido(), pc.getFormatDayTime());
+                        LocalDateTime ldtOld = LocalDateTime.parse(primerPedido.getFechaPedido(), pc.getFormatDayTime());
+                        Duration dNew = Duration.between(ldtNew, LocalDateTime.now());
+                        Duration dOld = Duration.between(ldtOld, LocalDateTime.now());
+                        if (dNew.toMinutes() < dOld.toMinutes()) {
+                            primerPedido = x;
+                        }
+                    }
+                }
+            }
+
+            if (reservaMasPronta != null) {
+                LocalDateTime localdatetime = LocalDateTime.parse(reservaMasPronta.getFechaPedido(), pc.getFormatDayTime());
+                String time;
+
+                time = localdatetime.format(pc.getFormatTime());
+                txtReservaHora = ("Hora: " + time);
+
+                localdatetime = localdatetime.plusMinutes(pc.getTiempoEstandarEnMesa());
+                time = localdatetime.format(pc.getFormatTime());
+                txtLibreHora = ("Hora: " + time);
+
+                txtCliente = reservaMasPronta.getIdCliente().getApellido() + " (+)";
+                txtPedido = "#" + reservaMasPronta.getIdPedido();
+            }
+            if (primerPedido != null) {
+                LocalDateTime localdatetime = LocalDateTime.parse(primerPedido.getFechaPedido(), pc.getFormatDayTime());
+                String time;
+                time = localdatetime.format(pc.getFormatTime());
+                txtLibreHora = ("Hora: " + time);
+
+                txtCliente = primerPedido.getIdCliente().getApellido() + " (+)";
+                txtPedido = "#" + primerPedido.getIdPedido();
+            }
+
+            if (mesaSeleccionada.getMesa_status() != Mesa.MESA_STATUS.OCUPADA) {
+                System.out.println("Error, Libre y con pedido, Ocupando...");
+                mesaSeleccionada.OcuparMesa();
+                showMesaInfo(btnNumber);
+                return;
+            }
         }
-        if (ProgramController.logInUser(Login)!= null) {
+
+        setShowMesaInfo(txtReservaHora, txtLibreHora, txtCliente, txtPedido);
+
+        if (ProgramController.logInUser(Login)
+                != null) {
             ShowMesaInfo.setVisible(true);
         }
     }
@@ -1083,6 +1185,11 @@ public class MainMenu extends javax.swing.JFrame {
         form.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        mc.updateController();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowGainedFocus
 
     /**
      * @param args the command line arguments

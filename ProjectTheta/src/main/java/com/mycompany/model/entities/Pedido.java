@@ -19,6 +19,7 @@ public class Pedido {
     private Cliente idCliente;
     private TipoPago idTipoPago;
     private double igv;
+    private Mesa idMesa;
 
     public static enum PEDIDO_STATUS {
         PENDIENTE, EN_ENVIO, POR_RECOGER, COMPLETO, CANCELADO, OTRO;
@@ -29,6 +30,6 @@ public class Pedido {
     }
     
     public Pedido clone(){
-        return new Pedido(idPedido, descripcion, total, fechaPedido, Status, idPersonal, idTipoPedido, idCliente, idTipoPago, igv);
+        return new Pedido(idPedido, descripcion, total, fechaPedido, Status, idPersonal, idTipoPedido, idCliente, idTipoPago, igv,idMesa);
     }
 }

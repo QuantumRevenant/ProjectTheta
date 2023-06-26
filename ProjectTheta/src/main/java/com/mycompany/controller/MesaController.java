@@ -3,6 +3,11 @@ package com.mycompany.controller;
 import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.entities.Pedido;
 import com.mycompany.model.entities.TipoPedido;
+import com.mycompany.model.generics.Print;
+import com.mycompany.services.MesaService;
+import com.mycompany.services.PedidoService;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -13,31 +18,42 @@ import lombok.Data;
 @AllArgsConstructor
 public class MesaController {
 
+    private final MesaService mesaService;
     private List<Mesa> lstMesa = new ArrayList<>();
+    private List<Pedido> lstPedPendientes = null;
+    private List<Pedido> lstPedEnvios = null;
     private ProgramController pc = ProgramController.getProgramController();
-    
+    private PedidoController pec = new PedidoController(new PedidoService());
+
     public static MesaController theMesaController;
 
     public static MesaController getMesaController() {
         if (theMesaController == null) {
-            theMesaController = new MesaController();
+            theMesaController = new MesaController(new MesaService());
         }
         return theMesaController;
     }
-    
-    public MesaController() {
+
+    public MesaController(MesaService mS) {
+        mesaService = mS;
+        updateController();
+    }
+
+    public void updateController() {
+
+        lstPedPendientes = pec.getStatusOrders(Pedido.PEDIDO_STATUS.PENDIENTE);
+        lstPedEnvios = pec.getStatusOrders(Pedido.PEDIDO_STATUS.EN_ENVIO);
         updateQuantity();
     }
 
     public void updateQuantity() {
         pc.cargar();
         int cantidadDeMesas = pc.getCantidadMesas();
-        for (int i = size(); i > cantidadDeMesas; i--) {
-            lstMesa.remove(i - 1);
+
+        while (mesaService.findMaxId() < cantidadDeMesas) {
+            mesaService.save(new Mesa(mesaService.findMaxId() + 1));
         }
-        for (int i = size(); i < cantidadDeMesas; i++) {
-            lstMesa.add(new Mesa(i + 1));
-        }
+        lstMesa = mesaService.findMinorsTo(cantidadDeMesas);
     }
 
     public int getQuantityStatus(Mesa.MESA_STATUS status) {
@@ -50,46 +66,59 @@ public class MesaController {
         return output;
     }
 
-    public int getQuantityTypePedido(int idStatus) {
-        if(idStatus==-1)
-        {
-            System.out.print("Error - "+new Object(){}.getClass().getEnclosingMethod().getName());
+    public int getQTablebyTypeOrder(int idStatus) {
+        if (idStatus == -1) {
+            System.out.print("Error - " + new Object() {
+            }.getClass().getEnclosingMethod().getName());
             return 0;
         }
         int output = 0;
-        for (Mesa x : lstMesa) {
-            if (x.getIdPedido() != null) {
-                if (x.getIdPedido().getIdTipoPedido().getIdTipoPedido()== idStatus) {
-                    output+=JOptionPane.ALLBITS;
-                }
+        List<Pedido> lstPedidos = lstPedPendientes;
+        for (Pedido x : lstPedidos) {
+            if (x.getIdTipoPedido().getIdTipoPedido() == idStatus && x.getIdMesa() != null) {
+                output++;
             }
         }
         return output;
     }
 
     public int getQuantityStatusPedido(Pedido.PEDIDO_STATUS status) {
-        int output = 0;
-        for (Mesa x : lstMesa) {
-            if (x.getIdPedido() != null) {
-                if (x.getIdPedido().getStatus()== status) {
-                    output++;
-                }
-            }
+        List<Pedido> lstPedidos = lstPedPendientes;
+        if (status == Pedido.PEDIDO_STATUS.EN_ENVIO) {
+            lstPedidos = lstPedEnvios;
+        } else if (status != Pedido.PEDIDO_STATUS.PENDIENTE) {
+            pec.getStatusOrders(status);
         }
-        return output;
+        return lstPedidos.size();
     }
 
     public long getProximaMesaLibre() {
         if (size() < 0) {
             return 1;
         }
-        long output = get(0).getMinutosFaltantes();
-        for (Mesa x : lstMesa) {
-            if (x.getMinutosFaltantes() > 0 && x.getMinutosFaltantes() < output) {
-                output = x.getMinutosFaltantes();
+        long minutes = 0;
+        List<Pedido> lstPedidos = lstPedPendientes;
+        for (Pedido x : lstPedidos) {
+            if (x.getIdMesa() != null) {
+                LocalDateTime ldt = LocalDateTime.parse(x.getFechaPedido(), pc.getFormatDayTime());
+                Duration d = Duration.between(ldt, LocalDateTime.now());
+                if (d.toMinutes() > 0) {
+                    minutes = d.toMinutes();
+                }
+                break;
             }
         }
-        return output;
+        for (Pedido x : lstPedidos) {
+            if (x.getIdMesa() != null) {
+                LocalDateTime ldt = LocalDateTime.parse(x.getFechaPedido(), pc.getFormatDayTime());
+                Duration d = Duration.between(ldt, LocalDateTime.now());
+                if (d.toMinutes() < minutes && d.toMinutes() > 0) {
+                    minutes = d.toMinutes();
+                }
+                break;
+            }
+        }
+        return minutes;
     }
 
     public Mesa get(int x) {
@@ -115,21 +144,4 @@ public class MesaController {
     public int size() {
         return lstMesa.size();
     }
-
-    public List<Mesa> getLstMesa() {
-        return lstMesa;
-    }
-
-    public void setLstMesa(List<Mesa> lstMesa) {
-        this.lstMesa = lstMesa;
-    }
-
-    public ProgramController getPc() {
-        return pc;
-    }
-
-    public void setPc(ProgramController pc) {
-        this.pc = pc;
-    }
-
 }

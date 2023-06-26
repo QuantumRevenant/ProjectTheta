@@ -14,19 +14,19 @@ import java.time.LocalDateTime;
 public class Print {
     private static ProgramController pc=ProgramController.getProgramController();
     
-    public static void msg(String x)
+    public static void msg(Object x)
     {
         System.out.println(x);
     }
     
-    public static void log(String x)
+    public static void log(Object x)
     {
         LocalDateTime dateTime=LocalDateTime.now();
         String date=dateTime.format(pc.getFormatDayTime());
         System.out.println("<"+date+"> "+x);
     }
     
-    public static void error(String x)
+    public static void error(Object x)
     {
         LocalDateTime dateTime=LocalDateTime.now();
         String date=dateTime.format(pc.getFormatDayTime());

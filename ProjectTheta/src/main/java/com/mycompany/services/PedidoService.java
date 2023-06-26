@@ -2,6 +2,7 @@ package com.mycompany.services;
 
 import com.mycompany.database.Configuration;
 import com.mycompany.model.entities.*;
+import com.mycompany.model.generics.Print;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
@@ -64,6 +65,8 @@ public class PedidoService {
                 pedido.setIdCliente(cliente);
                 pedido.setIdTipoPago(tPago);
                 pedido.setIgv(listGet.getDouble("igv"));
+                MesaService mesaService = new MesaService();
+                pedido.setIdMesa(mesaService.findById(listGet.getInt("idMesa")));
                 orders.add(pedido);
             }
             Configuration.getConnectionDatabase().close();
@@ -239,6 +242,148 @@ public class PedidoService {
                 Configuration.getConnectionDatabase().close();
                 return findById(value);
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<Pedido> findStatusOrder(Pedido.PEDIDO_STATUS status) {
+        try {
+            List<Pedido> orders = new ArrayList<>();
+            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL ordersList()}");
+            ResultSet resultSet = caller.executeQuery();
+            while (resultSet.next()) {
+                Pedido pedido = new Pedido();
+                int clienteId = resultSet.getInt("idCliente");
+                ClienteService clienteService = new ClienteService();
+                Cliente cliente = clienteService.findById(clienteId);
+
+                int personalId = resultSet.getInt("idPersonal");
+                PersonalService personalService = new PersonalService();
+                Personal personal = personalService.findById(personalId);
+
+                int tPedidoId = resultSet.getInt("idTipoPedido");
+                TipoPedidoService tPedidoService = new TipoPedidoService();
+                TipoPedido tPedido = tPedidoService.findById(tPedidoId);
+
+                int tPagoId = resultSet.getInt("idTipoPago");
+                TipoPagoService tipoPagoService = new TipoPagoService();
+                TipoPago tPago = tipoPagoService.findById(tPagoId);
+
+                pedido.setIdPedido(resultSet.getInt("idPedido"));
+                pedido.setDescripcion(resultSet.getString("descripcion"));
+                pedido.setIgv(resultSet.getDouble("igv"));
+                pedido.setTotal(resultSet.getDouble("total"));
+                pedido.setFechaPedido(resultSet.getString("fechaPedido"));
+                switch (resultSet.getString("status")) {
+                    case "Completo":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.COMPLETO);
+                        break;
+                    case "Pendiente":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.PENDIENTE);
+                        break;
+                    case "En Envio":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.EN_ENVIO);
+                        break;
+                    case "Por Recoger":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.POR_RECOGER);
+                        break;
+                    case "Cancelado":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.CANCELADO);
+                        break;
+                    default:
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.OTRO);
+                        break;
+                }
+                pedido.setIdPersonal(personal);
+                pedido.setIdTipoPedido(tPedido);
+
+                pedido.setIdCliente(cliente);
+                pedido.setIdTipoPago(tPago);
+                pedido.setIgv(resultSet.getDouble("igv"));
+                MesaService mesaService = new MesaService();
+                pedido.setIdMesa(mesaService.findById(resultSet.getInt("idMesa")));
+                if (pedido.getStatus() == status) {
+                    orders.add(pedido);
+                }
+            }
+
+            resultSet.close();
+            Configuration.getConnectionDatabase().close();
+            return orders;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<Pedido> findStatusTableOrder(Pedido.PEDIDO_STATUS status, Mesa idMesa) {
+        try {
+            List<Pedido> orders = new ArrayList<>();
+            CallableStatement caller = Configuration.getConnectionDatabase().prepareCall("{CALL ordersList()}");
+            ResultSet listGet = caller.executeQuery();
+            while (listGet.next()) {
+                Pedido pedido = new Pedido();
+
+                int clienteId = listGet.getInt("idCliente");
+                ClienteService clienteService = new ClienteService();
+                Cliente cliente = clienteService.findById(clienteId);
+
+                int personalId = listGet.getInt("idPersonal");
+                PersonalService personalService = new PersonalService();
+                Personal personal = personalService.findById(personalId);
+
+                int tPedidoId = listGet.getInt("idTipoPedido");
+                TipoPedidoService tPedidoService = new TipoPedidoService();
+                TipoPedido tPedido = tPedidoService.findById(tPedidoId);
+
+                int tPagoId = listGet.getInt("idTipoPago");
+                TipoPagoService tipoPagoService = new TipoPagoService();
+                TipoPago tPago = tipoPagoService.findById(tPagoId);
+
+                pedido.setIdPedido(listGet.getInt("idPedido"));
+                pedido.setDescripcion(listGet.getString("descripcion"));
+                pedido.setIgv(listGet.getDouble("igv"));
+                pedido.setTotal(listGet.getDouble("total"));
+                pedido.setFechaPedido(listGet.getString("fechaPedido"));
+                switch (listGet.getString("status")) {
+                    case "Completo":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.COMPLETO);
+                        break;
+                    case "Pendiente":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.PENDIENTE);
+                        break;
+                    case "En Envio":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.EN_ENVIO);
+                        break;
+                    case "Por Recoger":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.POR_RECOGER);
+                        break;
+                    case "Cancelado":
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.CANCELADO);
+                        break;
+                    default:
+                        pedido.setStatus(Pedido.PEDIDO_STATUS.OTRO);
+                        break;
+                }
+                pedido.setIdPersonal(personal);
+                pedido.setIdTipoPedido(tPedido);
+
+                pedido.setIdCliente(cliente);
+                pedido.setIdTipoPago(tPago);
+                pedido.setIgv(listGet.getDouble("igv"));
+                MesaService mesaService = new MesaService();
+                pedido.setIdMesa(mesaService.findById(listGet.getInt("idMesa")));
+                if (pedido.getStatus() == status && pedido.getIdMesa() != null) {
+                    if (pedido.getIdMesa().getCodigo() == idMesa.getCodigo()) {
+                        orders.add(pedido);
+                    }
+                }
+            }
+            Configuration.getConnectionDatabase().close();
+            listGet.close();
+            return orders;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
