@@ -105,6 +105,8 @@ public class ConfigFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Cantidad de Mesas");
 
+        spnCantMesas.setModel(new javax.swing.SpinnerNumberModel(0, null, 40, 1));
+
         btnSavePreferences.setText("Salvar");
         btnSavePreferences.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
