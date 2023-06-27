@@ -34,7 +34,6 @@ public class DetallePedidoService {
                 details.setSubTotal(listGet.getDouble("subtotal"));
                 orderDetails.add(details);
             }
-            conn.close();
             listGet.close();
             configuration.releaseConnection(conn);
             return orderDetails;
