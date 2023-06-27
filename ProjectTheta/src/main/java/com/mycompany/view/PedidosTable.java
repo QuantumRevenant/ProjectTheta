@@ -838,7 +838,8 @@ public class PedidosTable extends javax.swing.JFrame {
     private void llenarDatosPedido(Pedido pedido) {
         lblTitulo.setText("PEDIDO #" + pedido.getIdPedido());
         txtCliente.setText(pedido.getIdCliente().getNombre() + " " + pedido.getIdCliente().getApellido());
-        txtPersonal.setText(pedido.getIdPersonal().getNombre() + " " + pedido.getIdPersonal().getApellidos());
+        txtPersonal_.setText(pedido.getIdPersonal().getNombre() + " " + pedido.getIdPersonal().getApellidos());
+        txtObservacion.setText(pedido.getDescripcion());
         txtTipoPago.setText(pedido.getIdTipoPago().getTipoPago());
         txtTipoPedido.setText(pedido.getIdTipoPedido().getTipoPedido());
         txtFecha.setText(pedido.getFechaPedido());
@@ -901,19 +902,18 @@ public class PedidosTable extends javax.swing.JFrame {
     }
 
     private List<Pedido> filtrarFecha(List<Pedido> lst) {
-//        LocalDateTime dateFrom = ProgramController.dateToLocalDateTime((Date) spnFrom.getValue());
-//        LocalDateTime dateTo = ProgramController.dateToLocalDateTime((Date) spnTo.getValue());
-//
-//        List<Pedido> lst1 = lst.stream().filter(pedido
-//                -> (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isAfter(dateFrom)
-//                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isEqual(dateFrom))
-//                && (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
-//                        .isBefore(dateTo)
-//                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
-//                        .isEqual(dateTo)))
-//                .collect(Collectors.toList());
-//        return lst1;
-        return lst;
+        LocalDateTime dateFrom = ProgramController.dateToLocalDateTime((Date) spnFrom.getValue());
+        LocalDateTime dateTo = ProgramController.dateToLocalDateTime((Date) spnTo.getValue());
+
+        List<Pedido> lst1 = lst.stream().filter(pedido
+                -> (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isAfter(dateFrom)
+                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isEqual(dateFrom))
+                && (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
+                        .isBefore(dateTo)
+                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
+                        .isEqual(dateTo)))
+                .collect(Collectors.toList());
+        return lst1;
     }
 
     private List<Pedido> filtrarMesa(List<Pedido> lst) {

@@ -15,7 +15,7 @@ public class PedidoController {
     public List<Pedido> getOrders(){
         return pedidoService.findAll();
     }
-
+    
     public void addOrder(Pedido pedido){pedidoService.save(pedido);}
 
     public void deleteOrder(Pedido pedido){
