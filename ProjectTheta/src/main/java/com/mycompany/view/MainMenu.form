@@ -100,6 +100,7 @@
             <Component class="javax.swing.JButton" name="btnReservas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consultar Reservas"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReservasActionPerformed"/>
@@ -108,6 +109,7 @@
             <Component class="javax.swing.JButton" name="btnMesas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consultar Mesas"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMesasActionPerformed"/>
@@ -808,6 +810,7 @@
         <Component class="javax.swing.JButton" name="btnReservaNueva">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;html&gt;Registrar&lt;br&gt;Reserva&lt;/html&gt;"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReservaNuevaActionPerformed"/>

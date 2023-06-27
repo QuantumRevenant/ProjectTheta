@@ -459,6 +459,13 @@ public class PedidosTable extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new java.awt.Dimension(750, 400));
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         tbPedidos.setAutoCreateRowSorter(true);
         tbPedidos.setModel(new javax.swing.table.DefaultTableModel(
@@ -728,6 +735,7 @@ public class PedidosTable extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         txtBusqueda.setText("");
+        txtPersonal.setText("");
         cboClientes.setSelectedIndex(0);
         cboPersonal.setSelectedIndex(0);
         cboStatus.setSelectedIndex(0);
@@ -780,6 +788,16 @@ public class PedidosTable extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_cboTypeMesasActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        txtBusqueda.setText("");
+        cboClientes.setSelectedIndex(0);
+        cboPersonal.setSelectedIndex(0);
+        cboStatus.setSelectedIndex(0);
+        cboTipoPedido.setSelectedIndex(0);
+        loadRowsPedidos();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowGainedFocus
 
     private void llenarTablaPedidos(List<Pedido> lstPedidos) {
         dtmPedidos.setRowCount(0);

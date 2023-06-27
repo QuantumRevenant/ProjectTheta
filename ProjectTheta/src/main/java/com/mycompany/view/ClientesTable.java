@@ -154,9 +154,9 @@ public class ClientesTable extends javax.swing.JFrame {
 
         jLabel8.setText("Apellido");
 
-        jLabel9.setText("DNI");
+        jLabel9.setText("DNI*");
 
-        jLabel10.setText("Teléfono");
+        jLabel10.setText("Teléfono*");
 
         jLabel11.setText("Dirección");
 
@@ -276,9 +276,9 @@ public class ClientesTable extends javax.swing.JFrame {
 
         jLabel18.setText("Apellido");
 
-        jLabel19.setText("DNI");
+        jLabel19.setText("DNI*");
 
-        jLabel20.setText("Teléfono");
+        jLabel20.setText("Teléfono*");
 
         javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
         EditForm.getContentPane().setLayout(EditFormLayout);
@@ -351,7 +351,7 @@ public class ClientesTable extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         tbClientes.setAutoCreateRowSorter(true);
@@ -469,11 +469,8 @@ public class ClientesTable extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
-        if(     getNewNombre().isBlank()
-              ||getNewApellido().isBlank()
-              ||getNewDni().isBlank()
-              ||getNewTelefono().isBlank()
-              ||getNewDireccion().isBlank()){
+        if(getNewDni().isBlank()
+              ||getNewTelefono().isBlank()){
             JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Casillas sin llenar", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -511,11 +508,8 @@ public class ClientesTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditClienteActionPerformed
 
     private void btnEditSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditSaveActionPerformed
-        if(     getEditNombre().isBlank()
-              ||getEditApellido().isBlank()
-              ||getEditDni().isBlank()
-              ||getEditTelefono().isBlank()
-              ||getEditDireccion().isBlank()){
+        if(getEditDni().isBlank()
+              ||getEditTelefono().isBlank()){
             JOptionPane.showMessageDialog(this, "Error, debe llenar todas las casillas", "Casillas vacias", JOptionPane.WARNING_MESSAGE);
             return;
         }

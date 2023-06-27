@@ -130,7 +130,7 @@ public class PedidoService {
     public void update(Pedido pedido) {
         try {
             Connection conn = configuration.getConnectionDatabase();
-            CallableStatement caller = conn.prepareCall("{CALL updateOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement caller = conn.prepareCall("{CALL updateOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)}");
             caller.setInt(1, pedido.getIdPedido());
             caller.setString(2, pedido.getDescripcion());
             caller.setDouble(3, pedido.getTotal());

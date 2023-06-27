@@ -259,6 +259,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnReservas.setText("Consultar Reservas");
+        btnReservas.setEnabled(false);
         btnReservas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReservasActionPerformed(evt);
@@ -266,6 +267,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnMesas.setText("Consultar Mesas");
+        btnMesas.setEnabled(false);
         btnMesas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMesasActionPerformed(evt);
@@ -558,7 +560,6 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         ShowOrders.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        ShowOrders.setPreferredSize(new java.awt.Dimension(500, 350));
         ShowOrders.setResizable(false);
         ShowOrders.setSize(new java.awt.Dimension(500, 350));
         ShowOrders.addWindowFocusListener(new java.awt.event.WindowFocusListener() {
@@ -687,6 +688,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnReservaNueva.setText("<html>Registrar<br>Reserva</html>");
+        btnReservaNueva.setEnabled(false);
         btnReservaNueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReservaNuevaActionPerformed(evt);
@@ -1009,7 +1011,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuOptionsActionPerformed
 
     private void btnPedidoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidoNuevoActionPerformed
-        if (ProgramController.logInUser(Login) != null) {
+        if (ProgramController.logInUser(this) != null) {
             RegistrarPedido form = new RegistrarPedido();
             form.setPreviousFrame(this);
             form.setRegistroValue(RegistrarPedido.REGISTRO.Registrar, null);

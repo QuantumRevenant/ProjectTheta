@@ -133,13 +133,12 @@ public class RegistrarPedido extends javax.swing.JFrame {
         } else {
             IdPedido = previousPedido.clone();
             lstDetalles = dpController.listByPedidoID(IdPedido.getIdPedido());
-            cboClientes.setSelectedIndex(IdPedido.getIdCliente().getIdCliente() - 1);
-            if(IdPedido.getIdMesa()==null)
-            {
-                            cboMesa.setSelectedIndex(0);
+            cboClientes.setSelectedIndex(IdPedido.getIdCliente().getIdCliente()-1);
+            if (IdPedido.getIdMesa() == null) {
+                cboMesa.setSelectedIndex(0);
 
-            }else{
-                            cboMesa.setSelectedIndex(IdPedido.getIdMesa().getCodigo());
+            } else {
+                cboMesa.setSelectedIndex(IdPedido.getIdMesa().getCodigo());
             }
             cboStatus.setSelectedItem(IdPedido.getStatus().toString());
             cboTipoPago.setSelectedIndex(IdPedido.getIdTipoPago().getIdTipoPago() - 1);
@@ -173,7 +172,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         IdPedido.setIdCliente(cController.findCustomerById(getSelectedCliente()));
         IdPedido.setIdTipoPago(tpaController.findPersonalById(getSelectedTipoPago()));
         IdPedido.setIgv(total * Pedido.igv());
-        IdPedido.setIdMesa(mc.get(getCodeFromString((String) cboMesa.getSelectedItem())));
+        IdPedido.setIdMesa(mc.get(getCodeFromString((String) cboMesa.getSelectedItem()) - 1));
         Date theDate = (Date) spnFecha.getValue();
         LocalDateTime thedatetime = java.time.LocalDateTime.ofInstant(theDate.toInstant(), ZoneId.systemDefault());
         IdPedido.setFechaPedido(thedatetime.format(pc.getFormatDayTime()));
@@ -886,7 +885,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_cboMesaActionPerformed
 
     private void btnUpdFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdFechaActionPerformed
-        if(!Print.warnConf("¿Desea Actualizar la Fecha y Hora?", this)){
+        if (!Print.warnConf("¿Desea Actualizar la Fecha y Hora?", this)) {
             return;
         }
         spnFecha.setValue(Date.from(Instant.now()));

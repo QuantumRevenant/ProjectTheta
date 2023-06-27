@@ -116,21 +116,21 @@ public class MesaController {
         for (Pedido x : lstPedidos) {
             if (x.getIdMesa() != null) {
                 LocalDateTime ldt = LocalDateTime.parse(x.getFechaPedido(), pc.getFormatDayTime());
-                Duration d = Duration.between(ldt, LocalDateTime.now());
-                if (d.toMinutes() > 0) {
+                ldt = ldt.plusMinutes(pc.getTiempoEstandarEnMesa());
+                Duration d = Duration.between(LocalDateTime.now(), ldt);
+                if (ldt.plusMinutes(pc.getTiempoEstandarEnMesa()).isAfter(LocalDateTime.now())) {
                     minutes = d.toMinutes();
+                    break;
                 }
-                break;
             }
         }
         for (Pedido x : lstPedidos) {
             if (x.getIdMesa() != null) {
                 LocalDateTime ldt = LocalDateTime.parse(x.getFechaPedido(), pc.getFormatDayTime());
-                Duration d = Duration.between(ldt, LocalDateTime.now());
-                if (d.toMinutes() < minutes && d.toMinutes() > 0) {
+                Duration d = Duration.between(LocalDateTime.now(), ldt);
+                if (d.toMinutes() <= minutes && d.toMinutes() > 0) {
                     minutes = d.toMinutes();
                 }
-                break;
             }
         }
         return minutes;
