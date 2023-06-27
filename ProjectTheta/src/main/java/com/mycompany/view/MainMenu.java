@@ -1044,6 +1044,10 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfiguracionesActionPerformed
 
     private void btnPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidosActionPerformed
+        if(ProgramController.logInUser(this)==null)
+        {
+            return;
+        }
         PedidosTable form = new PedidosTable();
         form.setPreviousFrame(this);
         OptionsMainMenu.dispose();

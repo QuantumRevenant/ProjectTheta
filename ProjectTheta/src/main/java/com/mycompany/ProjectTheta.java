@@ -13,7 +13,7 @@ public class ProjectTheta {
         System.out.println(Sha256.sha256("Hello World!"));
         System.out.println(Sha256.sha256("https://github.com/QuantumRevenant/ProjectTheta"));
             Configuration config = Configuration.getConf();
-//        StartMenu.main(args);
-        MainMenu.main(args);
+        StartMenu.main(args);
+//        MainMenu.main(args);
     }
 }

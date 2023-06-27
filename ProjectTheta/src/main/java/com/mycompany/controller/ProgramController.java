@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -78,7 +80,12 @@ public class ProgramController {
         IdColaboradorActivo = null;
         cierreSesion = null;
     }
-
+    
+    public static LocalDateTime dateToLocalDateTime(Date date)
+    {
+        return java.time.LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+    
     public static Personal logInAdmin(JFrame parent) {
         ProgramController pc = getProgramController();
         PersonalController prC = new PersonalController(new PersonalService());

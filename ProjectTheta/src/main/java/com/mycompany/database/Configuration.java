@@ -19,7 +19,7 @@ public class Configuration implements ConectionPool{
     private String password;
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
-    private static int INITIAL_POOL_SIZE = 150;
+    private static int INITIAL_POOL_SIZE = 50;
     
     private static Configuration thisConfiguration;
     

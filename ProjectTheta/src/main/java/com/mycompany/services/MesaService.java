@@ -95,6 +95,10 @@ public class MesaService implements BaseService<Mesa> {
     }
 
     public Mesa findById(int id) {
+        if(id<1)
+        {
+            return null;
+        }
         try {
             Connection conn = configuration.getConnectionDatabase();
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM reservation.mesa WHERE idMesa=?");
