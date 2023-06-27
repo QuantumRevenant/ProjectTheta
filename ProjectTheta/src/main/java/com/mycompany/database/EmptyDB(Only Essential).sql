@@ -1,6 +1,6 @@
 /*
 SQLyog Community v13.2.0 (64 bit)
-MySQL - 10.4.28-MariaDB : Database - reservation
+MySQL - 10.4.21-MariaDB : Database - reservation
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 10.4.28-MariaDB : Database - reservation
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`reservation` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`reservation` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
 USE `reservation`;
 
@@ -24,7 +24,7 @@ CREATE TABLE `categoria` (
   `idCategoria` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(25) NOT NULL,
   PRIMARY KEY (`idCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `categoria` */
 
@@ -52,12 +52,12 @@ CREATE TABLE `cliente` (
   `telefono` varchar(25) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `cliente` */
 
 insert  into `cliente`(`idCliente`,`nombre`,`apellido`,`dni`,`telefono`,`direccion`) values 
-(1,'Invitado','Guest','-','-','-');
+(1,'Invitado','Guest','-','-','');
 
 /*Table structure for table `detallepedido` */
 
@@ -72,7 +72,7 @@ CREATE TABLE `detallepedido` (
   KEY `detallepedido_ibfk_2` (`idMenu`),
   CONSTRAINT `detallepedido_ibfk_1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`),
   CONSTRAINT `detallepedido_ibfk_2` FOREIGN KEY (`idMenu`) REFERENCES `menu` (`idMenu`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `detallepedido` */
 
@@ -89,7 +89,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`idMenu`),
   KEY `menus_ibfk_1` (`idCategoria`),
   CONSTRAINT `menus_ibfk_1` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`idCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `menu` */
 
@@ -105,7 +105,7 @@ CREATE TABLE `mesa` (
   `nombreMesa` varchar(25) NOT NULL,
   `statusMesa` varchar(25) NOT NULL,
   PRIMARY KEY (`idMesa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `mesa` */
 
@@ -145,7 +145,7 @@ CREATE TABLE `pedidos` (
   CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`idPersonal`) REFERENCES `personal` (`idPersonal`),
   CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
   CONSTRAINT `pedidos_ibfk_4` FOREIGN KEY (`idTipoPago`) REFERENCES `tipopago` (`idTipoPago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `pedidos` */
 
@@ -165,7 +165,7 @@ CREATE TABLE `personal` (
   `diaDescanso` varchar(10) DEFAULT NULL,
   `nombreCargo` varchar(30) NOT NULL,
   PRIMARY KEY (`idPersonal`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `personal` */
 
@@ -181,7 +181,7 @@ CREATE TABLE `tipopago` (
   `idTipoPago` int(11) NOT NULL,
   `descripcion` varchar(20) NOT NULL,
   PRIMARY KEY (`idTipoPago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `tipopago` */
 
@@ -198,7 +198,7 @@ CREATE TABLE `tipopedido` (
   `idTipoPedido` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(20) NOT NULL,
   PRIMARY KEY (`idTipoPedido`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `tipopedido` */
 
@@ -542,11 +542,11 @@ DELIMITER $$
     IN idCliente INT,
     IN idTipoPago INT,
     IN igv DOUBLE(255, 2),
-    in idMesa INT
+    In idMesa INT
 )
 UPDATE pedidos
     SET descripcion = descripcion, total = total, fechaPedido = fechaPedido, idPersonal = idPersonal,
-        idTipoPedido = idTipoPedido, idCliente = idCliente, idTipoPago = idTipoPago, igv = igv, Status = status,idMesa=idMesa
+        idTipoPedido = idTipoPedido, idCliente = idCliente, idTipoPago = idTipoPago, igv = igv, Status = status, idMesa=idMesa
     WHERE idPedido = id */$$
 DELIMITER ;
 
