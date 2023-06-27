@@ -1,21 +1,17 @@
 package com.mycompany.model.generics;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.mycompany.controller.ProgramController;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class General {
     public static String clock() {
-        Calendar cal = new GregorianCalendar();
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH);
-        int year = cal.get(Calendar.YEAR);
+        ProgramController pc=ProgramController.getProgramController();
+        LocalDateTime datetime= LocalDateTime.now();
+       DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+       DateTimeFormatter formatDay = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        int second = cal.get(Calendar.SECOND);
-        int minute = cal.get(Calendar.MINUTE);
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-
-        String output = ("Time: " + hour + ":" + minute + ":" + second + "    Date: " + day + "/" + month + "/" + year);
-        return output;
+        return ("Date: "+datetime.format(formatDay)+"  -  Time: "+datetime.format(formatTime));
 
     }
 }
