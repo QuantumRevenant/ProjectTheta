@@ -54,7 +54,9 @@ public class PedidosTable extends javax.swing.JFrame {
     DefaultTableModel dtmPedidos = new DefaultTableModel();
     DefaultTableModel dtmDetalles = new DefaultTableModel();
 
+    private Pedido selectedPedido=null;
     private JFrame previousFrame;
+    private boolean iniciado = false;
 
     /**
      * Creates new form PedidosTable
@@ -73,6 +75,7 @@ public class PedidosTable extends javax.swing.JFrame {
         loadCboTipoPedido();
         loadCboTipoMesa();
         loadCboMesa();
+        iniciado=true;
     }
 
     public void loadSpnFechas(List<Pedido> lst) {
@@ -546,10 +549,16 @@ public class PedidosTable extends javax.swing.JFrame {
         });
 
         cboTypeMesas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTypeMesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTypeMesasActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Mesas");
 
         cboMesas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboMesas.setEnabled(false);
 
         jLabel2.setText("From");
 
@@ -687,6 +696,7 @@ public class PedidosTable extends javax.swing.JFrame {
         Detalles.setVisible(true);
         int id = (int) dtmPedidos.getValueAt(tbPedidos.getSelectedRow(), 0);
         Pedido pedido = pController.findCustomerById(id);
+        selectedPedido=pedido;
         List<DetallePedido> lst = dController.getDetails().stream()
                 .filter(detalle -> detalle.getIdPedido().getIdPedido() == id)
                 .collect(Collectors.toList());
@@ -737,7 +747,7 @@ public class PedidosTable extends javax.swing.JFrame {
         int id = (int) dtmPedidos.getValueAt(tbPedidos.getSelectedRow(), 0);
         RegistrarPedido form = new RegistrarPedido();
         form.setPreviousFrame(Detalles);
-        form.setRegistroValue(RegistrarPedido.REGISTRO.Actualizar, pController.findCustomerById(id));
+        form.setRegistroValue(RegistrarPedido.REGISTRO.Actualizar, selectedPedido);
         form.setVisible(true);
         setVisible(false);
         Detalles.setVisible(false);
@@ -756,6 +766,20 @@ public class PedidosTable extends javax.swing.JFrame {
     private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboPersonalActionPerformed
+
+    private void cboTypeMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTypeMesasActionPerformed
+        if(!iniciado)
+        {
+            return;
+        }
+        cboMesas.setSelectedIndex(0);
+        if (TipoSelectMesa.valueOf((String) cboTypeMesas.getSelectedItem()) == TipoSelectMesa.CON_MESA) {
+            cboMesas.setEnabled(true);
+        } else {
+            cboMesas.setEnabled(false);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTypeMesasActionPerformed
 
     private void llenarTablaPedidos(List<Pedido> lstPedidos) {
         dtmPedidos.setRowCount(0);
@@ -859,18 +883,19 @@ public class PedidosTable extends javax.swing.JFrame {
     }
 
     private List<Pedido> filtrarFecha(List<Pedido> lst) {
-        LocalDateTime dateFrom = ProgramController.dateToLocalDateTime((Date) spnFrom.getValue());
-        LocalDateTime dateTo = ProgramController.dateToLocalDateTime((Date) spnTo.getValue());
-
-        List<Pedido> lst1 = lst.stream().filter(pedido
-                -> (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isAfter(dateFrom)
-                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isEqual(dateFrom))
-                && (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
-                        .isBefore(dateTo)
-                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
-                        .isEqual(dateTo)))
-                .collect(Collectors.toList());
-        return lst1;
+//        LocalDateTime dateFrom = ProgramController.dateToLocalDateTime((Date) spnFrom.getValue());
+//        LocalDateTime dateTo = ProgramController.dateToLocalDateTime((Date) spnTo.getValue());
+//
+//        List<Pedido> lst1 = lst.stream().filter(pedido
+//                -> (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isAfter(dateFrom)
+//                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime()).isEqual(dateFrom))
+//                && (LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
+//                        .isBefore(dateTo)
+//                || LocalDateTime.parse(pedido.getFechaPedido(), pc.getFormatDayTime())
+//                        .isEqual(dateTo)))
+//                .collect(Collectors.toList());
+//        return lst1;
+        return lst;
     }
 
     private List<Pedido> filtrarMesa(List<Pedido> lst) {

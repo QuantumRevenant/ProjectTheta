@@ -134,7 +134,13 @@ public class RegistrarPedido extends javax.swing.JFrame {
             IdPedido = previousPedido.clone();
             lstDetalles = dpController.listByPedidoID(IdPedido.getIdPedido());
             cboClientes.setSelectedIndex(IdPedido.getIdCliente().getIdCliente() - 1);
-            cboMesa.setSelectedIndex(IdPedido.getIdMesa().getCodigo());
+            if(IdPedido.getIdMesa()==null)
+            {
+                            cboMesa.setSelectedIndex(0);
+
+            }else{
+                            cboMesa.setSelectedIndex(IdPedido.getIdMesa().getCodigo());
+            }
             cboStatus.setSelectedItem(IdPedido.getStatus().toString());
             cboTipoPago.setSelectedIndex(IdPedido.getIdTipoPago().getIdTipoPago() - 1);
             cboTipoPedido.setSelectedIndex(IdPedido.getIdTipoPedido().getIdTipoPedido() - 1);
