@@ -13,6 +13,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import listeners.CustomRendererPer;
+import listeners.SelectionListenerPer;
+
+
 public class ColaboradoresTable extends javax.swing.JFrame {
     PersonalController pController = new PersonalController(new PersonalService());
     DefaultTableModel dtmColaboradores = new DefaultTableModel();
@@ -23,11 +32,13 @@ public class ColaboradoresTable extends javax.swing.JFrame {
      */
     public ColaboradoresTable() {
         initComponents();
+        this.setLocationRelativeTo(null); /*centrar formulario*/
         loadCboDias();
         loadCboNewCargo();
         loadCboPersonal();
         loadColumns();
         loadRows();
+        setupSelectionListenerPer();
     }
 
     public void loadColumns() {
@@ -133,6 +144,11 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         this.previousFrame = previousFrame;
     }
 
+     public void setupSelectionListenerPer() {
+        ListSelectionModel selectionModel = tbColaboradores.getSelectionModel();
+        selectionModel.addListSelectionListener(new SelectionListenerPer(tbColaboradores));
+    }
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -204,16 +220,19 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         txtEditConfiContrasena = new javax.swing.JPasswordField();
         btnEditSaveContrasena = new javax.swing.JButton();
         btnEditCancelContrasena = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbColaboradores = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnNewPersonal = new javax.swing.JButton();
         btnEditPersonal = new javax.swing.JButton();
-        btnDeletePersonal = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
-        cboPersonal = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        cboPersonal = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbColaboradores = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        btnDeletePersonal = new javax.swing.JButton();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
 
         NewForm.setSize(new java.awt.Dimension(300, 550));
 
@@ -647,6 +666,58 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setSize(new java.awt.Dimension(600, 400));
 
+        jPanel4.setBackground(new java.awt.Color(255, 240, 213));
+
+        jLabel1.setFont(new java.awt.Font("Snap ITC", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\personal.png")); // NOI18N
+        jLabel1.setText("PERSONAL");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+        btnNewPersonal.setBackground(new java.awt.Color(255, 102, 102));
+        btnNewPersonal.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewPersonal.setForeground(new java.awt.Color(255, 255, 255));
+        btnNewPersonal.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regi.png")); // NOI18N
+        btnNewPersonal.setText("Registrar Nuevo");
+        btnNewPersonal.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnNewPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewPersonalActionPerformed(evt);
+            }
+        });
+
+        btnEditPersonal.setBackground(new java.awt.Color(255, 102, 102));
+        btnEditPersonal.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditPersonal.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditPersonal.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\modi.png")); // NOI18N
+        btnEditPersonal.setText("Modificar Existente");
+        btnEditPersonal.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnEditPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditPersonalActionPerformed(evt);
+            }
+        });
+
+        txtBuscar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        txtBuscar.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtBuscarCaretUpdate(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Lucida Handwriting", 0, 14)); // NOI18N
+        jLabel2.setText("Buscar Personal");
+
+        cboPersonal.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        cboPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboPersonalActionPerformed(evt);
+            }
+        });
+
+        tbColaboradores.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        tbColaboradores.setForeground(new java.awt.Color(153, 51, 0));
         tbColaboradores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -665,157 +736,112 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbColaboradores);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("PERSONAL");
+        jButton1.setBackground(new java.awt.Color(255, 102, 102));
+        jButton1.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regres.png")); // NOI18N
+        jButton1.setText("Volver");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        btnNewPersonal.setText("Registrar Nuevo");
-        btnNewPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewPersonalActionPerformed(evt);
-            }
-        });
-
-        btnEditPersonal.setText("Modificar Existente");
-        btnEditPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditPersonalActionPerformed(evt);
-            }
-        });
-
+        btnDeletePersonal.setBackground(new java.awt.Color(255, 102, 102));
+        btnDeletePersonal.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnDeletePersonal.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeletePersonal.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\elimi.png")); // NOI18N
         btnDeletePersonal.setText("Eliminar");
+        btnDeletePersonal.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnDeletePersonal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeletePersonalActionPerformed(evt);
             }
         });
 
-        txtBuscar.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtBuscarCaretUpdate(evt);
-            }
-        });
+        jLabel28.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
 
-        cboPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboPersonalActionPerformed(evt);
-            }
-        });
+        jLabel29.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
 
-        jLabel2.setText("Buscar Personal");
-
-        jButton1.setText("Volver");
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 105, Short.MAX_VALUE)
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(213, 213, 213)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(btnNewPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEditPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDeletePersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cboPersonal, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtBuscar))))))
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                    .addContainerGap(105, Short.MAX_VALUE)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(29, 29, 29)))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNewPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeletePersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(424, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnNewPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDeletePersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtBuscar)
-                            .addComponent(cboPersonal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(3, 3, 3)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNewPersonal)
-                    .addComponent(btnEditPersonal)
-                    .addComponent(btnDeletePersonal)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnNewPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewPersonalActionPerformed
-        NewForm.setVisible(true);
-    }//GEN-LAST:event_btnNewPersonalActionPerformed
-
-    private void btnEditPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPersonalActionPerformed
-        if(pController.getEmployees().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Aún no hay personal registrado", "Personal sin registrar", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        EditForm.setVisible(true);
-    }//GEN-LAST:event_btnEditPersonalActionPerformed
-
-    private void btnDeletePersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletePersonalActionPerformed
-        Personal temp = pController.findPersonalById(getSelectedPersonal());
-        if (getSelectedPersonal() == 0) {
-            JOptionPane.showMessageDialog(this, "Error, aun no selecciona un Colaborador", "Colaborador sin seleccionar", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Colaborador "+temp.getNombre()+" "+temp.getApellidos()+"? Esta acción es Irreversible");
-        if (resp != 0) { return; }
-        pController.deletePersonal(temp);
-        loadRows();
-        loadCboPersonal();
-    }//GEN-LAST:event_btnDeletePersonalActionPerformed
-
-    private void txtBuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBuscarCaretUpdate
-        DefaultComboBoxModel<String> dcbmPersonal = new DefaultComboBoxModel<>();
-        loadCboPersonal();
-        String busqueda = txtBuscar.getText();
-        for (int i = 0; i < cboPersonal.getItemCount(); i++) {
-            String item = cboPersonal.getItemAt(i);
-            if (item.toLowerCase().contains(busqueda.toLowerCase())) {
-                dcbmPersonal.addElement(item);
-            }
-        }
-        dcbmPersonal.addElement("[0] - All");
-        cboPersonal.setModel(dcbmPersonal);
-    }//GEN-LAST:event_txtBuscarCaretUpdate
-
-    private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
-        if (getSelectedPersonal() == 0) {
-            loadRows();
-            return;
-        }
-        Personal p = pController.findPersonalById(getSelectedPersonal());
-        dtmColaboradores.setRowCount(0);
-        Object[] vec = new Object[9];
-        vec[0] = p.getIdPersonal();
-        vec[1] = p.getNombre();
-        vec[2] = p.getApellidos();
-        vec[3] = p.getUsuario();
-        vec[4] = p.getTelefono();
-        vec[5] = p.getHoraInicio();
-        vec[6] = p.getHoraFin();
-        vec[7] = p.getDiaDescanso();
-        vec[8] = p.getNombreCargo();
-        dtmColaboradores.addRow(vec);
-        tbColaboradores.setModel(dtmColaboradores);
-    }//GEN-LAST:event_cboPersonalActionPerformed
 
     private void btnNewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaveActionPerformed
         String encryptedContrasena = Sha256.sha256(getNewContrasena());
@@ -931,10 +957,6 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         EditContrasenaForm.setVisible(true);
     }//GEN-LAST:event_btnCambiarContrasenaActionPerformed
 
-    private void tbColaboradoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbColaboradoresMouseClicked
-        txtBuscar.setText(dtmColaboradores.getValueAt(tbColaboradores.getSelectedRow(), 0).toString());
-    }//GEN-LAST:event_tbColaboradoresMouseClicked
-
     private void cboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCargoActionPerformed
         if(getSelectedCargo() == Personal.CARGOS.ADMIN){ txtNewUsuario.setEditable(true); }
         else{
@@ -950,6 +972,70 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             txtEditUsuario.setEditable(false);
         }
     }//GEN-LAST:event_cboEditCargoActionPerformed
+
+    private void btnNewPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewPersonalActionPerformed
+        NewForm.setVisible(true);
+    }//GEN-LAST:event_btnNewPersonalActionPerformed
+
+    private void btnEditPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPersonalActionPerformed
+        if(pController.getEmployees().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Aún no hay personal registrado", "Personal sin registrar", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        EditForm.setVisible(true);
+    }//GEN-LAST:event_btnEditPersonalActionPerformed
+
+    private void txtBuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBuscarCaretUpdate
+        DefaultComboBoxModel<String> dcbmPersonal = new DefaultComboBoxModel<>();
+        loadCboPersonal();
+        String busqueda = txtBuscar.getText();
+        for (int i = 0; i < cboPersonal.getItemCount(); i++) {
+            String item = cboPersonal.getItemAt(i);
+            if (item.toLowerCase().contains(busqueda.toLowerCase())) {
+                dcbmPersonal.addElement(item);
+            }
+        }
+        dcbmPersonal.addElement("[0] - All");
+        cboPersonal.setModel(dcbmPersonal);
+    }//GEN-LAST:event_txtBuscarCaretUpdate
+
+    private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
+        if (getSelectedPersonal() == 0) {
+            loadRows();
+            return;
+        }
+        Personal p = pController.findPersonalById(getSelectedPersonal());
+        dtmColaboradores.setRowCount(0);
+        Object[] vec = new Object[9];
+        vec[0] = p.getIdPersonal();
+        vec[1] = p.getNombre();
+        vec[2] = p.getApellidos();
+        vec[3] = p.getUsuario();
+        vec[4] = p.getTelefono();
+        vec[5] = p.getHoraInicio();
+        vec[6] = p.getHoraFin();
+        vec[7] = p.getDiaDescanso();
+        vec[8] = p.getNombreCargo();
+        dtmColaboradores.addRow(vec);
+        tbColaboradores.setModel(dtmColaboradores);
+    }//GEN-LAST:event_cboPersonalActionPerformed
+
+    private void tbColaboradoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbColaboradoresMouseClicked
+        txtBuscar.setText(dtmColaboradores.getValueAt(tbColaboradores.getSelectedRow(), 0).toString());
+    }//GEN-LAST:event_tbColaboradoresMouseClicked
+
+    private void btnDeletePersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletePersonalActionPerformed
+        Personal temp = pController.findPersonalById(getSelectedPersonal());
+        if (getSelectedPersonal() == 0) {
+            JOptionPane.showMessageDialog(this, "Error, aun no selecciona un Colaborador", "Colaborador sin seleccionar", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Colaborador "+temp.getNombre()+" "+temp.getApellidos()+"? Esta acción es Irreversible");
+        if (resp != 0) { return; }
+        pController.deletePersonal(temp);
+        loadRows();
+        loadCboPersonal();
+    }//GEN-LAST:event_btnDeletePersonalActionPerformed
 
     private String getNewNombre()                   { return txtNewNombre.getText(); }
     private String getNewApellidos()                { return txtNewApellido.getText(); }
@@ -1097,6 +1183,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1107,6 +1195,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbColaboradores;
     private javax.swing.JPasswordField txtAnteriorContrasena;
