@@ -114,6 +114,9 @@ public class ProgramController {
         if (okCxl == JOptionPane.OK_OPTION) {
             String password = Sha256.sha256(new String(pf.getPassword()));
             empleado = prC.Admin(uf.getText(), password);
+        } else
+        {
+            return empleado;
         }
         if (empleado != null) {
             pc.cleanSesion();
@@ -152,6 +155,9 @@ public class ProgramController {
         if (okCxl == JOptionPane.OK_OPTION) {
             String password = Sha256.sha256(new String(pf.getPassword()));
             empleado = prC.findPersonalByPassword(password);
+        } else
+        {
+            return empleado;
         }
         if (empleado != null) {
             pc.cleanSesion();
