@@ -133,7 +133,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         } else {
             IdPedido = previousPedido.clone();
             lstDetalles = dpController.listByPedidoID(IdPedido.getIdPedido());
-            cboClientes.setSelectedIndex(IdPedido.getIdCliente().getIdCliente()-1);
+            cboClientes.setSelectedIndex(IdPedido.getIdCliente().getIdCliente() - 1);
             if (IdPedido.getIdMesa() == null) {
                 cboMesa.setSelectedIndex(0);
 
@@ -160,6 +160,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
     }
 
     public void actualizarPedido() {
+
         IdPedido.setDescripcion(txtObs.getText());
         double total = 0;
         for (DetallePedido x : lstDetalles) {
@@ -172,7 +173,11 @@ public class RegistrarPedido extends javax.swing.JFrame {
         IdPedido.setIdCliente(cController.findCustomerById(getSelectedCliente()));
         IdPedido.setIdTipoPago(tpaController.findPersonalById(getSelectedTipoPago()));
         IdPedido.setIgv(total * Pedido.igv());
-        IdPedido.setIdMesa(mc.get(getCodeFromString((String) cboMesa.getSelectedItem()) - 1));
+        if (getCodeFromString((String) cboMesa.getSelectedItem()) != 0) {
+            IdPedido.setIdMesa(mc.get(getCodeFromString((String) cboMesa.getSelectedItem()) - 1));
+        } else {
+            IdPedido.setIdMesa(null);
+        }
         Date theDate = (Date) spnFecha.getValue();
         LocalDateTime thedatetime = java.time.LocalDateTime.ofInstant(theDate.toInstant(), ZoneId.systemDefault());
         IdPedido.setFechaPedido(thedatetime.format(pc.getFormatDayTime()));
@@ -778,7 +783,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
         int idProducto = getSelectedProducto();
         int cantidad = getSelectedUnidades();
-
         for (int i = 0; i < lstDetalles.size(); i++) {
             if (lstDetalles.get(i).getIdMenu().getIdMenu() == idProducto) {
                 lstDetalles.get(i).setCantidadPlatos(lstDetalles.get(i).getCantidadPlatos() + cantidad);
@@ -789,8 +793,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
                 return;
             }
         }
-        DetallePedido ndp = new DetallePedido(mController.findServicioById(idProducto),
-                null, cantidad, mController.findServicioById(idProducto).getPrecio() * cantidad);
+        DetallePedido ndp = new DetallePedido(mController.findServicioById(idProducto), null, cantidad, mController.findServicioById(idProducto).getPrecio() * cantidad);
         lstDetalles.add(ndp);
 //        actualizarDetalles();
         loadRowsDetalles();
@@ -852,7 +855,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
             lstDetalles.get(i).setIdPedido(pedidoController.findCustomerById(idPed));
         }
         dpController.addLstDetails(lstDetalles);
-
         btnBackCancelActionPerformed(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
