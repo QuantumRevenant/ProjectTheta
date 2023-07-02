@@ -3,13 +3,17 @@ package com.mycompany.view;
 import com.mycompany.controller.CategoriaController;
 import com.mycompany.controller.MenuController;
 import com.mycompany.model.entities.Categoria;
+import com.mycompany.model.generics.General;
 import com.mycompany.model.entities.Menu;
 import com.mycompany.services.CategoriaService;
 import com.mycompany.services.MenuService;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import listeners.SelectionListenerPro;
@@ -30,7 +34,7 @@ public class MenusTable extends javax.swing.JFrame {
         loadCboMenu();
         loadCboCategoria();
         loadColumns();
-        loadRows();
+        loadRowsDefault();
         setupSelectionListenerPro();
     }
     
@@ -67,23 +71,9 @@ public class MenusTable extends javax.swing.JFrame {
         tbMenus.setModel(dtmMenus);
     }
 
-    public void loadRows() {
+    public void loadRowsDefault() {
         List<Menu> lst = mController.getMenus();
-        dtmMenus.setRowCount(0);
-        try{
-            for (Menu s : lst) {
-                Categoria cat = cController.findCategoryById(s.getIdCategoria());
-                Object[] vec = new Object[5];
-                vec[0] = s.getIdMenu();
-                vec[1] = cat.getNombre();
-                vec[2] = s.getTipo();
-                vec[3] = s.getDescripcion();
-                vec[4] = s.getPrecio();
-                dtmMenus.addRow(vec);
-            }
-            tbMenus.setModel(dtmMenus);
-        }catch (Exception e){ System.out.println("Error loadRows()"); }
-        tbMenus.setModel(dtmMenus);
+        loadRowsMenu(lst);
     }
 
     public JFrame getPreviousFrame() {
@@ -692,7 +682,7 @@ public class MenusTable extends javax.swing.JFrame {
 
     private void btnNewCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCancelActionPerformed
         loadCboMenu();
-        loadRows();
+        loadRowsDefault();
         NewForm.dispose();
     }//GEN-LAST:event_btnNewCancelActionPerformed
 
@@ -718,7 +708,7 @@ public class MenusTable extends javax.swing.JFrame {
 
     private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
         loadCboMenu();
-        loadRows();
+        loadRowsDefault();
         EditForm.dispose();
     }//GEN-LAST:event_btnEditCancelActionPerformed
 
@@ -731,38 +721,18 @@ public class MenusTable extends javax.swing.JFrame {
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar el Producto "+temp.getTipo()+"? Esta acción es Irreversible");
         if (resp != 0) { return; }
         mController.deleteMenu(temp);
-        loadRows();
+        loadRowsDefault();
         loadCboMenu();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBusquedaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBusquedaCaretUpdate
-        DefaultComboBoxModel<String> dcbmMenus = new DefaultComboBoxModel<>();
         loadCboMenu();
-        String busqueda = txtBusqueda.getText();
-        for(int i=0;i<cBProductos.getItemCount();i++){
-            String item = cBProductos.getItemAt(i);
-            if(item.toLowerCase().contains(busqueda.toLowerCase())) { dcbmMenus.addElement(item); }
-        }
-        dcbmMenus.addElement("[0] - All");
-        cBProductos.setModel(dcbmMenus);
+        General.filtrarCbo(cBProductos, txtBusqueda);
     }//GEN-LAST:event_txtBusquedaCaretUpdate
 
     private void cBProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBProductosActionPerformed
-        if(getSelectedMenu()==0){
-            loadRows();
-            return;
-        }
-        Menu temp = mController.findServicioById(getSelectedMenu());
-        Categoria cat = cController.findCategoryById(temp.getIdCategoria());
-        dtmMenus.setRowCount(0);
-        Object[] vec = new Object[6];
-        vec[0] = temp.getIdMenu();
-        vec[1] = cat.getNombre();
-        vec[2] = temp.getTipo();
-        vec[3] = temp.getDescripcion();
-        vec[4] = temp.getPrecio();
-        dtmMenus.addRow(vec);
-        tbMenus.setModel(dtmMenus);
+        List<Menu> lst = filtrarMenus(mController.getMenus());
+        loadRowsMenu(lst);
     }//GEN-LAST:event_cBProductosActionPerformed
 
     private void cboEditMenusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEditMenusActionPerformed
@@ -784,9 +754,7 @@ public class MenusTable extends javax.swing.JFrame {
             return;
         }
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea registrar la categoria "+categoria+"?");
-        if (resp != 0) {
-            return;
-        }
+        if (resp != 0) { return; }
         cController.addCategory(new Categoria(0, categoria));
         loadCboCategoria();
     }//GEN-LAST:event_btnSaveCategoryActionPerformed
@@ -799,35 +767,35 @@ public class MenusTable extends javax.swing.JFrame {
         NewCategory.setVisible(false);
     }//GEN-LAST:event_btnCancelCategoryActionPerformed
 
-    private int getSelectedMenu()       {
-        if(cBProductos.getItemCount()==0){ return 0; }
-        String palabra = cBProductos.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-    private int getNewCategoria()       {
-        String palabra = cboNewCategoria.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
+    private int getSelectedMenu()       { return General.getSelectedId(cBProductos); }
+    
+    private int getNewCategoria()       { return General.getSelectedId(cboNewCategoria); }
     private String getNewNombre()       { return txtNewNombre.getText(); }
     private String getNewDescipcion()   { return txtNewDescripcion.getText(); }
     private int getNewPrecio()          { return (int) spnNewPrecio.getValue(); }
     
-    private int getSelectedEditMenu()   {
-        if(cboEditMenus.getItemCount()==0) { return 0; }
-        String palabra = cboEditMenus.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-    private int getEditCategoria()      {
-        String palabra = cboEditCategorias.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
+    private int getSelectedEditMenu()   { return General.getSelectedId(cboEditMenus); }
+    private int getEditCategoria()      { return General.getSelectedId(cboEditCategorias); }
     private String getEditNombre()      { return txtEditNombre.getText(); }
     private String getEditDescripcion() { return txtEditDescripcion.getText(); }
     private Double getEditPrecio()      { return (Double) spnEditPrecio.getValue(); }
+
+    public void loadRowsMenu(List<Menu> lst) {
+        dtmMenus.setRowCount(0);
+        try{
+            for (Menu s : lst) {
+                Categoria cat = cController.findCategoryById(s.getIdCategoria());
+                Object[] vec = new Object[5];
+                vec[0] = s.getIdMenu();
+                vec[1] = cat.getNombre();
+                vec[2] = s.getTipo();
+                vec[3] = s.getDescripcion();
+                vec[4] = s.getPrecio();
+                dtmMenus.addRow(vec);
+            }
+            tbMenus.setModel(dtmMenus);
+        }catch (Exception e){ System.out.println("Error loadRows()"); }
+    }
     
     private boolean datosExist(String nombre, int id){
         switch(mController.datosExist(nombre, id)){
@@ -846,6 +814,14 @@ public class MenusTable extends javax.swing.JFrame {
         txtEditDescripcion.setText(temp.getDescripcion());
         spnEditPrecio.setValue(temp.getPrecio());
     }    
+    
+    private List<Menu> filtrarMenus(List<Menu> lst){
+        if(getSelectedMenu() != 0){
+            return lst.stream().filter(menu -> menu.getIdMenu() == getSelectedMenu()).collect(Collectors.toList());
+        }
+        return lst;
+    }
+    
     /**
          * @param args the command line arguments
          */

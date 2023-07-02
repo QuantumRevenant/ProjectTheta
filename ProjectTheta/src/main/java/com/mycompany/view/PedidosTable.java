@@ -13,6 +13,7 @@ import com.mycompany.controller.ProgramController;
 import com.mycompany.controller.TipoPedidoController;
 import com.mycompany.model.entities.Cliente;
 import com.mycompany.model.entities.DetallePedido;
+import com.mycompany.model.generics.General;
 import com.mycompany.model.entities.Mesa;
 import com.mycompany.model.entities.Pedido;
 import com.mycompany.model.entities.Personal;
@@ -20,22 +21,17 @@ import com.mycompany.model.entities.TipoPedido;
 import com.mycompany.model.generics.Print;
 import com.mycompany.services.ClienteService;
 import com.mycompany.services.DetallePedidoService;
-import com.mycompany.services.MesaService;
 import com.mycompany.services.PedidoService;
 import com.mycompany.services.PersonalService;
 import com.mycompany.services.TipoPedidoService;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -164,7 +160,7 @@ public class PedidosTable extends javax.swing.JFrame {
             cboMesas.addItem("[" + x.getCodigo() + "] - " + x.getNombreMesa());
         }
     }
-
+    
     public JFrame getPreviousFrame() {
         return previousFrame;
     }
@@ -720,12 +716,12 @@ public class PedidosTable extends javax.swing.JFrame {
 
     private void txtPersonalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtPersonalCaretUpdate
         loadCboPersonal();
-        pseudoBusqueda(evt, cboPersonal, txtPersonal);
+        General.filtrarCbo(cboPersonal, txtPersonal);
     }//GEN-LAST:event_txtPersonalCaretUpdate
 
     private void txtClientesCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtClientesCaretUpdate
         loadCboClientes();
-        pseudoBusqueda(evt, cboClientes, txtClientes);
+        General.filtrarCbo(cboClientes, txtClientes);
     }//GEN-LAST:event_txtClientesCaretUpdate
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
@@ -752,7 +748,6 @@ public class PedidosTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        int id = (int) dtmPedidos.getValueAt(tbPedidos.getSelectedRow(), 0);
         RegistrarPedido form = new RegistrarPedido();
         form.setPreviousFrame(Detalles);
         form.setRegistroValue(RegistrarPedido.REGISTRO.Actualizar, selectedPedido);
@@ -772,21 +767,14 @@ public class PedidosTable extends javax.swing.JFrame {
     }//GEN-LAST:event_DetallesWindowGainedFocus
 
     private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_cboPersonalActionPerformed
 
     private void cboTypeMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTypeMesasActionPerformed
-        if(!iniciado)
-        {
-            return;
-        }
+        if(!iniciado) { return; }
         cboMesas.setSelectedIndex(0);
         if (TipoSelectMesa.valueOf((String) cboTypeMesas.getSelectedItem()) == TipoSelectMesa.CON_MESA) {
             cboMesas.setEnabled(true);
-        } else {
-            cboMesas.setEnabled(false);
-        }
-        // TODO add your handling code here:
+        } else { cboMesas.setEnabled(false); }
     }//GEN-LAST:event_cboTypeMesasActionPerformed
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
@@ -796,7 +784,6 @@ public class PedidosTable extends javax.swing.JFrame {
         cboStatus.setSelectedIndex(0);
         cboTipoPedido.setSelectedIndex(0);
         loadRowsPedidos();
-        // TODO add your handling code here:
     }//GEN-LAST:event_formWindowGainedFocus
 
     private void llenarTablaPedidos(List<Pedido> lstPedidos) {
@@ -849,52 +836,14 @@ public class PedidosTable extends javax.swing.JFrame {
         txtTotal.setText(pedido.getTotal() + "");
     }
 
-    private void pseudoBusqueda(javax.swing.event.CaretEvent evt, JComboBox<String> comboBox, JTextField textField) {
-        DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<>();
-        String busqueda = textField.getText();
-        for (int i = 0; i < comboBox.getItemCount(); i++) {
-            String item = comboBox.getItemAt(i);
-            if (item.toLowerCase().contains(busqueda.toLowerCase())) {
-                dcbm.addElement(item);
-            }
-        }
-        dcbm.addElement("[0] - All");
-        comboBox.setModel(dcbm);
-    }
-
-    private int getIdBuscado() {
-        return Integer.parseInt(txtBusqueda.getText());
-    }
-
-    private int getSelectedPersonal() {
-        String palabra = cboPersonal.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    private int getSelectedMesa() {
-        String palabra = cboMesas.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    private int getSelectedCliente() {
-        String palabra = cboClientes.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
+    private int getIdBuscado()          { return Integer.parseInt(txtBusqueda.getText()); }
+    private int getSelectedPersonal()   { return General.getSelectedId(cboPersonal); }
+    private int getSelectedMesa()       { return General.getSelectedId(cboMesas); }
+    private int getSelectedCliente()    { return General.getSelectedId(cboClientes); }
+    private int getSelectedTipoPedido() { return General.getSelectedId(cboTipoPedido); }
     private Pedido.PEDIDO_STATUS getSelectedStatus() {
-        if (cboStatus.getSelectedItem().toString().equals("All")) {
-            return null;
-        }
+        if (cboStatus.getSelectedItem().toString().equals("All")) { return null; }
         return Pedido.PEDIDO_STATUS.valueOf(cboStatus.getSelectedItem().toString());
-    }
-
-    private int getSelectedTipoPedido() {
-        String palabra = cboTipoPedido.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
     }
 
     private List<Pedido> filtrarPedidos(List<Pedido> lst) {

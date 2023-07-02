@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -96,7 +97,7 @@ public class RegistrarPedido extends javax.swing.JFrame {
         if (!iniciado) {
             return;
         }
-        if ((getCodeFromString((String) cboTipoPedido.getSelectedItem()) != TipoPedido.SALON) && (getCodeFromString((String) cboTipoPedido.getSelectedItem()) != TipoPedido.RESERVA)) {
+        if ((getSelectedTipoPedido() != TipoPedido.SALON) && (getSelectedTipoPedido() != TipoPedido.RESERVA)) {
             cboMesa.setSelectedIndex(0);
             cboMesa.setEnabled(false);
         } else {
@@ -169,12 +170,12 @@ public class RegistrarPedido extends javax.swing.JFrame {
         IdPedido.setTotal(total);
         IdPedido.setStatus(Pedido.PEDIDO_STATUS.valueOf((String) cboStatus.getSelectedItem()));
         IdPedido.setIdPersonal(pController.findPersonalById(getSelectedPersonal()));
-        IdPedido.setIdTipoPedido(tpeController.findPersonalById(getCodeFromString((String) cboTipoPedido.getSelectedItem())));
+        IdPedido.setIdTipoPedido(tpeController.findPersonalById(getSelectedTipoPedido()));
         IdPedido.setIdCliente(cController.findCustomerById(getSelectedCliente()));
         IdPedido.setIdTipoPago(tpaController.findPersonalById(getSelectedTipoPago()));
         IdPedido.setIgv(total * Pedido.igv());
-        if (getCodeFromString((String) cboMesa.getSelectedItem()) != 0) {
-            IdPedido.setIdMesa(mc.get(getCodeFromString((String) cboMesa.getSelectedItem()) - 1));
+        if (getSelectedMesa() != 0) {
+            IdPedido.setIdMesa(mc.get(getSelectedMesa() - 1));
         } else {
             IdPedido.setIdMesa(null);
         }
@@ -750,26 +751,20 @@ public class RegistrarPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboClientesActionPerformed
-        // TODO add your handling code here:
-
     }//GEN-LAST:event_cboClientesActionPerformed
 
     private void btnAumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAumentarActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnAumentarActionPerformed
 
     private void btnReducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReducirActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnReducirActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnBackCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackCancelActionPerformed
         previousFrame.setVisible(true);
         dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnBackCancelActionPerformed
 
     private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
@@ -777,7 +772,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
         form.setPreviousFrame(this);
         form.setVisible(true);
         setVisible(false);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
@@ -798,7 +792,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
 //        actualizarDetalles();
         loadRowsDetalles();
         updateWndDetalles();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnAddProductActionPerformed
 
     private void btnReduceProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReduceProductActionPerformed
@@ -832,7 +825,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
             }
         }
         JOptionPane.showMessageDialog(this, "Error, No agregaste nunca el Producto", "Error", JOptionPane.WARNING_MESSAGE);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnReduceProductActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -856,12 +848,10 @@ public class RegistrarPedido extends javax.swing.JFrame {
         }
         dpController.addLstDetails(lstDetalles);
         btnBackCancelActionPerformed(evt);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void cboTipoPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoPedidoActionPerformed
         update();
-// TODO add your handling code here:
     }//GEN-LAST:event_cboTipoPedidoActionPerformed
 
     private void btnUnlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnlockActionPerformed
@@ -874,8 +864,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
             cboPersonal.setEnabled(false);
             btnUnlock.setText("Unlock");
         }
-
-// TODO add your handling code here:
     }//GEN-LAST:event_btnUnlockActionPerformed
 
     private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
@@ -883,7 +871,6 @@ public class RegistrarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRestablecerActionPerformed
 
     private void cboMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesaActionPerformed
-
     }//GEN-LAST:event_cboMesaActionPerformed
 
     private void btnUpdFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdFechaActionPerformed
@@ -891,42 +878,16 @@ public class RegistrarPedido extends javax.swing.JFrame {
             return;
         }
         spnFecha.setValue(Date.from(Instant.now()));
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdFechaActionPerformed
 
-    public int getCodeFromString(String palabra) {
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    public int getSelectedProducto() {
-        String palabra = cboProductos.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    public int getSelectedCliente() {
-        String palabra = cboClientes.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    public int getSelectedPersonal() {
-        String palabra = cboPersonal.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    public int getSelectedTipoPago() {
-        String palabra = cboTipoPago.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    public int getSelectedUnidades() {
-        return Integer.parseInt(spnUnidades.getValue().toString());
-    }
-
+    public int getSelectedProducto()    { return General.getSelectedId(cboProductos); }
+    public int getSelectedCliente()     { return General.getSelectedId(cboClientes); }
+    public int getSelectedPersonal()    { return General.getSelectedId(cboPersonal); }
+    public int getSelectedTipoPago()    { return General.getSelectedId(cboTipoPago); }
+    public int getSelectedMesa()        { return General.getSelectedId(cboMesa); }
+    public int getSelectedTipoPedido()  { return General.getSelectedId(cboTipoPedido); }
+    public int getSelectedUnidades()    { return Integer.parseInt(spnUnidades.getValue().toString()); }
+    
     /**
      * @param args the command line arguments
      */
