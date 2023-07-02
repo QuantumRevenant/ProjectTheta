@@ -42,31 +42,31 @@ public class StartMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblRest_Icon = new javax.swing.JLabel();
+        lblRest_Msg1 = new javax.swing.JLabel();
+        lblRest_Msg2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnMenuLogIn = new javax.swing.JToggleButton();
         btnCloseProgram = new javax.swing.JButton();
         btnMenuConfig = new javax.swing.JToggleButton();
         lblClock = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblLogIn_Icon = new javax.swing.JLabel();
+        lblConfig_Icon = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(230, 182, 139));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\logo3m.png")); // NOI18N
+        lblRest_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo3m.png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("\"Disfruta de una sazón");
+        lblRest_Msg1.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
+        lblRest_Msg1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRest_Msg1.setText("\"Disfruta de una sazón");
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("hecha en casa \"");
+        lblRest_Msg2.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
+        lblRest_Msg2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRest_Msg2.setText("hecha en casa \"");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -74,27 +74,27 @@ public class StartMenu extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblRest_Msg1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(61, 61, 61)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblRest_Msg2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(jLabel3)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(lblRest_Icon)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblRest_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(lblRest_Msg1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(lblRest_Msg2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -113,7 +113,6 @@ public class StartMenu extends javax.swing.JFrame {
         btnCloseProgram.setBackground(new java.awt.Color(255, 153, 153));
         btnCloseProgram.setFont(new java.awt.Font("Kristen ITC", 3, 12)); // NOI18N
         btnCloseProgram.setForeground(new java.awt.Color(255, 255, 255));
-        btnCloseProgram.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\cierre.png")); // NOI18N
         btnCloseProgram.setText("Close");
         btnCloseProgram.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,11 +135,11 @@ public class StartMenu extends javax.swing.JFrame {
         lblClock.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblClock.setText("Time");
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\session.png")); // NOI18N
+        lblLogIn_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/session.png"))); // NOI18N
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\config.png")); // NOI18N
+        lblConfig_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/config.png"))); // NOI18N
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\horfec.png")); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/horfec.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,7 +161,7 @@ public class StartMenu extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(90, 90, 90)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblLogIn_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(48, 48, 48)
                                     .addComponent(btnMenuConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -170,7 +169,7 @@ public class StartMenu extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(99, 99, 99)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblConfig_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -184,11 +183,11 @@ public class StartMenu extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(13, 13, 13)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblLogIn_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenuLogIn)
                 .addGap(30, 30, 30)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(lblConfig_Icon, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenuConfig)
                 .addGap(24, 24, 24)
@@ -279,14 +278,14 @@ public class StartMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnCloseProgram;
     private javax.swing.JToggleButton btnMenuConfig;
     private javax.swing.JToggleButton btnMenuLogIn;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblClock;
+    private javax.swing.JLabel lblConfig_Icon;
+    private javax.swing.JLabel lblLogIn_Icon;
+    private javax.swing.JLabel lblRest_Icon;
+    private javax.swing.JLabel lblRest_Msg1;
+    private javax.swing.JLabel lblRest_Msg2;
     // End of variables declaration//GEN-END:variables
 }
