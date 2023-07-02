@@ -52,7 +52,7 @@ public class StartMenu extends javax.swing.JFrame {
         lblClock = new javax.swing.JLabel();
         lblLogIn_Icon = new javax.swing.JLabel();
         lblConfig_Icon = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblFecha_Icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,7 +139,7 @@ public class StartMenu extends javax.swing.JFrame {
 
         lblConfig_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/config.png"))); // NOI18N
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/horfec.png"))); // NOI18N
+        lblFecha_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/horfec.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,7 +149,7 @@ public class StartMenu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblFecha_Icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblClock, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -181,7 +181,7 @@ public class StartMenu extends javax.swing.JFrame {
                         .addComponent(lblClock))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblFecha_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(13, 13, 13)
                 .addComponent(lblLogIn_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -278,11 +278,11 @@ public class StartMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnCloseProgram;
     private javax.swing.JToggleButton btnMenuConfig;
     private javax.swing.JToggleButton btnMenuLogIn;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblClock;
     private javax.swing.JLabel lblConfig_Icon;
+    private javax.swing.JLabel lblFecha_Icon;
     private javax.swing.JLabel lblLogIn_Icon;
     private javax.swing.JLabel lblRest_Icon;
     private javax.swing.JLabel lblRest_Msg1;
