@@ -4,22 +4,18 @@ import com.mycompany.controller.ClienteController;
 import com.mycompany.model.entities.Cliente;
 import com.mycompany.services.ClienteService;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import lombok.Data;
 
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import listeners.CustomRenderer;
 import listeners.SelectionListener;
-/**
- *
- * @author bravo
- */
+
 @Data
 public class ClientesTable extends javax.swing.JFrame {
 
@@ -36,7 +32,7 @@ public class ClientesTable extends javax.swing.JFrame {
         this.setLocationRelativeTo(null); /*centrar formulario*/
         loadCboClientes();
         loadColumns();
-        loadRows();
+        loadRowsDefault();
         setupSelectionListener();
     }
 
@@ -50,20 +46,9 @@ public class ClientesTable extends javax.swing.JFrame {
         tbClientes.setModel(dtmClientes);
     }
 
-    public void loadRows() {
-        List<Cliente>  lstClientes = cController.getEmployees();
-        dtmClientes.setRowCount(0);
-        for (Cliente c : lstClientes) {
-            Object[] vec = new Object[6];
-            vec[0] = c.getIdCliente();
-            vec[1] = c.getNombre();
-            vec[2] = c.getApellido();
-            vec[3] = c.getDni();
-            vec[4] = c.getTelefono();
-            vec[5] = c.getDireccion();
-            dtmClientes.addRow(vec);
-        }
-        tbClientes.setModel(dtmClientes);
+    public void loadRowsDefault() {
+        List<Cliente>  lst = cController.getEmployees();
+        loadRowsClientes(lst);
     }
     
     public void loadCboClientes(){
@@ -562,7 +547,7 @@ public class ClientesTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewRestoreActionPerformed
 
     private void btnNewCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCancelActionPerformed
-        loadRows();
+        loadRowsDefault();
         loadCboClientes();
         NewForm.dispose();
     }//GEN-LAST:event_btnNewCancelActionPerformed
@@ -588,7 +573,7 @@ public class ClientesTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditRestoreActionPerformed
 
     private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
-        loadRows();
+        loadRowsDefault();
         loadCboClientes();
         EditForm.dispose();
     }//GEN-LAST:event_btnEditCancelActionPerformed
@@ -598,35 +583,13 @@ public class ClientesTable extends javax.swing.JFrame {
     }//GEN-LAST:event_cboEditClienteActionPerformed
 
     private void txtBuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBuscarCaretUpdate
-        DefaultComboBoxModel<String> dcbmClientes = new DefaultComboBoxModel<>();
         loadCboClientes();
-        String busqueda = txtBuscar.getText();
-        for(int i=0;i<cboClientes.getItemCount();i++){
-            String item = cboClientes.getItemAt(i);
-            if(item.toLowerCase().contains(busqueda.toLowerCase())){
-                dcbmClientes.addElement(item);
-            }
-        }
-        dcbmClientes.addElement("[0] - All");
-        cboClientes.setModel(dcbmClientes);
+        filtrarCbo(cboClientes, txtBuscar);
     }//GEN-LAST:event_txtBuscarCaretUpdate
 
     private void cboClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboClientesActionPerformed
-        if(getSelectedCliente()==0) {
-            loadRows();
-            return;
-        }
-        Cliente temp = cController.findCustomerById(getSelectedCliente());
-        dtmClientes.setRowCount(0);
-        Object[] vec = new Object[6];
-        vec[0] = temp.getIdCliente();
-        vec[1] = temp.getNombre();
-        vec[2] = temp.getApellido();
-        vec[3] = temp.getDni();
-        vec[4] = temp.getTelefono();
-        vec[5] = temp.getDireccion();
-        dtmClientes.addRow(vec);
-        tbClientes.setModel(dtmClientes);
+        List<Cliente> lst = filtrarClientes(cController.getEmployees());
+        loadRowsClientes(lst);
     }//GEN-LAST:event_cboClientesActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -648,7 +611,7 @@ public class ClientesTable extends javax.swing.JFrame {
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Cliente "+temp.getNombre()+" "+temp.getApellido()+"? Esta acción es Irreversible");
         if (resp != 0) { return; }
         cController.deleteCustomer(temp);
-        loadRows();
+        loadRowsDefault();
         loadCboClientes();
     }//GEN-LAST:event_btnDeleteClienteActionPerformed
 
@@ -664,30 +627,55 @@ public class ClientesTable extends javax.swing.JFrame {
         NewForm.setVisible(true);
     }//GEN-LAST:event_btnNewClienteActionPerformed
 
-    private String getNewNombre()    { return txtNewNombre.getText();    }
-    private String getNewApellido()  { return txtNewApellido.getText();  }
-    private String getNewDni()       { return txtNewDNI.getText();       }
-    private String getNewTelefono()  { return txtNewTelefono.getText();  }
-    private String getNewDireccion() { return txtNewDireccion.getText(); }
+    private int getSelectedCliente()    { return getSelectedId(cboClientes); }
     
-    private String getEditNombre()   { return txtEditNombre.getText();   }
-    private String getEditApellido() { return txtEditApellido.getText(); }
-    private String getEditDni()      { return txtEditDNI.getText();      }
-    private String getEditTelefono() { return txtEditTelefono.getText(); }
-    private String getEditDireccion(){ return txtEditDireccion.getText();}
+    private String getNewNombre()       { return txtNewNombre.getText(); }
+    private String getNewApellido()     { return txtNewApellido.getText(); }
+    private String getNewDni()          { return txtNewDNI.getText(); }
+    private String getNewTelefono()     { return txtNewTelefono.getText(); }
+    private String getNewDireccion()    { return txtNewDireccion.getText(); }
     
-    private int getSelectedClienteEdit(){
-        if(cboEditCliente.getItemCount()==0) { return 1; }
-        String  palabra = cboEditCliente.getSelectedItem().toString();
-        int     indice  = palabra.indexOf(']');
+    private String getEditNombre()      { return txtEditNombre.getText(); }
+    private String getEditApellido()    { return txtEditApellido.getText(); }
+    private String getEditDni()         { return txtEditDNI.getText(); }
+    private String getEditTelefono()    { return txtEditTelefono.getText(); }
+    private String getEditDireccion()   { return txtEditDireccion.getText(); }
+    private int getSelectedClienteEdit(){ return getSelectedId(cboEditCliente); }
+    
+    private void loadRowsClientes(List<Cliente> lst){
+        dtmClientes.setRowCount(0);
+        for (Cliente c : lst) {
+            Object[] vec = new Object[6];
+            vec[0] = c.getIdCliente();
+            vec[1] = c.getNombre();
+            vec[2] = c.getApellido();
+            vec[3] = c.getDni();
+            vec[4] = c.getTelefono();
+            vec[5] = c.getDireccion();
+            dtmClientes.addRow(vec);
+        }
+        tbClientes.setModel(dtmClientes);
+    }
+    
+    private int getSelectedId(JComboBox<String> comboBox){
+        String palabra = comboBox.getSelectedItem().toString();
+        int indice = palabra.indexOf(']');
         return Integer.parseInt(palabra.substring(1, indice));
     }
-    private int getSelectedCliente(){
-        if(cboClientes.getItemCount()==0){ return 0; }
-        String  palabra = cboClientes.getSelectedItem().toString();
-        int     indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
+    
+    private void filtrarCbo(JComboBox<String> comboBox, JTextField textField) {
+        DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<>();
+        String busqueda = textField.getText();
+        for (int i = 0; i < comboBox.getItemCount(); i++) {
+            String item = comboBox.getItemAt(i);
+            if (item.toLowerCase().contains(busqueda.toLowerCase())) {
+                dcbm.addElement(item);
+            }
+        }
+        if(dcbm.getSize() == 0){ dcbm.addElement("[0] - All"); }
+        comboBox.setModel(dcbm);
     }
+    
     private boolean datosRegistrados(String dni, String telefono, int id){
         switch (cController.datosExist(dni, telefono, id)){
             case 1:
@@ -700,6 +688,7 @@ public class ClientesTable extends javax.swing.JFrame {
                 return false;
         }
     }
+    
     private void llenarDatosEdit(){
         Cliente temp = new Cliente(0, "", "", "", "", "");
         if(getSelectedClienteEdit() != 0){ temp = cController.findCustomerById(getSelectedClienteEdit()); }
@@ -709,6 +698,14 @@ public class ClientesTable extends javax.swing.JFrame {
         txtEditTelefono.setText(temp.getTelefono());
         txtEditDireccion.setText(temp.getDireccion());
     }
+    
+    private List<Cliente> filtrarClientes(List<Cliente> lst){
+        if(getSelectedCliente()!= 0){
+            return lst.stream().filter(cliente -> cliente.getIdCliente() == getSelectedCliente()).collect(Collectors.toList());
+        }
+        return lst;
+    }
+    
     /**
      * @param args the command line arguments
      */

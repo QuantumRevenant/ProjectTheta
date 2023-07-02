@@ -2,23 +2,23 @@ package com.mycompany.view;
 
 import com.mycompany.controller.PersonalController;
 import com.mycompany.model.entities.Personal;
+import com.mycompany.model.generics.General;
 import com.mycompany.model.generics.Sha256;
 import com.mycompany.model.generics.TimeAndDates;
 import com.mycompany.services.PersonalService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 
-import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import listeners.CustomRendererPer;
 import listeners.SelectionListenerPer;
 
 
@@ -37,7 +37,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         loadCboNewCargo();
         loadCboPersonal();
         loadColumns();
-        loadRows();
+        loadRowsDefault();
         setupSelectionListenerPer();
     }
 
@@ -55,33 +55,12 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         tbColaboradores.setModel(dtmColaboradores);
     }
 
-    public void loadRows() {
+    public void loadRowsDefault() {
         List<Personal> lst = pController.getEmployees();
-        dtmColaboradores.setRowCount(0);
-        
-        try {
-            for (Personal p : lst) {
-                Object[] vec = new Object[9];
-                vec[0] = p.getIdPersonal();
-                vec[1] = p.getNombre();
-                vec[2] = p.getApellidos();
-                vec[3] = p.getUsuario();
-                vec[4] = p.getTelefono();
-                vec[5] = p.getHoraInicio();
-                vec[6] = p.getHoraFin();
-                vec[7] = p.getDiaDescanso();
-                vec[8] = p.getNombreCargo();
-                dtmColaboradores.addRow(vec);
-            }
-            tbColaboradores.setModel(dtmColaboradores);
-            TableColumnModel tcm= tbColaboradores.getColumnModel();
-            tcm.getColumn(0).setPreferredWidth(20);
-        } catch (Exception ex) { System.out.println("Error"); }
-        tbColaboradores.setModel(dtmColaboradores);
+        loadRowsPersonal(lst);
     }
 
     public void loadCboDias() {
-
         DefaultComboBoxModel dcbmDiasSemana = new DefaultComboBoxModel();
         DefaultComboBoxModel dcbmDiasSemana2 = new DefaultComboBoxModel();
 
@@ -884,7 +863,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
     private void btnNewCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCancelActionPerformed
         loadCboPersonal();
-        loadRows();
+        loadRowsDefault();
         NewForm.dispose();
     }//GEN-LAST:event_btnNewCancelActionPerformed
 
@@ -915,7 +894,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
     private void btnEditCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCancelActionPerformed
         loadCboPersonal();
-        loadRows();
+        loadRowsDefault();
         EditForm.dispose();
     }//GEN-LAST:event_btnEditCancelActionPerformed
 
@@ -986,38 +965,13 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditPersonalActionPerformed
 
     private void txtBuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBuscarCaretUpdate
-        DefaultComboBoxModel<String> dcbmPersonal = new DefaultComboBoxModel<>();
         loadCboPersonal();
-        String busqueda = txtBuscar.getText();
-        for (int i = 0; i < cboPersonal.getItemCount(); i++) {
-            String item = cboPersonal.getItemAt(i);
-            if (item.toLowerCase().contains(busqueda.toLowerCase())) {
-                dcbmPersonal.addElement(item);
-            }
-        }
-        dcbmPersonal.addElement("[0] - All");
-        cboPersonal.setModel(dcbmPersonal);
+        General.filtrarCbo(cboPersonal, txtBuscar);
     }//GEN-LAST:event_txtBuscarCaretUpdate
 
     private void cboPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPersonalActionPerformed
-        if (getSelectedPersonal() == 0) {
-            loadRows();
-            return;
-        }
-        Personal p = pController.findPersonalById(getSelectedPersonal());
-        dtmColaboradores.setRowCount(0);
-        Object[] vec = new Object[9];
-        vec[0] = p.getIdPersonal();
-        vec[1] = p.getNombre();
-        vec[2] = p.getApellidos();
-        vec[3] = p.getUsuario();
-        vec[4] = p.getTelefono();
-        vec[5] = p.getHoraInicio();
-        vec[6] = p.getHoraFin();
-        vec[7] = p.getDiaDescanso();
-        vec[8] = p.getNombreCargo();
-        dtmColaboradores.addRow(vec);
-        tbColaboradores.setModel(dtmColaboradores);
+        List<Personal> lst = filtrarPersonal(pController.getEmployees());
+        loadRowsPersonal(lst);
     }//GEN-LAST:event_cboPersonalActionPerformed
 
     private void tbColaboradoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbColaboradoresMouseClicked
@@ -1033,10 +987,12 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         int resp = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al Colaborador "+temp.getNombre()+" "+temp.getApellidos()+"? Esta acción es Irreversible");
         if (resp != 0) { return; }
         pController.deletePersonal(temp);
-        loadRows();
+        loadRowsDefault();
         loadCboPersonal();
     }//GEN-LAST:event_btnDeletePersonalActionPerformed
 
+    private int getSelectedPersonal()               { return General.getSelectedId(cboPersonal); }
+    
     private String getNewNombre()                   { return txtNewNombre.getText(); }
     private String getNewApellidos()                { return txtNewApellido.getText(); }
     private String getNewUsuario()                  { return txtNewUsuario.getText(); }
@@ -1048,6 +1004,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     private String getSelectedNewDiaDescanso()      { return cboDiaDescanso.getSelectedItem().toString(); }
     private Personal.CARGOS getSelectedCargo()      { return Personal.CARGOS.valueOf((String) cboCargo.getSelectedItem()); }
 
+    private int getSelectedEditPersonal()           { return General.getSelectedId(cboEditPersonal); }
     private String getEditNombre()                  { return txtEditNombre.getText(); }
     private String getEditApellidos()               { return txtEditApellido.getText(); }
     private String getEditUsuario()                 { return txtEditUsuario.getText(); }
@@ -1060,18 +1017,27 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     private String getSelectedEditDiaDescanso()     { return cboEditDiaDescanso.getSelectedItem().toString(); }
     private Personal.CARGOS getEditSelectedCargo()  { return Personal.CARGOS.valueOf((String) cboEditCargo.getSelectedItem()); }
 
-    private int getSelectedPersonal() {
-        if (cboPersonal.getItemCount() == 0) { return 0; }
-        String palabra = cboPersonal.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
-    }
-
-    private int getSelectedEditPersonal() {
-        if (cboEditPersonal.getItemCount() == 0) { return 1; }
-        String palabra = cboEditPersonal.getSelectedItem().toString();
-        int indice = palabra.indexOf(']');
-        return Integer.parseInt(palabra.substring(1, indice));
+    private void loadRowsPersonal(List<Personal> lst){
+        dtmColaboradores.setRowCount(0);
+        try {
+            for (Personal p : lst) {
+                Object[] vec = new Object[9];
+                vec[0] = p.getIdPersonal();
+                vec[1] = p.getNombre();
+                vec[2] = p.getApellidos();
+                vec[3] = p.getUsuario();
+                vec[4] = p.getTelefono();
+                vec[5] = p.getHoraInicio();
+                vec[6] = p.getHoraFin();
+                vec[7] = p.getDiaDescanso();
+                vec[8] = p.getNombreCargo();
+                dtmColaboradores.addRow(vec);
+            }
+            tbColaboradores.setModel(dtmColaboradores);
+            TableColumnModel tcm= tbColaboradores.getColumnModel();
+            tcm.getColumn(0).setPreferredWidth(20);
+        } catch (Exception ex) { System.out.println("Error"); }
+        tbColaboradores.setModel(dtmColaboradores);
     }
     
     private boolean datosExist(String usuario, String telefono, String password, int id, Personal.CARGOS cargo){
@@ -1103,6 +1069,13 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         txtEditHoraInicio.setText(temp.getHoraInicio());
         txtEditHoraFin.setText(temp.getHoraFin());
         cboEditDiaDescanso.setSelectedItem(TimeAndDates.DAYS_WEEK.valueOf(temp.getDiaDescanso()).toString());
+    }
+    
+    private List<Personal> filtrarPersonal(List<Personal> lst){
+        if(getSelectedPersonal()!= 0){
+            return lst.stream().filter(personal -> personal.getIdPersonal()== getSelectedPersonal()).collect(Collectors.toList());
+        }
+        return lst;
     }
 
     /**
