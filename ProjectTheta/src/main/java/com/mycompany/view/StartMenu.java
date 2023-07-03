@@ -101,9 +101,9 @@ public class StartMenu extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 204));
 
         btnMenuLogIn.setBackground(new java.awt.Color(153, 102, 255));
-        btnMenuLogIn.setFont(new java.awt.Font("Kristen ITC", 3, 12)); // NOI18N
+        btnMenuLogIn.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnMenuLogIn.setForeground(new java.awt.Color(255, 255, 255));
-        btnMenuLogIn.setText("INICIAR SESIÓN");
+        btnMenuLogIn.setText("Iniciar Sesión");
         btnMenuLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenuLogInActionPerformed(evt);
@@ -111,7 +111,7 @@ public class StartMenu extends javax.swing.JFrame {
         });
 
         btnCloseProgram.setBackground(new java.awt.Color(255, 153, 153));
-        btnCloseProgram.setFont(new java.awt.Font("Kristen ITC", 3, 12)); // NOI18N
+        btnCloseProgram.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnCloseProgram.setForeground(new java.awt.Color(255, 255, 255));
         btnCloseProgram.setText("Close");
         btnCloseProgram.addActionListener(new java.awt.event.ActionListener() {
@@ -121,7 +121,7 @@ public class StartMenu extends javax.swing.JFrame {
         });
 
         btnMenuConfig.setBackground(new java.awt.Color(153, 102, 255));
-        btnMenuConfig.setFont(new java.awt.Font("Kristen ITC", 3, 12)); // NOI18N
+        btnMenuConfig.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnMenuConfig.setForeground(new java.awt.Color(255, 255, 255));
         btnMenuConfig.setText("Configuraciones");
         btnMenuConfig.addActionListener(new java.awt.event.ActionListener() {
@@ -134,6 +134,7 @@ public class StartMenu extends javax.swing.JFrame {
         lblClock.setForeground(new java.awt.Color(102, 51, 255));
         lblClock.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblClock.setText("Time");
+        lblClock.setToolTipText("");
 
         lblLogIn_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/session.png"))); // NOI18N
 
@@ -148,10 +149,10 @@ public class StartMenu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(lblFecha_Icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblFecha_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblClock, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblClock, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnCloseProgram))
@@ -178,11 +179,12 @@ public class StartMenu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(lblClock))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblClock)
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblFecha_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(13, 13, 13)
+                        .addComponent(lblFecha_Icon)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(lblLogIn_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenuLogIn)

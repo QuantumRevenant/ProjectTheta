@@ -42,11 +42,12 @@ public class ProgramController {
     private final DateTimeFormatter formatDayTimeMinutes = DateTimeFormatter.ofPattern("dd-MM-yyyy, HH:mm");
     private final DateTimeFormatter formatDay = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
-
+    private final Font StandardFont =new Font("Kristen ITC", Font.PLAIN, 12);
+    
     private final String directoryRoute = "./src/main/java/com/mycompany/data/";
     private final String fileName = "preferences.csv";
     private final String standarFileName = "standarPreferences.csv";
-
+        
     public static ProgramController theProgramController;
 
     public static ProgramController getProgramController() {

@@ -14,8 +14,13 @@ public class General {
        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
        DateTimeFormatter formatDay = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        return ("Date: "+datetime.format(formatDay)+"  -  Time: "+datetime.format(formatTime));
+        return ("Date: "+datetime.format(formatDay)+" - Time: "+datetime.format(formatTime));
 
+    }
+    
+    public static LocalDateTime parseLDT(String str)
+    {
+        return LocalDateTime.parse(str,ProgramController.getProgramController().getFormatDayTime());
     }
     
     public static int getSelectedId(JComboBox<String> comboBox){
