@@ -4,6 +4,7 @@ import com.mycompany.model.entities.Personal;
 import com.mycompany.model.generics.Sha256;
 import com.mycompany.services.PersonalService;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
@@ -93,14 +94,19 @@ public class ProgramController {
         JPanel p = new JPanel(new BorderLayout(5, 5));
 
         JPanel title = new JPanel(new GridLayout(0, 1, 2, 2));
-        JLabel lblTitle = new JLabel("Login as Admin", SwingConstants.CENTER);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JLabel lblTitle = new JLabel("LOGIN AS ADMIN", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Cooper Black", Font.BOLD, 14));
+        lblTitle.setForeground(Color.RED); // Cambiar color del texto
         title.add(lblTitle);
         p.add(title, BorderLayout.NORTH);
 
         JPanel labels = new JPanel(new GridLayout(0, 1, 2, 2));
-        labels.add(new JLabel("User Name", SwingConstants.TRAILING));
-        labels.add(new JLabel("Password", SwingConstants.TRAILING));
+        JLabel lblUserName = new JLabel("User Name", SwingConstants.TRAILING);
+        JLabel lblPassword = new JLabel("Password", SwingConstants.TRAILING);
+        lblUserName.setForeground(Color.BLUE);
+        lblPassword.setForeground(Color.BLUE);
+        labels.add(lblUserName);
+        labels.add(lblPassword);
         p.add(labels, BorderLayout.LINE_START);
 
         JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
@@ -138,12 +144,15 @@ public class ProgramController {
         JPanel p = new JPanel(new BorderLayout(5, 5));
 
         JPanel title = new JPanel(new GridLayout(0, 1, 2, 2));
-        JLabel lblTitle = new JLabel("Login as User", SwingConstants.CENTER);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JLabel lblTitle = new JLabel("LOGIN AS USER", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Cooper Black", Font.BOLD, 14));
+        lblTitle.setForeground(Color.RED);
         title.add(lblTitle);
         p.add(title, BorderLayout.NORTH);
         JPanel labels = new JPanel(new GridLayout(0, 1, 2, 2));
-        labels.add(new JLabel("Password", SwingConstants.TRAILING));
+        JLabel lblPassword = new JLabel("Password", SwingConstants.TRAILING);
+        lblPassword.setForeground(Color.BLUE);
+        labels.add(lblPassword);
         p.add(labels, BorderLayout.LINE_START);
 
         JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));

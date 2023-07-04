@@ -24,7 +24,7 @@ public class MenusTable extends javax.swing.JFrame {
     CategoriaController cController = new CategoriaController(new CategoriaService());
     DefaultTableModel dtmMenus = new DefaultTableModel();
     private JFrame previousFrame;
-
+    
     /**
      * Creates new form MenusTable
      */
@@ -157,16 +157,20 @@ public class MenusTable extends javax.swing.JFrame {
         NewForm.setResizable(false);
         NewForm.setSize(new java.awt.Dimension(300, 375));
 
+        jPanel1.setBackground(new java.awt.Color(255, 240, 213));
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 350));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("NUEVO PRODUCTO");
 
+        jLabel5.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel5.setText("Nombre");
 
+        jLabel6.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel6.setText("Descripción");
 
+        jLabel7.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel7.setText("Precio");
 
         txtNewDescripcion.setColumns(20);
@@ -175,6 +179,8 @@ public class MenusTable extends javax.swing.JFrame {
 
         spnNewPrecio.setModel(new javax.swing.SpinnerNumberModel());
 
+        btnNewSave.setBackground(new java.awt.Color(102, 255, 255));
+        btnNewSave.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnNewSave.setText("Guardar Producto");
         btnNewSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,6 +188,8 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        btnNewRestore.setBackground(new java.awt.Color(102, 255, 255));
+        btnNewRestore.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnNewRestore.setText("Restablecer");
         btnNewRestore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,6 +197,8 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        btnNewCancel.setBackground(new java.awt.Color(51, 204, 0));
+        btnNewCancel.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnNewCancel.setText("Cancelar");
         btnNewCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,8 +208,12 @@ public class MenusTable extends javax.swing.JFrame {
 
         cboNewCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel3.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel3.setText("Categoria");
 
+        jButton1.setBackground(new java.awt.Color(204, 153, 0));
+        jButton1.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Nuevo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,7 +229,7 @@ public class MenusTable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNewRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNewCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -223,8 +237,7 @@ public class MenusTable extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +246,10 @@ public class MenusTable extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(cboNewCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -264,7 +280,7 @@ public class MenusTable extends javax.swing.JFrame {
                 .addComponent(btnNewRestore)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNewCancel)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout NewFormLayout = new javax.swing.GroupLayout(NewForm.getContentPane());
@@ -284,16 +300,20 @@ public class MenusTable extends javax.swing.JFrame {
         EditForm.setResizable(false);
         EditForm.setSize(new java.awt.Dimension(300, 430));
 
+        jPanel2.setBackground(new java.awt.Color(255, 240, 213));
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 375));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("MODIFICAR PRODUCTO");
 
+        jLabel9.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel9.setText("Nombre");
 
+        jLabel10.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel10.setText("Descripción");
 
+        jLabel11.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel11.setText("Precio");
 
         txtEditDescripcion.setColumns(20);
@@ -302,6 +322,8 @@ public class MenusTable extends javax.swing.JFrame {
 
         spnEditPrecio.setModel(new javax.swing.SpinnerNumberModel());
 
+        btnEditSave.setBackground(new java.awt.Color(102, 255, 255));
+        btnEditSave.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnEditSave.setText("Actualizar Producto");
         btnEditSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,6 +331,8 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        btnEditRestore.setBackground(new java.awt.Color(102, 255, 255));
+        btnEditRestore.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnEditRestore.setText("Restablecer");
         btnEditRestore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,6 +340,8 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        btnEditCancel.setBackground(new java.awt.Color(51, 204, 0));
+        btnEditCancel.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnEditCancel.setText("Cancelar");
         btnEditCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,6 +349,7 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel12.setText("Productos");
 
         cboEditMenus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -332,10 +359,14 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel13.setText("Categorias");
 
         cboEditCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton2.setBackground(new java.awt.Color(204, 153, 0));
+        jButton2.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Nuevo");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,10 +382,6 @@ public class MenusTable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboEditMenus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                     .addComponent(btnEditSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEditRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -367,13 +394,20 @@ public class MenusTable extends javax.swing.JFrame {
                         .addComponent(spnEditPrecio))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                                .addGap(1, 1, 1)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboEditMenus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtEditNombre)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(cboEditCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(cboEditCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
@@ -410,7 +444,7 @@ public class MenusTable extends javax.swing.JFrame {
                 .addComponent(btnEditRestore)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditCancel)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
@@ -427,12 +461,17 @@ public class MenusTable extends javax.swing.JFrame {
         NewCategory.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         NewCategory.setSize(new java.awt.Dimension(200, 200));
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanel3.setBackground(new java.awt.Color(255, 240, 213));
+
+        jLabel14.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("NUEVA CATEGORIA");
 
+        jLabel15.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel15.setText("Nombre");
 
+        btnSaveCategory.setBackground(new java.awt.Color(102, 255, 255));
+        btnSaveCategory.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnSaveCategory.setText("Registrar Categoria");
         btnSaveCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,6 +479,8 @@ public class MenusTable extends javax.swing.JFrame {
             }
         });
 
+        btnCancelCategory.setBackground(new java.awt.Color(51, 204, 0));
+        btnCancelCategory.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnCancelCategory.setText("Cancelar");
         btnCancelCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -476,7 +517,7 @@ public class MenusTable extends javax.swing.JFrame {
                 .addComponent(btnSaveCategory)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCancelCategory)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout NewCategoryLayout = new javax.swing.GroupLayout(NewCategory.getContentPane());
@@ -496,7 +537,6 @@ public class MenusTable extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Snap ITC", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\produc.png")); // NOI18N
         jLabel1.setText("Menú - PRODUCTOS");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
@@ -516,13 +556,11 @@ public class MenusTable extends javax.swing.JFrame {
 
         btnVolver.setBackground(new java.awt.Color(102, 255, 255));
         btnVolver.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
-        btnVolver.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regres.png")); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         btnEliminar.setBackground(new java.awt.Color(102, 255, 255));
         btnEliminar.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
-        btnEliminar.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\elimi.png")); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -533,7 +571,6 @@ public class MenusTable extends javax.swing.JFrame {
 
         btnOpenEditForm.setBackground(new java.awt.Color(102, 255, 255));
         btnOpenEditForm.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
-        btnOpenEditForm.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\modi.png")); // NOI18N
         btnOpenEditForm.setText("Modificar Existente");
         btnOpenEditForm.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnOpenEditForm.addActionListener(new java.awt.event.ActionListener() {
@@ -558,7 +595,6 @@ public class MenusTable extends javax.swing.JFrame {
 
         btnOpenNewForm.setBackground(new java.awt.Color(102, 255, 255));
         btnOpenNewForm.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
-        btnOpenNewForm.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regi.png")); // NOI18N
         btnOpenNewForm.setText("Registrar Nuevo");
         btnOpenNewForm.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnOpenNewForm.addActionListener(new java.awt.event.ActionListener() {
@@ -569,10 +605,6 @@ public class MenusTable extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Lucida Handwriting", 0, 14)); // NOI18N
         jLabel2.setText("Buscar Producto");
-
-        jLabel16.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
-
-        jLabel17.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -649,6 +681,7 @@ public class MenusTable extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenNewFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenNewFormActionPerformed
+        NewForm.setLocationRelativeTo(null);
         NewForm.setVisible(true);
     }//GEN-LAST:event_btnOpenNewFormActionPerformed
 
@@ -657,6 +690,7 @@ public class MenusTable extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Aún no hay menus registrados", "Menus no registrados", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        EditForm.setLocationRelativeTo(null);
         EditForm.setVisible(true);
     }//GEN-LAST:event_btnOpenEditFormActionPerformed
 
@@ -740,6 +774,7 @@ public class MenusTable extends javax.swing.JFrame {
     }//GEN-LAST:event_cboEditMenusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        NewCategory.setLocationRelativeTo(null);
         NewCategory.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -760,6 +795,7 @@ public class MenusTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveCategoryActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        NewCategory.setLocationRelativeTo(null);
         NewCategory.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 

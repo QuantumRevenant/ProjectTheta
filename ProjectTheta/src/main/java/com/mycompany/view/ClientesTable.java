@@ -2,6 +2,7 @@ package com.mycompany.view;
 
 import com.mycompany.controller.ClienteController;
 import com.mycompany.model.entities.Cliente;
+import com.mycompany.model.entities.Validacion;
 import com.mycompany.services.ClienteService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,8 @@ public class ClientesTable extends javax.swing.JFrame {
     ClienteController cController = new ClienteController(new ClienteService());
     DefaultTableModel dtmClientes = new DefaultTableModel();
 
+    Validacion vali = new Validacion();
+    
     private JFrame previousFrame;
 
     /**
@@ -94,22 +97,23 @@ public class ClientesTable extends javax.swing.JFrame {
         txtNewDireccion = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         EditForm = new javax.swing.JFrame();
-        btnEditSave = new javax.swing.JButton();
-        btnEditRestore = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         btnEditCancel = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        cboEditCliente = new javax.swing.JComboBox<>();
-        txtEditDireccion = new javax.swing.JTextField();
+        btnEditRestore = new javax.swing.JButton();
+        btnEditSave = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        txtEditDireccion = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        txtEditTelefono = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        txtEditDNI = new javax.swing.JTextField();
         txtEditApellido = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        txtEditDNI = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        txtEditTelefono = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         txtEditNombre = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        cboEditCliente = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -126,6 +130,17 @@ public class ClientesTable extends javax.swing.JFrame {
 
         NewForm.setSize(new java.awt.Dimension(300, 350));
 
+        jPanel1.setBackground(new java.awt.Color(255, 240, 213));
+
+        txtNewNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewNombreKeyTyped(evt);
+            }
+        });
+
+        btnNewSave.setBackground(new java.awt.Color(255, 153, 51));
+        btnNewSave.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewSave.setForeground(new java.awt.Color(255, 255, 255));
         btnNewSave.setText("Guardar Cliente");
         btnNewSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +148,9 @@ public class ClientesTable extends javax.swing.JFrame {
             }
         });
 
+        btnNewRestore.setBackground(new java.awt.Color(255, 153, 51));
+        btnNewRestore.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewRestore.setForeground(new java.awt.Color(255, 255, 255));
         btnNewRestore.setText("Restablecer");
         btnNewRestore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +158,9 @@ public class ClientesTable extends javax.swing.JFrame {
             }
         });
 
+        btnNewCancel.setBackground(new java.awt.Color(255, 153, 51));
+        btnNewCancel.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnNewCancel.setText("Cancelar");
         btnNewCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,18 +168,41 @@ public class ClientesTable extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("NUEVO CLIENTE");
 
+        jLabel5.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel5.setText("Nombre");
 
+        txtNewApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewApellidoKeyTyped(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel8.setText("Apellido");
 
+        txtNewDNI.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewDNIKeyTyped(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel9.setText("DNI*");
 
+        txtNewTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewTelefonoKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel10.setText("Teléfono*");
 
+        jLabel11.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel11.setText("Dirección");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -169,25 +213,23 @@ public class ClientesTable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                    .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                     .addComponent(btnNewRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNewCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNewNombre)
-                            .addComponent(txtNewApellido)
-                            .addComponent(txtNewDNI)
-                            .addComponent(txtNewTelefono)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNewDireccion)))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNewDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(txtNewDNI, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNewApellido, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNewNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNewTelefono))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -238,20 +280,11 @@ public class ClientesTable extends javax.swing.JFrame {
         EditForm.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         EditForm.setSize(new java.awt.Dimension(300, 400));
 
-        btnEditSave.setText("Actualizar Cliente");
-        btnEditSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditSaveActionPerformed(evt);
-            }
-        });
+        jPanel2.setBackground(new java.awt.Color(255, 240, 213));
 
-        btnEditRestore.setText("Restablecer");
-        btnEditRestore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditRestoreActionPerformed(evt);
-            }
-        });
-
+        btnEditCancel.setBackground(new java.awt.Color(255, 153, 51));
+        btnEditCancel.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnEditCancel.setText("Cancelar");
         btnEditCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,10 +292,66 @@ public class ClientesTable extends javax.swing.JFrame {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("MODIFICAR CLIENTE");
+        btnEditRestore.setBackground(new java.awt.Color(255, 153, 51));
+        btnEditRestore.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditRestore.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditRestore.setText("Restablecer");
+        btnEditRestore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditRestoreActionPerformed(evt);
+            }
+        });
 
+        btnEditSave.setBackground(new java.awt.Color(255, 153, 51));
+        btnEditSave.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditSave.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditSave.setText("Actualizar Cliente");
+        btnEditSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditSaveActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
+        jLabel17.setText("Dirección");
+
+        jLabel20.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
+        jLabel20.setText("Teléfono*");
+
+        txtEditTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditTelefonoKeyTyped(evt);
+            }
+        });
+
+        jLabel19.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
+        jLabel19.setText("DNI*");
+
+        txtEditDNI.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditDNIKeyTyped(evt);
+            }
+        });
+
+        txtEditApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditApellidoKeyTyped(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
+        jLabel18.setText("Apellido");
+
+        jLabel6.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
+        jLabel6.setText("Nombre");
+
+        txtEditNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditNombreKeyTyped(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel15.setText("Clientes");
 
         cboEditCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -271,85 +360,101 @@ public class ClientesTable extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setText("Dirección");
+        jLabel14.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("MODIFICAR CLIENTE");
 
-        jLabel6.setText("Nombre");
-
-        jLabel18.setText("Apellido");
-
-        jLabel19.setText("DNI*");
-
-        jLabel20.setText("Teléfono*");
-
-        javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
-        EditForm.getContentPane().setLayout(EditFormLayout);
-        EditFormLayout.setHorizontalGroup(
-            EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EditFormLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                    .addComponent(btnEditSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(EditFormLayout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboEditCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(EditFormLayout.createSequentialGroup()
-                        .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEditNombre)
-                            .addComponent(txtEditApellido)
-                            .addComponent(txtEditDNI)
-                            .addComponent(txtEditTelefono)))
-                    .addGroup(EditFormLayout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnEditSave, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                            .addComponent(btnEditRestore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEditCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtEditDireccion)))
+                .addGap(7, 7, 7))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
+                        .addComponent(cboEditCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEditDNI)
+                            .addComponent(txtEditTelefono)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18))
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEditApellido)
+                            .addComponent(txtEditNombre)))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        EditFormLayout.setVerticalGroup(
-            EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EditFormLayout.createSequentialGroup()
-                .addContainerGap()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel14)
-                .addGap(4, 4, 4)
-                .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(cboEditCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtEditNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(txtEditApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEditNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEditApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(txtEditDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
                     .addComponent(txtEditTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(txtEditDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnEditSave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditRestore)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditCancel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
+        );
+
+        javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
+        EditForm.getContentPane().setLayout(EditFormLayout);
+        EditFormLayout.setHorizontalGroup(
+            EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        EditFormLayout.setVerticalGroup(
+            EditFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -359,7 +464,6 @@ public class ClientesTable extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Snap ITC", 1, 24)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\cliente.png")); // NOI18N
         jLabel12.setText("CLIENTES");
         jLabel12.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
@@ -384,7 +488,6 @@ public class ClientesTable extends javax.swing.JFrame {
         btnBack.setBackground(new java.awt.Color(255, 153, 0));
         btnBack.setFont(new java.awt.Font("Kristen ITC", 0, 12)); // NOI18N
         btnBack.setForeground(new java.awt.Color(255, 255, 255));
-        btnBack.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regres.png")); // NOI18N
         btnBack.setText("Volver");
         btnBack.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -396,7 +499,6 @@ public class ClientesTable extends javax.swing.JFrame {
         btnDeleteCliente.setBackground(new java.awt.Color(255, 153, 0));
         btnDeleteCliente.setFont(new java.awt.Font("Kristen ITC", 0, 12)); // NOI18N
         btnDeleteCliente.setForeground(new java.awt.Color(255, 255, 255));
-        btnDeleteCliente.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\elimi.png")); // NOI18N
         btnDeleteCliente.setText("Eliminar");
         btnDeleteCliente.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnDeleteCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -408,7 +510,6 @@ public class ClientesTable extends javax.swing.JFrame {
         btnEditCliente.setBackground(new java.awt.Color(255, 153, 0));
         btnEditCliente.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnEditCliente.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditCliente.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\modi.png")); // NOI18N
         btnEditCliente.setText("Modificar Existente");
         btnEditCliente.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnEditCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -420,7 +521,6 @@ public class ClientesTable extends javax.swing.JFrame {
         btnNewCliente.setBackground(new java.awt.Color(255, 153, 0));
         btnNewCliente.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnNewCliente.setForeground(new java.awt.Color(255, 255, 255));
-        btnNewCliente.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regi.png")); // NOI18N
         btnNewCliente.setText("Registrar Nuevo");
         btnNewCliente.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnNewCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -445,10 +545,6 @@ public class ClientesTable extends javax.swing.JFrame {
         ));
         tbClientes.setSelectionBackground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(tbClientes);
-
-        jLabel16.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
-
-        jLabel21.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -620,12 +716,54 @@ public class ClientesTable extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Aún no hay clientes registrados", "Sin clientes", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        EditForm.setLocationRelativeTo(null);
         EditForm.setVisible(true);
     }//GEN-LAST:event_btnEditClienteActionPerformed
 
     private void btnNewClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewClienteActionPerformed
+        NewForm.setLocationRelativeTo(null); 
         NewForm.setVisible(true);
     }//GEN-LAST:event_btnNewClienteActionPerformed
+
+    private void txtNewNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewNombreKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtNewNombreKeyTyped
+
+    private void txtNewApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewApellidoKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtNewApellidoKeyTyped
+
+    private void txtNewDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewDNIKeyTyped
+        // TODO add your handling code here:
+        vali.numberKeyPress(evt);
+    }//GEN-LAST:event_txtNewDNIKeyTyped
+
+    private void txtNewTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewTelefonoKeyTyped
+        // TODO add your handling code here:
+        vali.numberKeyPress(evt);
+    }//GEN-LAST:event_txtNewTelefonoKeyTyped
+
+    private void txtEditNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditNombreKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtEditNombreKeyTyped
+
+    private void txtEditApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditApellidoKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtEditApellidoKeyTyped
+
+    private void txtEditDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditDNIKeyTyped
+        // TODO add your handling code here:
+        vali.numberKeyPress(evt);
+    }//GEN-LAST:event_txtEditDNIKeyTyped
+
+    private void txtEditTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditTelefonoKeyTyped
+        // TODO add your handling code here:
+        vali.numberKeyPress(evt);
+    }//GEN-LAST:event_txtEditTelefonoKeyTyped
 
     private int getSelectedCliente()    { return getSelectedId(cboClientes); }
     
@@ -774,6 +912,7 @@ public class ClientesTable extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbClientes;

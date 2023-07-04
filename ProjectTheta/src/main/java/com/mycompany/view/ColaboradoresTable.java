@@ -2,6 +2,7 @@ package com.mycompany.view;
 
 import com.mycompany.controller.PersonalController;
 import com.mycompany.model.entities.Personal;
+import com.mycompany.model.entities.Validacion;
 import com.mycompany.model.generics.General;
 import com.mycompany.model.generics.Sha256;
 import com.mycompany.model.generics.TimeAndDates;
@@ -26,6 +27,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     PersonalController pController = new PersonalController(new PersonalService());
     DefaultTableModel dtmColaboradores = new DefaultTableModel();
     private JFrame previousFrame;
+    
+    Validacion vali = new Validacion();
 
     /**
      * Creates new form ColaboradoresTable
@@ -215,6 +218,11 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
         NewForm.setSize(new java.awt.Dimension(300, 550));
 
+        jPanel1.setBackground(new java.awt.Color(255, 240, 213));
+
+        btnNewSave.setBackground(new java.awt.Color(255, 102, 102));
+        btnNewSave.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewSave.setForeground(new java.awt.Color(255, 255, 255));
         btnNewSave.setText("Guardar Colaborador");
         btnNewSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,6 +230,9 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
+        btnNewRestore.setBackground(new java.awt.Color(255, 102, 102));
+        btnNewRestore.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewRestore.setForeground(new java.awt.Color(255, 255, 255));
         btnNewRestore.setText("Restablecer");
         btnNewRestore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -229,8 +240,12 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel11.setText("Confirmar");
 
+        btnNewCancel.setBackground(new java.awt.Color(255, 102, 102));
+        btnNewCancel.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnNewCancel.setText("Cancelar");
         btnNewCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,26 +253,53 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("NUEVO COLABORADOR");
 
+        jLabel5.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel5.setText("Nombre");
 
+        txtNewApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewApellidoKeyTyped(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel8.setText("Apellidos");
 
+        jLabel9.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel9.setText("Usuario");
 
+        txtNewNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewNombreKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel10.setText("Contraseña");
 
+        jLabel3.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel3.setText("Telefono");
 
+        txtNewTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewTelefonoKeyTyped(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel6.setText("Hora-Inicio");
 
+        jLabel7.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel7.setText("Hora-Fin");
 
+        jLabel12.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel12.setText("Dia Descanso");
 
+        jLabel13.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel13.setText("Cargo");
 
         cboCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "EMPLEADO" }));
@@ -277,45 +319,42 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(btnNewSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                     .addComponent(btnNewRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNewCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNewTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNewHoraInicio)
-                            .addComponent(txtNewHoraFin)
-                            .addComponent(txtNewConfiContrasena)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboDiaDescanso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(6, 6, 6))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNewApellido, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGap(16, 16, 16))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNewUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNewContrasena)
-                            .addComponent(txtNewNombre)
-                            .addComponent(cboCargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txtNewApellido, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNewNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cboCargo, javax.swing.GroupLayout.Alignment.TRAILING, 0, 227, Short.MAX_VALUE)
+                            .addComponent(txtNewContrasena, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cboDiaDescanso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNewConfiContrasena)
+                                .addComponent(txtNewHoraFin))
+                            .addComponent(txtNewHoraInicio)
+                            .addComponent(txtNewTelefono))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -369,7 +408,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 .addComponent(btnNewRestore)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNewCancel)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout NewFormLayout = new javax.swing.GroupLayout(NewForm.getContentPane());
@@ -385,6 +424,8 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
         EditForm.setSize(new java.awt.Dimension(300, 550));
 
+        jPanel2.setBackground(new java.awt.Color(255, 240, 213));
+
         cboEditCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "EMPLEADO" }));
         cboEditCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -392,18 +433,45 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
+        txtEditTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditTelefonoKeyTyped(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel14.setText("Nombre");
 
+        jLabel15.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel15.setText("Hora-Inicio");
 
+        txtEditApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditApellidoKeyTyped(evt);
+            }
+        });
+
+        jLabel16.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel16.setText("Apellidos");
 
+        jLabel17.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel17.setText("Hora-Fin");
 
+        jLabel18.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel18.setText("Usuario");
 
+        jLabel19.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel19.setText("Dia Descanso");
 
+        txtEditNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEditNombreKeyTyped(evt);
+            }
+        });
+
+        btnUpdatePersonal.setBackground(new java.awt.Color(255, 102, 102));
+        btnUpdatePersonal.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnUpdatePersonal.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdatePersonal.setText("Actualizar Colaborador");
         btnUpdatePersonal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -413,6 +481,9 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
         cboEditDiaDescanso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES" }));
 
+        btnEditRestore.setBackground(new java.awt.Color(255, 102, 102));
+        btnEditRestore.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditRestore.setForeground(new java.awt.Color(255, 255, 255));
         btnEditRestore.setText("Restablecer");
         btnEditRestore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -420,8 +491,12 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
+        jLabel22.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel22.setText("Cargo");
 
+        btnEditCancel.setBackground(new java.awt.Color(255, 102, 102));
+        btnEditCancel.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnEditCancel.setText("Cancelar");
         btnEditCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -429,12 +504,14 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
+        jLabel23.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel23.setText("Telefono");
 
-        jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel24.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel24.setText("MODIFICAR COLABORADOR");
 
+        jLabel25.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel25.setText("Colaborador");
 
         cboEditPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -444,6 +521,9 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
+        btnCambiarContrasena.setBackground(new java.awt.Color(255, 102, 102));
+        btnCambiarContrasena.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnCambiarContrasena.setForeground(new java.awt.Color(255, 255, 255));
         btnCambiarContrasena.setText("Cambiar Contraseña");
         btnCambiarContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -458,9 +538,29 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboEditPersonal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtEditApellido)
+                            .addComponent(txtEditNombre)
+                            .addComponent(cboEditCargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnUpdatePersonal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(btnEditRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboEditDiaDescanso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCambiarContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -468,36 +568,13 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                                         .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGap(6, 6, 6))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel25)
-                                .addGap(16, 16, 16)))
+                                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboEditPersonal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtEditUsuario)
-                            .addComponent(txtEditApellido)
-                            .addComponent(txtEditNombre)
-                            .addComponent(cboEditCargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(btnUpdatePersonal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                    .addComponent(btnEditRestore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboEditDiaDescanso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtEditTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtEditHoraInicio)
-                            .addComponent(txtEditHoraFin)))
-                    .addComponent(btnCambiarContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtEditHoraFin, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -549,7 +626,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 .addComponent(btnCambiarContrasena)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditCancel)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout EditFormLayout = new javax.swing.GroupLayout(EditForm.getContentPane());
@@ -565,16 +642,24 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
         EditContrasenaForm.setSize(new java.awt.Dimension(201, 350));
 
-        jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jPanel3.setBackground(new java.awt.Color(255, 240, 213));
+
+        jLabel26.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel26.setText("MODIFICAR CONTRASEÑA");
 
+        jLabel20.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel20.setText("Anterior Contraseña");
 
+        jLabel21.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel21.setText("Nueva Contraseña");
 
+        jLabel27.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel27.setText("Confirmar Nueva Contraseña");
 
+        btnEditSaveContrasena.setBackground(new java.awt.Color(0, 153, 153));
+        btnEditSaveContrasena.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditSaveContrasena.setForeground(new java.awt.Color(255, 255, 255));
         btnEditSaveContrasena.setText("Guardar Cambios");
         btnEditSaveContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -582,6 +667,9 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             }
         });
 
+        btnEditCancelContrasena.setBackground(new java.awt.Color(0, 153, 153));
+        btnEditCancelContrasena.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnEditCancelContrasena.setForeground(new java.awt.Color(255, 255, 255));
         btnEditCancelContrasena.setText("Cancelar");
         btnEditCancelContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -596,7 +684,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtAnteriorContrasena)
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtEditContrasena)
@@ -628,7 +716,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 .addComponent(btnEditSaveContrasena)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditCancelContrasena)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout EditContrasenaFormLayout = new javax.swing.GroupLayout(EditContrasenaForm.getContentPane());
@@ -649,14 +737,12 @@ public class ColaboradoresTable extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Snap ITC", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\personal.png")); // NOI18N
         jLabel1.setText("PERSONAL");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         btnNewPersonal.setBackground(new java.awt.Color(255, 102, 102));
         btnNewPersonal.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnNewPersonal.setForeground(new java.awt.Color(255, 255, 255));
-        btnNewPersonal.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regi.png")); // NOI18N
         btnNewPersonal.setText("Registrar Nuevo");
         btnNewPersonal.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnNewPersonal.addActionListener(new java.awt.event.ActionListener() {
@@ -668,7 +754,6 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         btnEditPersonal.setBackground(new java.awt.Color(255, 102, 102));
         btnEditPersonal.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnEditPersonal.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditPersonal.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\modi.png")); // NOI18N
         btnEditPersonal.setText("Modificar Existente");
         btnEditPersonal.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnEditPersonal.addActionListener(new java.awt.event.ActionListener() {
@@ -718,14 +803,12 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 102, 102));
         jButton1.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\regres.png")); // NOI18N
         jButton1.setText("Volver");
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         btnDeletePersonal.setBackground(new java.awt.Color(255, 102, 102));
         btnDeletePersonal.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
         btnDeletePersonal.setForeground(new java.awt.Color(255, 255, 255));
-        btnDeletePersonal.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\elimi.png")); // NOI18N
         btnDeletePersonal.setText("Eliminar");
         btnDeletePersonal.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnDeletePersonal.addActionListener(new java.awt.event.ActionListener() {
@@ -733,10 +816,6 @@ public class ColaboradoresTable extends javax.swing.JFrame {
                 btnDeletePersonalActionPerformed(evt);
             }
         });
-
-        jLabel28.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
-
-        jLabel29.setIcon(new javax.swing.ImageIcon("D:\\WorkSpace\\ProjectTheta\\ProjectTheta\\src\\main\\java\\img\\deco.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -933,6 +1012,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditCancelContrasenaActionPerformed
 
     private void btnCambiarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarContrasenaActionPerformed
+        EditContrasenaForm.setLocationRelativeTo(null);
         EditContrasenaForm.setVisible(true);
     }//GEN-LAST:event_btnCambiarContrasenaActionPerformed
 
@@ -953,6 +1033,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
     }//GEN-LAST:event_cboEditCargoActionPerformed
 
     private void btnNewPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewPersonalActionPerformed
+        NewForm.setLocationRelativeTo(null); 
         NewForm.setVisible(true);
     }//GEN-LAST:event_btnNewPersonalActionPerformed
 
@@ -961,6 +1042,7 @@ public class ColaboradoresTable extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Aún no hay personal registrado", "Personal sin registrar", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        EditForm.setLocationRelativeTo(null);
         EditForm.setVisible(true);
     }//GEN-LAST:event_btnEditPersonalActionPerformed
 
@@ -990,6 +1072,36 @@ public class ColaboradoresTable extends javax.swing.JFrame {
         loadRowsDefault();
         loadCboPersonal();
     }//GEN-LAST:event_btnDeletePersonalActionPerformed
+
+    private void txtNewNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewNombreKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtNewNombreKeyTyped
+
+    private void txtNewApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewApellidoKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtNewApellidoKeyTyped
+
+    private void txtNewTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewTelefonoKeyTyped
+        // TODO add your handling code here:
+        vali.numberKeyPress(evt);
+    }//GEN-LAST:event_txtNewTelefonoKeyTyped
+
+    private void txtEditNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditNombreKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtEditNombreKeyTyped
+
+    private void txtEditApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditApellidoKeyTyped
+        // TODO add your handling code here:
+        vali.textKeyPress(evt);
+    }//GEN-LAST:event_txtEditApellidoKeyTyped
+
+    private void txtEditTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditTelefonoKeyTyped
+        // TODO add your handling code here:
+        vali.numberKeyPress(evt);
+    }//GEN-LAST:event_txtEditTelefonoKeyTyped
 
     private int getSelectedPersonal()               { return General.getSelectedId(cboPersonal); }
     

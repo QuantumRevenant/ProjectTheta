@@ -308,8 +308,12 @@ public class MainMenu extends javax.swing.JFrame {
         OptionsMainMenu.setResizable(false);
         OptionsMainMenu.setSize(new java.awt.Dimension(200, 350));
 
+        jPanel2.setBackground(new java.awt.Color(255, 240, 213));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 300));
 
+        btnConfiguraciones.setBackground(new java.awt.Color(204, 153, 0));
+        btnConfiguraciones.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnConfiguraciones.setForeground(new java.awt.Color(255, 255, 255));
         btnConfiguraciones.setText("Configuraciones");
         btnConfiguraciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,6 +321,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnPedidos.setBackground(new java.awt.Color(204, 153, 0));
+        btnPedidos.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnPedidos.setForeground(new java.awt.Color(255, 255, 255));
         btnPedidos.setText("Consultar Pedidos");
         btnPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,6 +331,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnReservas.setBackground(new java.awt.Color(204, 153, 0));
+        btnReservas.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnReservas.setForeground(new java.awt.Color(255, 255, 255));
         btnReservas.setText("Consultar Reservas");
         btnReservas.setEnabled(false);
         btnReservas.addActionListener(new java.awt.event.ActionListener() {
@@ -332,6 +342,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnMesas.setBackground(new java.awt.Color(204, 153, 0));
+        btnMesas.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnMesas.setForeground(new java.awt.Color(255, 255, 255));
         btnMesas.setText("Consultar Mesas");
         btnMesas.setEnabled(false);
         btnMesas.addActionListener(new java.awt.event.ActionListener() {
@@ -340,6 +353,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnClientes.setBackground(new java.awt.Color(204, 153, 0));
+        btnClientes.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnClientes.setForeground(new java.awt.Color(255, 255, 255));
         btnClientes.setText("Consultar Clientes");
         btnClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,6 +363,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnCancel.setBackground(new java.awt.Color(0, 204, 204));
+        btnCancel.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -354,6 +373,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnCloseSesion.setBackground(new java.awt.Color(255, 51, 51));
+        btnCloseSesion.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnCloseSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnCloseSesion.setText("Cerrar Sesión");
         btnCloseSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -394,7 +416,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(btnCancel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCloseSesion)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout OptionsMainMenuLayout = new javax.swing.GroupLayout(OptionsMainMenu.getContentPane());
@@ -425,14 +447,17 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        jPanel3.setBackground(new java.awt.Color(255, 240, 213));
         jPanel3.setPreferredSize(new java.awt.Dimension(200, 300));
 
-        lblMesaTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblMesaTitle.setFont(new java.awt.Font("Snap ITC", 1, 14)); // NOI18N
         lblMesaTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMesaTitle.setText("Mesa #xx");
 
+        jLabel3.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel3.setText("Estatus:");
 
+        jLabel4.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel4.setText("Reserva para las:");
 
         lblStatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
@@ -441,6 +466,7 @@ public class MainMenu extends javax.swing.JFrame {
         lblReservaTiempo.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         lblReservaTiempo.setText("No hay Reserva");
 
+        jLabel5.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         jLabel5.setText("Pedido:");
 
         lblPedidoCliente.setText("Sin Cliente");
@@ -448,8 +474,12 @@ public class MainMenu extends javax.swing.JFrame {
         lblPedidoCodigo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblPedidoCodigo.setText("#xxxxx");
 
+        lblPedidoHoraLibre.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         lblPedidoHoraLibre.setText("Hora: XX:XX:XX");
 
+        btnNewShow.setBackground(new java.awt.Color(204, 153, 0));
+        btnNewShow.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnNewShow.setForeground(new java.awt.Color(255, 255, 255));
         btnNewShow.setText("Crear Pedido");
         btnNewShow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,6 +487,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnModifyShow.setBackground(new java.awt.Color(204, 153, 0));
+        btnModifyShow.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnModifyShow.setForeground(new java.awt.Color(255, 255, 255));
         btnModifyShow.setText("Consultar Pedidos");
         btnModifyShow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -464,6 +497,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnCleanShow.setBackground(new java.awt.Color(0, 204, 204));
+        btnCleanShow.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnCleanShow.setForeground(new java.awt.Color(255, 255, 255));
         btnCleanShow.setText("Liberar Mesa");
         btnCleanShow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -471,6 +507,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnCancelShow.setBackground(new java.awt.Color(255, 51, 51));
+        btnCancelShow.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnCancelShow.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelShow.setText("Cancelar Mesa");
         btnCancelShow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -487,21 +526,25 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNewShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblMesaTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblReservaTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblPedidoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblPedidoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCleanShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCancelShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModifyShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPedidoHoraLibre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPedidoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(lblPedidoHoraLibre, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -636,8 +679,12 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        jPanel5.setBackground(new java.awt.Color(255, 240, 213));
         jPanel5.setPreferredSize(new java.awt.Dimension(454, 300));
 
+        btnCompleteOrders.setBackground(new java.awt.Color(171, 139, 98));
+        btnCompleteOrders.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnCompleteOrders.setForeground(new java.awt.Color(255, 255, 255));
         btnCompleteOrders.setText("Completar");
         btnCompleteOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -645,6 +692,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnCancelOrders.setBackground(new java.awt.Color(171, 139, 98));
+        btnCancelOrders.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnCancelOrders.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelOrders.setText("Cancelar");
         btnCancelOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -652,6 +702,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnModifyOrders.setBackground(new java.awt.Color(171, 139, 98));
+        btnModifyOrders.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnModifyOrders.setForeground(new java.awt.Color(255, 255, 255));
         btnModifyOrders.setText("Modificar");
         btnModifyOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -659,6 +712,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        tbOrders.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         tbOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -677,8 +731,12 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbOrders);
 
+        cboOrders.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         cboOrders.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        btnBackOrders.setBackground(new java.awt.Color(171, 139, 98));
+        btnBackOrders.setFont(new java.awt.Font("Kristen ITC", 1, 12)); // NOI18N
+        btnBackOrders.setForeground(new java.awt.Color(255, 255, 255));
         btnBackOrders.setText("Volver");
         btnBackOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -737,9 +795,10 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         jDialog1.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        jDialog1.setPreferredSize(new java.awt.Dimension(300, 300));
         jDialog1.setResizable(false);
         jDialog1.setSize(new java.awt.Dimension(300, 300));
+
+        jPanel6.setBackground(new java.awt.Color(255, 240, 213));
 
         btnMesa22.setBackground(new java.awt.Color(235, 238, 243));
         btnMesa22.setText("#1");
@@ -749,6 +808,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        lblDia1.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         lblDia1.setText("Mesa Libre (Sin Pedido)");
 
         btnMesa23.setBackground(new java.awt.Color(255, 214, 165));
@@ -775,10 +835,13 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        lblDia2.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         lblDia2.setText("Mesa Ocupada (Menos de x Minutos)");
 
+        lblDia3.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         lblDia3.setText("Mesa Ocupada (Más de x Minutos)");
 
+        lblDia4.setFont(new java.awt.Font("Lucida Handwriting", 0, 12)); // NOI18N
         lblDia4.setText("Mesa Pronta a Reserva (x Minutos)");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -789,13 +852,13 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnMesa23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDia2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnMesa22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDia1))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(btnMesa23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDia2))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnMesa24, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -804,7 +867,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(btnMesa25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDia4)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -825,7 +888,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMesa25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblDia4))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
@@ -833,16 +896,12 @@ public class MainMenu extends javax.swing.JFrame {
         jDialog1Layout.setHorizontalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1228,6 +1287,7 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuOptionsActionPerformed
+        OptionsMainMenu.setLocationRelativeTo(null);
         OptionsMainMenu.setVisible(true);
 
         // TODO add your handling code here:
@@ -1421,6 +1481,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         if (ProgramController.logInUser(this)
                 != null) {
+            ShowMesaInfo.setLocationRelativeTo(null);
             ShowMesaInfo.setVisible(true);
         }
     }
@@ -1653,6 +1714,7 @@ public class MainMenu extends javax.swing.JFrame {
         }
         setShowOrder(peC.getStatusTableOrders(Pedido.PEDIDO_STATUS.PENDIENTE, mesaSeleccionada));
 
+        ShowOrders.setLocationRelativeTo(null);
         ShowOrders.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnModifyShowActionPerformed
@@ -1714,6 +1776,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_tbOrdersMouseClicked
 
     private void btnMesa21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesa21ActionPerformed
+        jDialog1.setLocationRelativeTo(null);
         jDialog1.setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_btnMesa21ActionPerformed
