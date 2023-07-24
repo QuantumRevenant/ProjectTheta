@@ -1,7 +1,12 @@
 # ProjectTheta :rocket:
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
+![GitHub contributors](https://img.shields.io/github/contributors/QuantumRevenant/ProjectTheta)
+![GitHub issues](https://img.shields.io/github/issues-raw/QuantumRevenant/ProjectTheta)
+![GitHub stars](https://img.shields.io/github/stars/QuantumRevenant/ProjectTheta)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/QuantumRevenant/ProjectTheta)
+![GitHub All Releases](https://img.shields.io/github/downloads/QuantumRevenant/ProjectTheta/total)
+![GitHub last commit](https://img.shields.io/github/last-commit/QuantumRevenant/ProjectTheta)
 ## Description :page_facing_up:
 
 Final project of "Object Oriented Programming II" (2023-1). The developed program implements Object Oriented Programming and the MVC design pattern. We use a database in SqlYog. The system is originally focused on the management and registration of restaurant orders. Table management and employee registration.
